@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RiceDetailsApp</string>
+    <string name="text_desc">A Product Catalog \n with all the information \n along with it’s prices.</string>
+    
 </resources>
