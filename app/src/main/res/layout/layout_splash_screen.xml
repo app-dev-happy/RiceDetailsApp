@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/screen_bg"
-    tools:context=".MainActivity">
+    tools:context=".DashboardActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/logo"
@@ -27,7 +27,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:text="@string/app_name"
-        android:fontFamily="@font/work_sans_medium"
+        android:fontFamily="@font/work_sans_Medium"
         android:textSize="30dp"
         android:textColor="@color/textColor_main"
         android:layout_marginTop="40dp"
@@ -43,7 +43,7 @@
         android:layout_marginTop="50dp"
         android:text="@string/text_desc"
         android:gravity="center"
-        android:fontFamily="@font/work_sans_regular"
+        android:fontFamily="@font/work_sans_Regular"
         android:textColor="@color/textColor_main"
         android:textSize="16sp"
         />

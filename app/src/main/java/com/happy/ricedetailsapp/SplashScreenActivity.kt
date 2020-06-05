@@ -31,7 +31,7 @@ class SplashScreenActivity : Activity() {
 
         Handler().postDelayed(
             {
-                val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
+                val intent = Intent(this@SplashScreenActivity, DashboardActivity::class.java)
                 startActivity(intent)
                 finish()
             }, SPLASH_TIME_OUT.toLong())

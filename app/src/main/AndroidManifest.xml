@@ -23,7 +23,7 @@
 
         </activity>
 
-        <activity android:name="com.happy.ricedetailsapp.MainActivity"
+        <activity android:name="com.happy.ricedetailsapp.DashboardActivity"
             android:screenOrientation="portrait">
         </activity>
 
