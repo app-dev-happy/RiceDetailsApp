@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/root">
@@ -12,7 +11,8 @@
        <androidx.core.widget.NestedScrollView
            android:id="@+id/scrollView"
            android:layout_width="match_parent"
-           android:layout_height="match_parent"
+           android:layout_height="0dp"
+           android:background="@color/white"
            app:layout_constraintTop_toTopOf="parent"
            app:layout_constraintLeft_toLeftOf="parent"
            app:layout_constraintRight_toRightOf="parent"
@@ -22,6 +22,7 @@
                android:id="@+id/main"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
+               android:background="@color/white"
                app:layout_constraintTop_toTopOf="parent"
                app:layout_constraintLeft_toLeftOf="parent"
                app:layout_constraintRight_toRightOf="parent"
@@ -47,14 +48,14 @@
                    app:layout_constraintBottom_toBottomOf="@id/header"
                    android:text="@string/app_name"
                    android:textColor="@color/textColor_main"
-                   android:fontFamily="@font/work_sans_Medium"
+                   android:fontFamily="@font/work_sans_medium"
                    android:textSize="24sp"
                    />
 
                <View
                    android:id="@+id/divider1"
                    android:layout_width="match_parent"
-                   android:layout_height="0.4dp"
+                   android:layout_height="0.7dp"
                    app:layout_constraintLeft_toLeftOf="@id/header"
                    app:layout_constraintRight_toRightOf="@id/header"
                    app:layout_constraintBottom_toBottomOf="@id/header"
@@ -70,7 +71,7 @@
                    app:layout_constraintRight_toRightOf="parent"
                    android:text="@string/products_text"
                    android:textColor="@color/red"
-                   android:fontFamily="@font/work_sans_Regular"
+                   android:fontFamily="@font/work_sans_regular"
                    android:textSize="16sp"
                    android:layout_marginTop="16dp"
                    />
@@ -78,7 +79,7 @@
                <View
                    android:id="@+id/divider2"
                    android:layout_width="match_parent"
-                   android:layout_height="0.4dp"
+                   android:layout_height="0.7dp"
                    app:layout_constraintTop_toBottomOf="@id/text_products"
                    android:layout_marginTop="16dp"
                    app:layout_constraintLeft_toLeftOf="parent"
