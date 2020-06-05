@@ -56,6 +56,7 @@
         app:layout_constraintLeft_toLeftOf="@id/app_name"
         app:layout_constraintRight_toRightOf="@id/app_name"
         android:indeterminateTint="@color/red"
+        android:visibility="visible"
         android:indeterminate="true"
         android:layout_marginTop="50dp"
         />
