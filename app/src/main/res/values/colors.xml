@@ -9,8 +9,9 @@
     <color name="black">#000000</color>
     <color name="textColor_main">#515C6F</color>
     <color name="red">#FF6969</color>
+    <color name="divider_red">#FFAEAE</color>
     <color name="white">#ffffff</color>
-
+    <color name="grey">#d7d7d7</color>
 
 
 
