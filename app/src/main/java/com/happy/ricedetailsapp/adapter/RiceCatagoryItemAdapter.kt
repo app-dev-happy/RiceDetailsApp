@@ -4,12 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.happy.ricedetailsapp.DashboardActivity
 import com.happy.ricedetailsapp.R
 import com.happy.ricedetailsapp.databinding.RiceCategoryItemLayoutBinding
-import com.happy.ricedetailsapp.fragments.varietyPriceItemFragment
+import com.happy.ricedetailsapp.fragments.CategoryDetaillsFragment
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.VarietyItem
 
@@ -46,7 +45,7 @@ class RiceCatagoryItemAdapter(val mContext: Context?, val riceVarietyList:ArrayL
     private fun initFragment(item:VarietyItem) {
         try {
             val fragmentManager = (mContext as DashboardActivity).supportFragmentManager
-            val varietyPriceItemFragment = varietyPriceItemFragment()
+            val varietyPriceItemFragment = CategoryDetaillsFragment()
             varietyPriceItemFragment.setData(item,dashBoardMainPojo)
             fragmentManager.beginTransaction().replace(R.id.fragmentContainer, varietyPriceItemFragment).commit()
         } catch (e: Exception) {

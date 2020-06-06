@@ -21,7 +21,7 @@ import com.happy.ricedetailsapp.pojo.Rates
 import com.happy.ricedetailsapp.pojo.VarietyItem
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 
-class varietyPriceItemFragment : Fragment() {
+class CategoryDetaillsFragment : Fragment() {
     var varietyItem:VarietyItem?=null
     lateinit var mBinding:LayoutCategoryDetailsBinding
     var dashBoardMainPojo:DashBoardMainPojo?=null
