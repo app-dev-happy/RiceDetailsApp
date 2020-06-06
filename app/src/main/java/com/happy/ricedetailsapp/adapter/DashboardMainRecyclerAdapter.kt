@@ -10,6 +10,7 @@ import com.happy.ricedetailsapp.R
 import com.happy.ricedetailsapp.databinding.LayoutRiceMainVarietyBinding
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.DashboardMainContent
+import com.squareup.picasso.Picasso
 
 class DashboardMainRecyclerAdapter(val mContext: Context?,val dashboardMainContent:ArrayList<DashboardMainContent>,val dashBoardMainPojo: DashBoardMainPojo) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
     lateinit var mAdapter:RiceCatagoryItemAdapter
@@ -25,6 +26,7 @@ class DashboardMainRecyclerAdapter(val mContext: Context?,val dashboardMainConte
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
        val item = dashboardMainContent.get(position)
         (holder as DashboardMainRecyclerAdapterViewHolder).mBinding.languageItemText.text = item.title
+        Picasso.get().load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg").into((holder as DashboardMainRecyclerAdapterViewHolder).mBinding.varietyImg);
         mAdapter = RiceCatagoryItemAdapter(mContext,item.varietyItems,dashBoardMainPojo)
         holder.mBinding.recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL,false)
         holder.mBinding.recycler.adapter = mAdapter
