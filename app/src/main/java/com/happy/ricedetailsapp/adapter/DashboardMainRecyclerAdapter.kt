@@ -27,6 +27,7 @@ class DashboardMainRecyclerAdapter(val mContext: Context?,val dashboardMainConte
         mAdapter = RiceCatagoryItemAdapter(mContext,item.varietyItems)
         holder.mBinding.recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL,false)
         holder.mBinding.recycler.adapter = mAdapter
+
     }
 
     inner class DashboardMainRecyclerAdapterViewHolder(private val mContext: Context?,  val mBinding: LayoutRiceMainVarietyBinding):androidx.recyclerview.widget.RecyclerView.ViewHolder(mBinding!!.root)
