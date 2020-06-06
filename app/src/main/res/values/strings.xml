@@ -4,5 +4,11 @@
     <string name="products_text">Products</string>
     <string name="seaport_txt">Seaport :</string>
     <string name="metric_tonn">Metric Tonn.</string>
+    <string name="packaging_txt">Packaging</string>
+    <string name="weights_txt">Weights</string>
+    <string name="kgs_txt">KGS</string>
+    <string name="lbs_txt">LBS</string>
+    <string name="rate_txt">Rate</string>
+    <string name="desc_line">* As per resources from Haryana State</string>
 
 </resources>
