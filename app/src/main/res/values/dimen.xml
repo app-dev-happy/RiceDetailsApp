@@ -2,4 +2,5 @@
 <resources>
     <dimen name="text_size_10sp">10dp</dimen>
     <dimen name="text_jioverify_success">16dp</dimen>
+
 </resources>
