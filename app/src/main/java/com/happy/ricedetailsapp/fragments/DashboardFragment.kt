@@ -55,16 +55,14 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             Observer {
                 if(it!=null&&it.length>0){
                     val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
-                    val CurrencyContent = dashBoardMainPojo.CurrencyContent
                     val dashboardMainContent = dashBoardMainPojo.DashboardMainContent
-                    val seaPortContent = dashBoardMainPojo.SeaPortContent
-                    setAdapter(dashboardMainContent)
+                    setAdapter(dashboardMainContent,dashBoardMainPojo)
                 }
             })
     }
 
-    private fun setAdapter(dashboardMainContent:ArrayList<DashboardMainContent>) {
-        adapter = DashboardMainRecyclerAdapter(context,dashboardMainContent)
+    private fun setAdapter(dashboardMainContent:ArrayList<DashboardMainContent>,dashBoardMainPojo: DashBoardMainPojo) {
+        adapter = DashboardMainRecyclerAdapter(context,dashboardMainContent,dashBoardMainPojo)
         layoutFragmentDashboardBinding.mainRecycler.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         layoutFragmentDashboardBinding.mainRecycler.adapter = adapter
     }

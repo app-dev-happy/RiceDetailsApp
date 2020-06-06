@@ -6,10 +6,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
+import com.happy.ricedetailsapp.pojo.Rates
 import kotlinx.coroutines.*
 
 class DashboardViewModel: ViewModel() {
-
+    var checkedPosition:MutableLiveData<Int> = MutableLiveData<Int>()
+    var selectedCurrencyKey:MutableLiveData<String> = MutableLiveData<String>()
+    var currenctRates:MutableLiveData<Rates> = MutableLiveData<Rates>()
+    init {
+        checkedPosition.value = 0
+        selectedCurrencyKey.value = "USD"
+    }
     fun readDashboardFile(context:Context): LiveData<String> {
         var mDashboardFileLiveData: MutableLiveData<String> = MutableLiveData<String>()
         val url = "https://webhook.site/1bf0b1b8-d26a-4b68-b17f-f44cf1414768"
@@ -28,5 +35,25 @@ class DashboardViewModel: ViewModel() {
             ex.printStackTrace()
     }
         return mDashboardFileLiveData
+    }
+
+    fun getCurrencyApiData(context:Context): LiveData<String> {
+        var mCurrencyApiLiveData: MutableLiveData<String> = MutableLiveData<String>()
+        val url = "https://api.ratesapi.io/api/latest?base=USD"
+        try{
+            CoroutineScope(Dispatchers.IO).launch {
+                val job = async { FileDataCoroutines().getDataFromServer(url, context) }
+                val mCoroutineResponse = job.await()
+                withContext(Dispatchers.Main){
+                    if(mCoroutineResponse.status == 0){
+                        if(mCoroutineResponse.dataString!=null&&mCoroutineResponse.dataString!!.length>0)
+                            mCurrencyApiLiveData.value = mCoroutineResponse.dataString
+                    }
+                }
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        return mCurrencyApiLiveData
     }
 }

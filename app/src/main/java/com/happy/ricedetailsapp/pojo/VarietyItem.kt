@@ -5,7 +5,7 @@ import java.io.Serializable
 data class VarietyItem(
     val appVersion: String,
     val iconURL: String,
-    val packing: List<Packing>,
+    val packing: ArrayList<Packing>,
     val stdPrice: Int,
     val subTitle: String,
     val title: String,
