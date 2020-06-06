@@ -2,5 +2,7 @@
     <string name="app_name">RiceDetailsApp</string>
     <string name="text_desc">A Product Catalog \n with all the information \n along with it’s prices.</string>
     <string name="products_text">Products</string>
+    <string name="seaport_txt">Seaport :</string>
+    <string name="metric_tonn">Metric Tonn.</string>
 
 </resources>
