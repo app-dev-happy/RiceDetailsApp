@@ -14,7 +14,7 @@ class DashboardViewModel: ViewModel() {
         val url = "https://ricedetailsapp.free.beeceptor.com/my/api/path"
         try{
         CoroutineScope(Dispatchers.IO).launch {
-            val job = async { FileDataCoroutines().getDataFromApi(url, context) }
+            val job = async { FileDataCoroutines().getDataFromServer(url, context) }
             val mCoroutineResponse = job.await()
             withContext(Dispatchers.Main){
                 if(mCoroutineResponse.status == 0){

@@ -19,10 +19,8 @@ import javax.net.ssl.TrustManagerFactory
 import kotlin.collections.HashMap
 
 class FileDataCoroutines {
-    private val JSON = MediaType.parse("application/json; charset=utf-8")
 
-
-    suspend fun getDataFromApi(url: String,context: Context): CoroutinesResponse {
+    suspend fun getDataFromServer(url: String,context: Context): CoroutinesResponse {
 
         var fileDetailJob = GlobalScope.async {
             getUrlDataAsync(url,context) as CoroutinesResponse
@@ -48,7 +46,6 @@ class FileDataCoroutines {
                     .url(url)
                     .get()
 
-//            requestBuilder.addHeader("Content-Type", "application/json")
             val request = requestBuilder.build()
             Log.d("Request", request.toString())
             val response = client.newCall(request).execute()
