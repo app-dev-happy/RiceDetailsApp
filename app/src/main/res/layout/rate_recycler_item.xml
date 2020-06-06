@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rate_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@color/screen_bg">
+
+      <androidx.cardview.widget.CardView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/rate_card"
+          app:cardCornerRadius="10dp"
+          android:layout_margin="8dp"
+          app:cardElevation="4dp"
+          app:cardBackgroundColor="@color/white">
+
+          <androidx.constraintlayout.widget.ConstraintLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:id="@+id/box">
+
+          <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/rate"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
+              android:layout_marginTop="16dp"
+              android:text="100$"
+              android:textSize="20sp"
+              android:fontFamily="@font/work_sans_bold"
+              android:textColor="@color/red" />
+
+              <View
+                  android:id="@+id/divider"
+                  android:layout_width="match_parent"
+                  android:layout_height="0.6dp"
+                  android:layout_marginTop="16dp"
+                  android:background="@color/grey"
+                  app:layout_constraintTop_toBottomOf="@id/rate"
+                  app:layout_constraintLeft_toLeftOf="parent"
+                  app:layout_constraintRight_toRightOf="parent"/>
+
+              <androidx.appcompat.widget.AppCompatTextView
+                  android:id="@+id/weight"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  app:layout_constraintTop_toBottomOf="@id/divider"
+                  app:layout_constraintLeft_toLeftOf="parent"
+                  app:layout_constraintRight_toRightOf="parent"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  android:layout_marginTop="16dp"
+                  android:layout_marginBottom="16dp"
+                  android:fontFamily="@font/medium_work_sans"
+                  android:text="10KGS"
+                  android:textSize="14sp"
+                  android:textColor="@color/black" />
+
+
+
+          </androidx.constraintlayout.widget.ConstraintLayout>
+
+      </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
