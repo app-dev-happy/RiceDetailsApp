@@ -86,6 +86,8 @@ class CategoryDetaillsFragment : Fragment() {
             mBinding.lbsBtn.setTextColor(context!!.resources.getColor(R.color.black))
             mBinding.kgsBtn.background = context!!.resources.getDrawable(R.drawable.red_rounded_bg)
             mBinding.lbsBtn.background = context!!.resources.getDrawable(R.drawable.white_rounded_bg)
+            ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get( mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
+            ratesAdapter.notifyDataSetChanged()
         }
         mBinding.lbsBtn.setOnClickListener {
             kgsBtnSelected = false
@@ -94,6 +96,8 @@ class CategoryDetaillsFragment : Fragment() {
             mBinding.lbsBtn.background = context!!.resources.getDrawable(R.drawable.red_rounded_bg)
             mBinding.kgsBtn.background = context!!.resources.getDrawable(R.drawable.white_rounded_bg)
             mBinding.kgsBtn.setTextColor(context!!.resources.getColor(R.color.black))
+            ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get( mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
+            ratesAdapter.notifyDataSetChanged()
         }
     }
 
@@ -143,8 +147,20 @@ class CategoryDetaillsFragment : Fragment() {
             else{
                 ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get(it).lbsWeightItem)
             }
-        })
+          }
+        )
         mBinding.rateRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mBinding.rateRecycler.adapter = ratesAdapter
+    }
+
+    fun setPackingPosition(checkPosition: Int) {
+        if(kgsBtnSelected){
+            ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get(checkPosition).kgsWeightItem)
+            ratesAdapter.notifyDataSetChanged()
+        }
+        else{
+            ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get(checkPosition).lbsWeightItem)
+            ratesAdapter.notifyDataSetChanged()
+        }
     }
 }
