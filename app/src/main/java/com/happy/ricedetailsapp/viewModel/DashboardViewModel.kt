@@ -7,14 +7,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
 import com.happy.ricedetailsapp.pojo.Rates
+import com.happy.ricedetailsapp.pojo.SeaPortContent
 import kotlinx.coroutines.*
 
 class DashboardViewModel: ViewModel() {
     var checkedPosition:MutableLiveData<Int> = MutableLiveData<Int>()
+    var seaPortPosition:MutableLiveData<Int> = MutableLiveData<Int>()
+    var packagingPosition:MutableLiveData<Int> = MutableLiveData<Int>()
     var selectedCurrencyKey:MutableLiveData<String> = MutableLiveData<String>()
+    var seaPortItem:MutableLiveData<SeaPortContent> = MutableLiveData<SeaPortContent>()
     var currenctRates:MutableLiveData<Rates> = MutableLiveData<Rates>()
     init {
+        packagingPosition.value = 0
         checkedPosition.value = 0
+        seaPortPosition.value = 0
         selectedCurrencyKey.value = "USD"
     }
     fun readDashboardFile(context:Context): LiveData<String> {

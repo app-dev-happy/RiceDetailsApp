@@ -47,7 +47,7 @@ class RiceCatagoryItemAdapter(val mContext: Context?, val riceVarietyList:ArrayL
             val fragmentManager = (mContext as DashboardActivity).supportFragmentManager
             val varietyPriceItemFragment = CategoryDetaillsFragment()
             varietyPriceItemFragment.setData(item,dashBoardMainPojo)
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, varietyPriceItemFragment).commit()
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, varietyPriceItemFragment).addToBackStack(null).commit()
         } catch (e: Exception) {
             e.printStackTrace()
         }

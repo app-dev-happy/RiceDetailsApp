@@ -11,9 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.happy.ricedetailsapp.DashboardActivity
 import com.happy.ricedetailsapp.R
+import com.happy.ricedetailsapp.adapter.PackagingItemAdapter
+import com.happy.ricedetailsapp.adapter.RateCardsItemAdapter
 import com.happy.ricedetailsapp.databinding.LayoutCategoryDetailsBinding
 import com.happy.ricedetailsapp.pojo.CurrencyRatesMainPojo
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
@@ -27,6 +30,11 @@ class CategoryDetaillsFragment : Fragment() {
     var dashBoardMainPojo:DashBoardMainPojo?=null
     lateinit var mDashboardViewModel: DashboardViewModel
     private var currencyDialogueFragment = CurrencyDialogFragment()
+    private var seaPortDialogFragment = SeaPortDialogFragment()
+    lateinit var packagingAdapter:PackagingItemAdapter
+    lateinit var ratesAdapter:RateCardsItemAdapter
+    var kgsBtnSelected:Boolean = true
+    var lbsBtnSelected:Boolean = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,8 +48,18 @@ class CategoryDetaillsFragment : Fragment() {
     }
     fun init(){
         initListner()
+        initViews()
+        setPackagingAdapter()
+        setRateAdapter()
     }
 
+     fun initViews() {
+         mDashboardViewModel.seaPortPosition.observe(requireActivity() as LifecycleOwner, Observer {
+             if(it!=null){
+                 mBinding.seaportOption.text = dashBoardMainPojo?.SeaPortContent!!.get(it).title
+             }
+         })
+    }
     private fun initListner() {
         mBinding.currencyIcon.setOnClickListener {
             if(mDashboardViewModel.currenctRates.value.toString().length<0){
@@ -53,11 +71,33 @@ class CategoryDetaillsFragment : Fragment() {
                         mDashboardViewModel.currenctRates.value = rates
                     }
                 })}
-            initDialogFragment()
+            initCurrencyDialogFragment()
+        }
+        mBinding.dropdownIcon.setOnClickListener {
+            initSeaPortDialogFragment()
+        }
+        mBinding.backIcon.setOnClickListener {
+            (context as DashboardActivity).onBackPressed()
+        }
+        mBinding.kgsBtn.setOnClickListener {
+            kgsBtnSelected = true
+            lbsBtnSelected = false
+            mBinding.kgsBtn.setTextColor(context!!.resources.getColor(R.color.white))
+            mBinding.lbsBtn.setTextColor(context!!.resources.getColor(R.color.black))
+            mBinding.kgsBtn.background = context!!.resources.getDrawable(R.drawable.red_rounded_bg)
+            mBinding.lbsBtn.background = context!!.resources.getDrawable(R.drawable.white_rounded_bg)
+        }
+        mBinding.lbsBtn.setOnClickListener {
+            kgsBtnSelected = false
+            lbsBtnSelected = true
+            mBinding.lbsBtn.setTextColor(context!!.resources.getColor(R.color.white))
+            mBinding.lbsBtn.background = context!!.resources.getDrawable(R.drawable.red_rounded_bg)
+            mBinding.kgsBtn.background = context!!.resources.getDrawable(R.drawable.white_rounded_bg)
+            mBinding.kgsBtn.setTextColor(context!!.resources.getColor(R.color.black))
         }
     }
 
-    private fun initDialogFragment() {
+    private fun initCurrencyDialogFragment() {
         try {
             if (!currencyDialogueFragment.isVisible&&!currencyDialogueFragment.isAdded()) {
                 currencyDialogueFragment.setDataList(dashBoardMainPojo?.CurrencyContent)
@@ -70,9 +110,41 @@ class CategoryDetaillsFragment : Fragment() {
             e.printStackTrace()
         }
     }
+    private fun initSeaPortDialogFragment() {
+        try {
+            if (!seaPortDialogFragment.isVisible&&!seaPortDialogFragment.isAdded()) {
+                seaPortDialogFragment.setDataList(dashBoardMainPojo?.SeaPortContent)
+                seaPortDialogFragment.show(
+                    (context as DashboardActivity).supportFragmentManager,
+                    "SeaPortfrag"
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     fun setData(varietyItem: VarietyItem,dashBoardMainPojo: DashBoardMainPojo) {
         this.varietyItem = varietyItem
         this.dashBoardMainPojo = dashBoardMainPojo
+    }
+
+    fun setPackagingAdapter(){
+        packagingAdapter = PackagingItemAdapter(this,varietyItem!!.packing,mDashboardViewModel.packagingPosition.value!!,context!!)
+        mBinding.packagingRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mBinding.packagingRecycler.adapter = packagingAdapter
+    }
+
+    fun setRateAdapter(){
+        mDashboardViewModel.packagingPosition.observe(requireActivity() as LifecycleOwner, Observer {
+            if(kgsBtnSelected){
+                ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get(it).kgsWeightItem)
+            }
+            else{
+                ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get(it).lbsWeightItem)
+            }
+        })
+        mBinding.rateRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mBinding.rateRecycler.adapter = ratesAdapter
     }
 }

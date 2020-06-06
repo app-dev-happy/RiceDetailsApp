@@ -11,4 +11,7 @@
     <string name="rate_txt">Rate</string>
     <string name="desc_line">* As per resources from Haryana State</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
