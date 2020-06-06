@@ -27,6 +27,7 @@ class RiceCatagoryItemAdapter(val mContext: Context?, val riceVarietyList:ArrayL
         val bottom=mContext?.resources!!.getDimensionPixelSize(R.dimen.text_size_10sp)
         val layoutParams = (holder as RiceCatagoryItemAdapterViewHolder).mBinding.root.layoutParams as ViewGroup.MarginLayoutParams
 
+
         if(position == 0){
             layoutParams.setMargins(marg_16, top, 0, bottom)
         }else if(position == (riceVarietyList.size-1) ) {
