@@ -2,19 +2,19 @@ package com.happy.ricedetailsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.happy.ricedetailsapp.databinding.LayoutActivityDashboardBinding
 import com.happy.ricedetailsapp.fragments.DashboardFragment
+import com.happy.ricedetailsapp.viewModel.DashboardViewModel
+
 
 class DashboardActivity : AppCompatActivity() {
 
     lateinit var layoutActivityDashboardBinding: LayoutActivityDashboardBinding
     var fragmentManager: FragmentManager? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
