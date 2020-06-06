@@ -15,12 +15,15 @@ class DashboardViewModel: ViewModel() {
     var seaPortPosition:MutableLiveData<Int> = MutableLiveData<Int>()
     var packagingPosition:MutableLiveData<Int> = MutableLiveData<Int>()
     var selectedCurrencyKey:MutableLiveData<String> = MutableLiveData<String>()
+    var selectedCurrencySymbol:MutableLiveData<String> = MutableLiveData<String>()
     var seaPortItem:MutableLiveData<SeaPortContent> = MutableLiveData<SeaPortContent>()
-    var currenctRates:MutableLiveData<Rates> = MutableLiveData<Rates>()
+    var currencyRates:MutableLiveData<Map<String?, Double>> = MutableLiveData<Map<String?, Double>>()
+    var dollarRupeeFactor:MutableLiveData<Double> = MutableLiveData<Double>()
     init {
         packagingPosition.value = 0
         checkedPosition.value = 0
         seaPortPosition.value = 0
+        selectedCurrencySymbol.value = "$"
         selectedCurrencyKey.value = "USD"
     }
     fun readDashboardFile(context:Context): LiveData<String> {
@@ -45,9 +48,9 @@ class DashboardViewModel: ViewModel() {
 
     fun getCurrencyApiData(context:Context): LiveData<String> {
         var mCurrencyApiLiveData: MutableLiveData<String> = MutableLiveData<String>()
-        val url = "https://api.ratesapi.io/api/latest?base=USD"
+        val url = "https://api.ratesapi.io/api/latest?base=INR"
         try{
-            CoroutineScope(Dispatchers.IO).launch {
+            GlobalScope.launch(Dispatchers.IO) {
                 val job = async { FileDataCoroutines().getDataFromServer(url, context) }
                 val mCoroutineResponse = job.await()
                 withContext(Dispatchers.Main){

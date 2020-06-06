@@ -66,7 +66,10 @@ class CurrencyDialogFragment : DialogFragment() {
         })
         mBinding.currencySubmitBtn.setOnClickListener(View.OnClickListener {
             if(currencyItem?.key!=null&&!mDashboardViewModel.selectedCurrencyKey.value.equals(currencyItem?.key)) {
+                if(mDashboardViewModel.currencyRates.value!!.containsKey(currencyItem?.key)){
                 mDashboardViewModel.selectedCurrencyKey.value = currencyItem?.key
+                mDashboardViewModel.selectedCurrencySymbol.value = currencyItem?.symbol
+                }
             }
             if(checkPosition!=mDashboardViewModel.checkedPosition.value){
                 mDashboardViewModel.checkedPosition.value = checkPosition

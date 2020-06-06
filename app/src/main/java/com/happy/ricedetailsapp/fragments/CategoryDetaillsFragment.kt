@@ -33,7 +33,7 @@ class CategoryDetaillsFragment : Fragment() {
     private var currencyDialogueFragment = CurrencyDialogFragment()
     private var seaPortDialogFragment = SeaPortDialogFragment()
     lateinit var packagingAdapter:PackagingItemAdapter
-    lateinit var ratesAdapter:RateCardsItemAdapter
+     var ratesAdapter:RateCardsItemAdapter?=null
     var kgsBtnSelected:Boolean = true
     var lbsBtnSelected:Boolean = false
     override fun onCreateView(
@@ -57,28 +57,32 @@ class CategoryDetaillsFragment : Fragment() {
      fun initViews() {
          mDashboardViewModel.seaPortPosition.observe(requireActivity() as LifecycleOwner, Observer {
              if(it!=null){
+                 val currencyFactor = mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
                  mBinding.seaportOption.text = dashBoardMainPojo?.SeaPortContent!!.get(it).title
-                 mBinding.price.text = (dashBoardMainPojo?.SeaPortContent!!.get(it).stdPrice.toInt()+varietyItem!!.stdPrice.toInt()).toString()+
-                         dashBoardMainPojo!!.CurrencyContent.get(mDashboardViewModel.checkedPosition.value!!).symbol.toString()
+                 val number =(dashBoardMainPojo?.SeaPortContent!!.get(it).stdPrice.toInt()+varietyItem!!.stdPrice.toInt())*currencyFactor!!
+                 val number3digits:Double = Math.round(number * 1000.0) / 1000.0
+                 val number2digits:Double = Math.round(number3digits * 100.0) / 100.0
+                 mBinding.price.text = number2digits.toString()+mDashboardViewModel.selectedCurrencySymbol.value
              }
          })
          mDashboardViewModel.checkedPosition.observe(requireActivity() as LifecycleOwner, Observer {
-             mBinding.price.text = (dashBoardMainPojo?.SeaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()+varietyItem!!.stdPrice.toInt()).toString()+
-                     dashBoardMainPojo!!.CurrencyContent.get(mDashboardViewModel.checkedPosition.value!!).symbol.toString()
+             val currencyFactor = mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
+             val number = (((dashBoardMainPojo?.SeaPortContent!!.get( mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()+varietyItem!!.stdPrice.toInt())*currencyFactor!!))
+             val number3digits:Double = Math.round(number * 1000.0) / 1000.0
+             val number2digits:Double = Math.round(number3digits * 100.0) / 100.0
+             mBinding.price.text = number2digits.toString()+ mDashboardViewModel.selectedCurrencySymbol.value
+             if(ratesAdapter!=null) {
+                 if (kgsBtnSelected) {
+                     ratesAdapter!!.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
+                 } else {
+                     ratesAdapter!!.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).lbsWeightItem)
+                 }
+             }
          })
          Picasso.get().load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg").into(mBinding.categoryImg);
     }
     private fun initListner() {
         mBinding.currencyIcon.setOnClickListener {
-            if(mDashboardViewModel.currenctRates.value.toString().length<0){
-            mDashboardViewModel.getCurrencyApiData(context!!).observe(requireActivity() as LifecycleOwner,
-                Observer {
-                    if(it!=null&&it.isNotEmpty()){
-                        val currencyRatesMainPojo = Gson().fromJson(it,CurrencyRatesMainPojo::class.java)
-                        val rates = currencyRatesMainPojo.rates
-                        mDashboardViewModel.currenctRates.value = rates
-                    }
-                })}
             initCurrencyDialogFragment()
         }
         mBinding.dropdownIcon.setOnClickListener {
@@ -94,7 +98,7 @@ class CategoryDetaillsFragment : Fragment() {
             mBinding.lbsBtn.setTextColor(context!!.resources.getColor(R.color.black))
             mBinding.kgsBtn.background = context!!.resources.getDrawable(R.drawable.red_rounded_bg)
             mBinding.lbsBtn.background = context!!.resources.getDrawable(R.drawable.white_rounded_bg)
-            ratesAdapter.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
+            ratesAdapter!!.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
         }
         mBinding.lbsBtn.setOnClickListener {
             kgsBtnSelected = false
@@ -103,7 +107,7 @@ class CategoryDetaillsFragment : Fragment() {
             mBinding.lbsBtn.background = context!!.resources.getDrawable(R.drawable.red_rounded_bg)
             mBinding.kgsBtn.background = context!!.resources.getDrawable(R.drawable.white_rounded_bg)
             mBinding.kgsBtn.setTextColor(context!!.resources.getColor(R.color.black))
-            ratesAdapter.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).lbsWeightItem)
+            ratesAdapter!!.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).lbsWeightItem)
         }
     }
 
@@ -155,17 +159,17 @@ class CategoryDetaillsFragment : Fragment() {
             }
           }
         )
-        ratesAdapter.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
+        ratesAdapter!!.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
         mBinding.rateRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mBinding.rateRecycler.adapter = ratesAdapter
     }
 
     fun setPackingPosition(checkPosition: Int) {
         if(kgsBtnSelected){
-            ratesAdapter.setData(varietyItem!!.packing.get(checkPosition).kgsWeightItem)
+            ratesAdapter!!.setData(varietyItem!!.packing.get(checkPosition).kgsWeightItem)
         }
         else{
-            ratesAdapter.setData(varietyItem!!.packing.get(checkPosition).lbsWeightItem)
+            ratesAdapter!!.setData(varietyItem!!.packing.get(checkPosition).lbsWeightItem)
         }
     }
 }

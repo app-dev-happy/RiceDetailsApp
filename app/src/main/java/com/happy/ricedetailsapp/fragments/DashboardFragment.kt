@@ -1,6 +1,7 @@
 package com.happy.ricedetailsapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +10,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.happy.ricedetailsapp.R
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.happy.ricedetailsapp.R
 import com.happy.ricedetailsapp.adapter.DashboardMainRecyclerAdapter
 import com.happy.ricedetailsapp.databinding.LayoutFragmentDashboardBinding
+import com.happy.ricedetailsapp.pojo.CurrencyRatesMainPojo
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.DashboardMainContent
-import com.happy.ricedetailsapp.pojo.SeaPortContent
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
+import org.json.JSONException
+import org.json.JSONObject
 
 class DashboardFragment : Fragment(), View.OnClickListener {
 
@@ -45,9 +49,27 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     private fun init() {
+        getCurrencyApiData()
         openScreen()
         initViews()
         initListener()
+    }
+
+    private fun getCurrencyApiData() {
+            mDashboardViewModel.getCurrencyApiData(context!!).observe(requireActivity() as LifecycleOwner,
+                Observer {
+                    if(it!=null&&it.isNotEmpty()){
+                        val response = JSONObject(it)
+                        val ratesArray = response.getJSONObject("rates")
+                        val currencyRatesMainPojo = Gson().fromJson(it, CurrencyRatesMainPojo::class.java)
+                        val rates = currencyRatesMainPojo.rates
+                        val typeOfHashMap = object : TypeToken<Map<String?, Double>?>() {}.type
+                        val map : Map<String?, Double> =  Gson().fromJson(ratesArray.toString(), typeOfHashMap)
+                        mDashboardViewModel.currencyRates.value = map
+                        val rupeeFactor = rates.INR
+                        mDashboardViewModel.dollarRupeeFactor.value = 1/rupeeFactor
+                    }
+                })
     }
 
     fun getFileData(){
