@@ -23,6 +23,7 @@ import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.Rates
 import com.happy.ricedetailsapp.pojo.VarietyItem
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
+import com.squareup.picasso.Picasso
 
 class CategoryDetaillsFragment : Fragment() {
     var varietyItem:VarietyItem?=null
@@ -57,8 +58,15 @@ class CategoryDetaillsFragment : Fragment() {
          mDashboardViewModel.seaPortPosition.observe(requireActivity() as LifecycleOwner, Observer {
              if(it!=null){
                  mBinding.seaportOption.text = dashBoardMainPojo?.SeaPortContent!!.get(it).title
+                 mBinding.price.text = (dashBoardMainPojo?.SeaPortContent!!.get(it).stdPrice.toInt()+varietyItem!!.stdPrice.toInt()).toString()+
+                         dashBoardMainPojo!!.CurrencyContent.get(mDashboardViewModel.checkedPosition.value!!).symbol.toString()
              }
          })
+         mDashboardViewModel.checkedPosition.observe(requireActivity() as LifecycleOwner, Observer {
+             mBinding.price.text = (dashBoardMainPojo?.SeaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()+varietyItem!!.stdPrice.toInt()).toString()+
+                     dashBoardMainPojo!!.CurrencyContent.get(mDashboardViewModel.checkedPosition.value!!).symbol.toString()
+         })
+         Picasso.get().load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg").into(mBinding.categoryImg);
     }
     private fun initListner() {
         mBinding.currencyIcon.setOnClickListener {
@@ -86,8 +94,7 @@ class CategoryDetaillsFragment : Fragment() {
             mBinding.lbsBtn.setTextColor(context!!.resources.getColor(R.color.black))
             mBinding.kgsBtn.background = context!!.resources.getDrawable(R.drawable.red_rounded_bg)
             mBinding.lbsBtn.background = context!!.resources.getDrawable(R.drawable.white_rounded_bg)
-            ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get( mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
-            ratesAdapter.notifyDataSetChanged()
+            ratesAdapter.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
         }
         mBinding.lbsBtn.setOnClickListener {
             kgsBtnSelected = false
@@ -96,8 +103,7 @@ class CategoryDetaillsFragment : Fragment() {
             mBinding.lbsBtn.background = context!!.resources.getDrawable(R.drawable.red_rounded_bg)
             mBinding.kgsBtn.background = context!!.resources.getDrawable(R.drawable.white_rounded_bg)
             mBinding.kgsBtn.setTextColor(context!!.resources.getColor(R.color.black))
-            ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get( mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
-            ratesAdapter.notifyDataSetChanged()
+            ratesAdapter.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).lbsWeightItem)
         }
     }
 
@@ -142,25 +148,24 @@ class CategoryDetaillsFragment : Fragment() {
     fun setRateAdapter(){
         mDashboardViewModel.packagingPosition.observe(requireActivity() as LifecycleOwner, Observer {
             if(kgsBtnSelected){
-                ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get(it).kgsWeightItem)
+                ratesAdapter = RateCardsItemAdapter(this)
             }
             else{
-                ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get(it).lbsWeightItem)
+                ratesAdapter = RateCardsItemAdapter(this)
             }
           }
         )
+        ratesAdapter.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem)
         mBinding.rateRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mBinding.rateRecycler.adapter = ratesAdapter
     }
 
     fun setPackingPosition(checkPosition: Int) {
         if(kgsBtnSelected){
-            ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get(checkPosition).kgsWeightItem)
-            ratesAdapter.notifyDataSetChanged()
+            ratesAdapter.setData(varietyItem!!.packing.get(checkPosition).kgsWeightItem)
         }
         else{
-            ratesAdapter = RateCardsItemAdapter(this,varietyItem!!.packing.get(checkPosition).lbsWeightItem)
-            ratesAdapter.notifyDataSetChanged()
+            ratesAdapter.setData(varietyItem!!.packing.get(checkPosition).lbsWeightItem)
         }
     }
 }

@@ -8,8 +8,9 @@ import com.happy.ricedetailsapp.databinding.RateRecyclerItemBinding
 import com.happy.ricedetailsapp.fragments.CategoryDetaillsFragment
 import com.happy.ricedetailsapp.pojo.KgsWeightItem
 
-class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val ratesList:ArrayList<KgsWeightItem>):androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment):androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
     lateinit var binding:RateRecyclerItemBinding
+    var ratesList:ArrayList<KgsWeightItem> = ArrayList<KgsWeightItem>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflter = LayoutInflater.from(parent.context)
         binding = RateRecyclerItemBinding.inflate(inflter,parent,false)
@@ -24,6 +25,11 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val ratesList
       val rateItem = ratesList.get(position)
         (holder as RateCardsItemAdapterViewHolder).mBinding.weight.text = rateItem.weight
         (holder as RateCardsItemAdapterViewHolder).mBinding.rate.text = rateItem.price
+    }
+
+    fun setData(ratesList: ArrayList<KgsWeightItem>) {
+        this.ratesList = ratesList
+        notifyDataSetChanged()
     }
 
     inner class RateCardsItemAdapterViewHolder(private val mContext: CategoryDetaillsFragment, val mBinding: RateRecyclerItemBinding):androidx.recyclerview.widget.RecyclerView.ViewHolder(mBinding!!.root)

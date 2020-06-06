@@ -11,6 +11,7 @@ import com.happy.ricedetailsapp.databinding.RiceCategoryItemLayoutBinding
 import com.happy.ricedetailsapp.fragments.CategoryDetaillsFragment
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.VarietyItem
+import com.squareup.picasso.Picasso
 
 class RiceCatagoryItemAdapter(val mContext: Context?, val riceVarietyList:ArrayList<VarietyItem>,val dashBoardMainPojo: DashBoardMainPojo) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>()  {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -37,6 +38,8 @@ class RiceCatagoryItemAdapter(val mContext: Context?, val riceVarietyList:ArrayL
         else{
             layoutParams.setMargins(marg_10, top, 0, bottom)
         }
+        Picasso.get().load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg").into((holder as RiceCatagoryItemAdapterViewHolder).mBinding.languagevideoimg);
+
         (holder as RiceCatagoryItemAdapterViewHolder).mBinding.riceItemSubtext.text = item.title
         holder.mBinding.root.setOnClickListener {
             initFragment(item)
