@@ -2,11 +2,15 @@ package com.happy.ricedetailsapp.viewModel
 
 import android.content.Context
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
+import com.happy.ricedetailsapp.constants.Constants
+import com.happy.ricedetailsapp.network.NetworkClient
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.Rates
 import com.happy.ricedetailsapp.pojo.SeaPortContent
@@ -29,10 +33,23 @@ class DashboardViewModel: ViewModel() {
         selectedCurrencyKey.value = "USD"
     }
     fun readDashboardFile(context:Context) {
-        val url = "https://webhook.site/1bf0b1b8-d26a-4b68-b17f-f44cf1414768"
+        /*NetworkClient.getDashboardData().observe(context as LifecycleOwner, Observer {
+            var dashBoardMainPojo:DashBoardMainPojo?=null
+            try {
+                dashBoardMainPojo = Gson().fromJson(
+                    it,
+                    DashBoardMainPojo::class.java
+                )
+                DashboardRepository.setFilesInDb(context, dashBoardMainPojo)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
+
+        })*/
+
         try{
         CoroutineScope(Dispatchers.IO).launch {
-            val job = async { FileDataCoroutines().getDataFromServer(url, context) }
+            val job = async { FileDataCoroutines().getDataFromServer(Constants.url, context) }
             val mCoroutineResponse = job.await()
             withContext(Dispatchers.Main){
                 if(mCoroutineResponse.status == 0){
