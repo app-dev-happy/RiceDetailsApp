@@ -19,11 +19,11 @@ object NetworkClient {
         var resp = MutableLiveData<String>()
 
         var request: Request = Request.Builder()
-            .url(Constants.url)
+            .url(Constants.URL)
             .get()
             .build()
 
-        Log.d("Request",Constants.url)
+        Log.d("Request",Constants.URL)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {

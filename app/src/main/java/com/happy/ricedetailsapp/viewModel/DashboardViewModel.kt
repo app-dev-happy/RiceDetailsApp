@@ -49,7 +49,7 @@ class DashboardViewModel: ViewModel() {
 
         try{
         CoroutineScope(Dispatchers.IO).launch {
-            val job = async { FileDataCoroutines().getDataFromServer(Constants.url, context) }
+            val job = async { FileDataCoroutines().getDataFromServer(Constants.URL, context) }
             val mCoroutineResponse = job.await()
             withContext(Dispatchers.Main){
                 if(mCoroutineResponse.status == 0){
@@ -81,10 +81,9 @@ class DashboardViewModel: ViewModel() {
 
     fun getCurrencyApiData(context:Context): LiveData<String> {
         var mCurrencyApiLiveData: MutableLiveData<String> = MutableLiveData<String>()
-        val url = "https://api.ratesapi.io/api/latest?base=INR"
         try{
             GlobalScope.launch(Dispatchers.IO) {
-                val job = async { FileDataCoroutines().getDataFromServer(url, context) }
+                val job = async { FileDataCoroutines().getDataFromServer(Constants.RATE_API_URL, context) }
                 val mCoroutineResponse = job.await()
                 withContext(Dispatchers.Main){
                     if(mCoroutineResponse.status == 0){
