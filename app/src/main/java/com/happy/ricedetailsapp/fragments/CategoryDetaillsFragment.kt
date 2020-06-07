@@ -56,31 +56,50 @@ class CategoryDetaillsFragment : Fragment() {
 
      fun initViews() {
          mDashboardViewModel.seaPortPosition.observe(requireActivity() as LifecycleOwner, Observer {
-             if(it!=null){
-                 val currencyFactor = mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
+             if (it != null) {
+                 val currencyFactor =
+                     mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
                  mBinding.seaportOption.text = dashBoardMainPojo?.SeaPortContent!!.get(it).title
-                 val number =(dashBoardMainPojo?.SeaPortContent!!.get(it).stdPrice.toInt()+varietyItem!!.stdPrice.toInt())*currencyFactor!!
-                 val number3digits:Double = Math.round(number * 1000.0) / 1000.0
-                 val number2digits:Double = Math.round(number3digits * 100.0) / 100.0
-                 mBinding.price.text = mDashboardViewModel.selectedCurrencySymbol.value.toString() + number2digits.toString()
+                 val number =
+                     (dashBoardMainPojo?.SeaPortContent!!.get(it).stdPrice.toInt() + varietyItem!!.stdPrice.toInt()) * currencyFactor!!
+                 val number3digits: Double = Math.round(number * 1000.0) / 1000.0
+                 val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
+                 mBinding.price.text =
+                     mDashboardViewModel.selectedCurrencySymbol.value.toString() + number2digits.toString()
              }
          })
          mDashboardViewModel.checkedPosition.observe(requireActivity() as LifecycleOwner, Observer {
-             val currencyFactor = mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
-             val number = (((dashBoardMainPojo?.SeaPortContent!!.get( mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()+varietyItem!!.stdPrice.toInt())*currencyFactor!!))
-             val number3digits:Double = Math.round(number * 1000.0) / 1000.0
-             val number2digits:Double = Math.round(number3digits * 100.0) / 100.0
-             mBinding.price.text = mDashboardViewModel.selectedCurrencySymbol.value.toString() + number2digits.toString()
-             if(ratesAdapter!=null) {
+             val currencyFactor =
+                 mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
+             val number =
+                 (((dashBoardMainPojo?.SeaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt() + varietyItem!!.stdPrice.toInt()) * currencyFactor!!))
+             val number3digits: Double = Math.round(number * 1000.0) / 1000.0
+             val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
+             mBinding.price.text =
+                 mDashboardViewModel.selectedCurrencySymbol.value.toString() + number2digits.toString()
+             if (ratesAdapter != null) {
                  if (kgsBtnSelected) {
-                     ratesAdapter!!.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem,kgsBtnSelected)
+                     ratesAdapter!!.setData(
+                         varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem,
+                         kgsBtnSelected
+                     )
                  } else {
-                     ratesAdapter!!.setData(varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).lbsWeightItem,kgsBtnSelected)
+                     ratesAdapter!!.setData(
+                         varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).lbsWeightItem,
+                         kgsBtnSelected
+                     )
                  }
              }
          })
-         Picasso.get().load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg").into(mBinding.categoryImg);
-    }
+         if (varietyItem!!.iconURL.isNotEmpty()){
+             Picasso.get().load(varietyItem!!.iconURL).into(mBinding.categoryImg)
+         }
+         else {
+             Picasso.get()
+                 .load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg")
+                 .into(mBinding.categoryImg);
+         }
+     }
     private fun initListner() {
         mBinding.currencyIcon.setOnClickListener {
             initCurrencyDialogFragment()

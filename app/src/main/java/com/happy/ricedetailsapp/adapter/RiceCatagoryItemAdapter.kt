@@ -38,8 +38,14 @@ class RiceCatagoryItemAdapter(val mContext: Context?, val riceVarietyList:ArrayL
         else{
             layoutParams.setMargins(marg_10, top, 0, bottom)
         }
-        Picasso.get().load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg").into((holder as RiceCatagoryItemAdapterViewHolder).mBinding.languagevideoimg);
-
+        if (item.iconURL.isNotEmpty()){
+            Picasso.get().load(item.iconURL).into( holder.mBinding.ricecategoryimg)
+        }
+        else {
+            Picasso.get()
+                .load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg")
+                .into( holder.mBinding.ricecategoryimg);
+        }
         (holder as RiceCatagoryItemAdapterViewHolder).mBinding.riceItemSubtext.text = item.title
         holder.mBinding.root.setOnClickListener {
             initFragment(item)
