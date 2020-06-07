@@ -9,9 +9,9 @@
     <string name="kgs_txt">KGS</string>
     <string name="lbs_txt">LBS</string>
     <string name="rate_txt">Rate</string>
+    <string name="clearance_txt">Clearance</string>
     <string name="desc_line">* As per resources from Haryana State</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="clearance_line">You get the products available at the following list of Seaports spread across the globe.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
