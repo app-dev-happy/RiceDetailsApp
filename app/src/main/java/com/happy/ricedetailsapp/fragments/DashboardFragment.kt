@@ -73,12 +73,11 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     fun getFileData(){
-        mDashboardViewModel.readDashboardFile(context!!).observe(requireActivity() as LifecycleOwner,
+        mDashboardViewModel.getDbDashboardFile(context!!).observe(requireActivity() as LifecycleOwner,
             Observer {
-                if(it!=null&&it.length>0){
-                    val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
-                    val dashboardMainContent = dashBoardMainPojo.DashboardMainContent
-                    setAdapter(dashboardMainContent,dashBoardMainPojo)
+                if(it!=null){
+                    val dashboardMainContent = it.DashboardMainContent
+                    setAdapter(dashboardMainContent,it)
                 }
             })
     }

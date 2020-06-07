@@ -5,9 +5,12 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
+import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.Rates
 import com.happy.ricedetailsapp.pojo.SeaPortContent
+import com.happy.ricedetailsapp.utility.DashboardRepository
 import kotlinx.coroutines.*
 
 class DashboardViewModel: ViewModel() {
@@ -16,7 +19,6 @@ class DashboardViewModel: ViewModel() {
     var packagingPosition:MutableLiveData<Int> = MutableLiveData<Int>()
     var selectedCurrencyKey:MutableLiveData<String> = MutableLiveData<String>()
     var selectedCurrencySymbol:MutableLiveData<String> = MutableLiveData<String>()
-    var seaPortItem:MutableLiveData<SeaPortContent> = MutableLiveData<SeaPortContent>()
     var currencyRates:MutableLiveData<Map<String?, Double>> = MutableLiveData<Map<String?, Double>>()
     var dollarRupeeFactor:MutableLiveData<Double> = MutableLiveData<Double>()
     init {
@@ -26,8 +28,7 @@ class DashboardViewModel: ViewModel() {
         selectedCurrencySymbol.value = "$"
         selectedCurrencyKey.value = "USD"
     }
-    fun readDashboardFile(context:Context): LiveData<String> {
-        var mDashboardFileLiveData: MutableLiveData<String> = MutableLiveData<String>()
+    fun readDashboardFile(context:Context) {
         val url = "https://webhook.site/1bf0b1b8-d26a-4b68-b17f-f44cf1414768"
         try{
         CoroutineScope(Dispatchers.IO).launch {
@@ -35,16 +36,31 @@ class DashboardViewModel: ViewModel() {
             val mCoroutineResponse = job.await()
             withContext(Dispatchers.Main){
                 if(mCoroutineResponse.status == 0){
-                    if(mCoroutineResponse.dataString!=null&&mCoroutineResponse.dataString!!.length>0)
-                        mDashboardFileLiveData.value = mCoroutineResponse.dataString
+                    if(mCoroutineResponse.dataString!=null&&mCoroutineResponse.dataString!!.length>0) {
+                        var dashBoardMainPojo:DashBoardMainPojo?=null
+                        try {
+                            dashBoardMainPojo = Gson().fromJson(
+                                mCoroutineResponse.dataString,
+                                DashBoardMainPojo::class.java
+                            )
+                            DashboardRepository.setFilesInDb(context, dashBoardMainPojo)
+                        } catch (ex: Exception) {
+                            ex.printStackTrace()
+                        }
+
+                    }
                 }
             }
         }
     } catch (ex: Exception) {
             ex.printStackTrace()
     }
-        return mDashboardFileLiveData
     }
+
+    fun getDbDashboardFile(context:Context):LiveData<DashBoardMainPojo>{
+        return DashboardRepository.getDbFile(context)
+    }
+
 
     fun getCurrencyApiData(context:Context): LiveData<String> {
         var mCurrencyApiLiveData: MutableLiveData<String> = MutableLiveData<String>()
