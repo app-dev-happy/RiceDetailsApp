@@ -6,10 +6,8 @@ import android.os.Handler
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.happy.ricedetailsapp.databinding.LayoutActivityDashboardBinding
-import com.happy.ricedetailsapp.fragments.CategoryDetaillsFragment
 import com.happy.ricedetailsapp.fragments.DashboardFragment
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 
@@ -23,7 +21,7 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         layoutActivityDashboardBinding = DataBindingUtil.setContentView(this, R.layout.layout_activity_dashboard)
         val mDashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-        mDashboardViewModel.readDashboardFile(this)
+       // mDashboardViewModel.readDashboardFile(this,layoutActivityDashboardBinding)
         initFragment()
     }
 

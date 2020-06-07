@@ -43,6 +43,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         layoutFragmentDashboardBinding.executePendingBindings()
         view =  layoutFragmentDashboardBinding.root
         mDashboardViewModel = ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
+        mDashboardViewModel.readDashboardFile(context!!,layoutFragmentDashboardBinding)
         getFileData()
         init()
         return view

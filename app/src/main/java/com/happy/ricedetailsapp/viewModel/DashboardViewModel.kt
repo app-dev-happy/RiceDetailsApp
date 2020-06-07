@@ -1,19 +1,16 @@
 package com.happy.ricedetailsapp.viewModel
 
 import android.content.Context
-import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
 import com.happy.ricedetailsapp.constants.Constants
-import com.happy.ricedetailsapp.network.NetworkClient
+import com.happy.ricedetailsapp.databinding.LayoutActivityDashboardBinding
+import com.happy.ricedetailsapp.databinding.LayoutFragmentDashboardBinding
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
-import com.happy.ricedetailsapp.pojo.Rates
-import com.happy.ricedetailsapp.pojo.SeaPortContent
 import com.happy.ricedetailsapp.utility.DashboardRepository
 import kotlinx.coroutines.*
 
@@ -32,7 +29,8 @@ class DashboardViewModel: ViewModel() {
         selectedCurrencySymbol.value = "$"
         selectedCurrencyKey.value = "USD"
     }
-    fun readDashboardFile(context:Context) {
+    fun readDashboardFile(context: Context, layoutActivityDashboardBinding: LayoutFragmentDashboardBinding
+    ) {
         /*NetworkClient.getDashboardData().observe(context as LifecycleOwner, Observer {
             var dashBoardMainPojo:DashBoardMainPojo?=null
             try {
@@ -53,6 +51,8 @@ class DashboardViewModel: ViewModel() {
             val mCoroutineResponse = job.await()
             withContext(Dispatchers.Main){
                 if(mCoroutineResponse.status == 0){
+                    layoutActivityDashboardBinding.progress.visibility = View.GONE
+                    layoutActivityDashboardBinding.mainRecycler.visibility = View.VISIBLE
                     if(mCoroutineResponse.dataString!=null&&mCoroutineResponse.dataString!!.length>0) {
                         var dashBoardMainPojo:DashBoardMainPojo?=null
                         try {
