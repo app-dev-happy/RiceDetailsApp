@@ -43,6 +43,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         layoutFragmentDashboardBinding.executePendingBindings()
         view =  layoutFragmentDashboardBinding.root
         mDashboardViewModel = ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
+        layoutFragmentDashboardBinding.progress.visibility = View.VISIBLE
         mDashboardViewModel.readDashboardFile(context!!,layoutFragmentDashboardBinding)
         getFileData()
         init()
@@ -77,6 +78,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         mDashboardViewModel.getDbDashboardFile(context!!).observe(requireActivity() as LifecycleOwner,
             Observer {
                 if(it!=null){
+                    layoutFragmentDashboardBinding.progress.visibility = View.GONE
                     val dashboardMainContent = it.DashboardMainContent
                     setAdapter(dashboardMainContent,it)
                 }

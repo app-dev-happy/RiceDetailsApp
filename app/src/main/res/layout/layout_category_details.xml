@@ -185,6 +185,7 @@
                      android:layout_width="wrap_content"
                      android:id="@+id/seaPort_container"
                      android:layout_marginLeft="32dp"
+                     android:background="?attr/selectableItemBackgroundBorderless"
                      app:layout_constraintTop_toTopOf="@id/seaport_txt"
                      app:layout_constraintLeft_toRightOf="@id/seaport_txt"
                      app:layout_constraintBottom_toBottomOf="@id/seaport_txt"
@@ -198,7 +199,6 @@
                         android:textSize="16sp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:fontFamily="@font/medium_work_sans"
                         />
 
@@ -210,7 +210,6 @@
                         android:src="@drawable/ic_back_arrow"
                         android:rotation="270"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:background="?attr/selectableItemBackgroundBorderless"
                         app:layout_constraintLeft_toRightOf="@+id/seaport_option"
                        />
 
