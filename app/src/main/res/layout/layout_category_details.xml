@@ -357,7 +357,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rate_recycler"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@id/rate_txt"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"

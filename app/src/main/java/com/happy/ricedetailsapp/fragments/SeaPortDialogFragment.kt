@@ -17,7 +17,6 @@ import com.happy.ricedetailsapp.DashboardActivity
 import com.happy.ricedetailsapp.R
 import com.happy.ricedetailsapp.adapter.CurrencyDialogAdapter
 import com.happy.ricedetailsapp.adapter.SeaPortDialogAdapter
-import com.happy.ricedetailsapp.databinding.FragmentCurrencyDialogBinding
 import com.happy.ricedetailsapp.databinding.SeaPortDialogLayoutBinding
 import com.happy.ricedetailsapp.pojo.CurrencyContent
 import com.happy.ricedetailsapp.pojo.SeaPortContent
@@ -46,6 +45,7 @@ class SeaPortDialogFragment : DialogFragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             li_height
         )
+        dialog!!.window!!.setBackgroundDrawableResource(R.drawable.dialog_backgroud_rounded)
     }
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState)
@@ -90,7 +90,7 @@ class SeaPortDialogFragment : DialogFragment() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        dialog!!.setCanceledOnTouchOutside(false)
+        dialog!!.setCanceledOnTouchOutside(true)
     }
 
     fun setData(seaPortItem: SeaPortContent, checkPosition: Int?) {

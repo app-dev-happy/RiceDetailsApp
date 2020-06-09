@@ -43,6 +43,7 @@ class CurrencyDialogFragment : DialogFragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             li_height
         )
+        dialog!!.window!!.setBackgroundDrawableResource(R.drawable.dialog_backgroud_rounded)
     }
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState)
@@ -92,7 +93,7 @@ class CurrencyDialogFragment : DialogFragment() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        dialog!!.setCanceledOnTouchOutside(false)
+        dialog!!.setCanceledOnTouchOutside(true)
     }
 
     fun setData(currencyItem: CurrencyContent, checkPosition: Int?) {

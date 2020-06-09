@@ -6,7 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/seaPort_change"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:background="@drawable/dialog_backgroud_rounded"
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/select_seaPort"
@@ -16,6 +17,7 @@
             android:layout_marginLeft="16dp"
             android:textColor="@color/black"
             android:text="Sea Port"
+            app:fontFamily="@font/medium_work_sans"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:textSize="20sp"/>
@@ -43,8 +45,9 @@
             android:paddingRight="27dp"
             android:paddingBottom="9dp"
             android:text="Submit"
+            android:background="@drawable/blue_rounded_btn"
             android:textAllCaps="false"
-            android:textColor="#7d7d7d"
+            android:textColor="#ffffff"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +63,8 @@
             android:paddingRight="27dp"
             android:paddingBottom="9dp"
             android:text="Cancel"
-            android:textColor="#7d7d7d"
+            android:background="@drawable/white_rounded_btn"
+            android:textColor="#214796"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/seaPort_submit_btn"
             app:layout_constraintRight_toLeftOf="@+id/seaPort_submit_btn"
