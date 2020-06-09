@@ -14,12 +14,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.happy.ricedetailsapp.DashboardActivity
 import com.happy.ricedetailsapp.R
 import com.happy.ricedetailsapp.adapter.DashboardMainRecyclerAdapter
 import com.happy.ricedetailsapp.databinding.LayoutFragmentDashboardBinding
 import com.happy.ricedetailsapp.pojo.CurrencyRatesMainPojo
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.DashboardMainContent
+import com.happy.ricedetailsapp.pojo.SeaPortContent
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 import org.json.JSONException
 import org.json.JSONObject
@@ -54,7 +56,6 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         getCurrencyApiData()
         openScreen()
         initViews()
-        initListener()
     }
 
     private fun getCurrencyApiData() {
@@ -81,6 +82,11 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                     layoutFragmentDashboardBinding.progress.visibility = View.GONE
                     val dashboardMainContent = it.DashboardMainContent
                     setAdapter(dashboardMainContent,it)
+                    if(it.ClearancePortContent!=null&&it.ClearancePortContent.isNotEmpty()){
+                        val clearancePortContent = it.ClearancePortContent
+                        if(clearancePortContent.size>0)
+                            initClearance(clearancePortContent)
+                    }
                 }
             })
     }
@@ -100,10 +106,18 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun initListener() {
-
+    private fun initClearance(clearancePortContent: ArrayList<SeaPortContent>) {
+        layoutFragmentDashboardBinding.clearanceFab.visibility = View.VISIBLE
+        layoutFragmentDashboardBinding.clearanceFab.setOnClickListener {
+          initClearanceFragment(clearancePortContent)
+      }
     }
-
+    fun initClearanceFragment(clearancePortContent: ArrayList<SeaPortContent>){
+        val fragmentManager = (context as DashboardActivity).supportFragmentManager
+        val clearanceFragment = ClearanceFragment()
+        clearanceFragment.setData(clearancePortContent)
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, clearanceFragment).addToBackStack(null).commit()
+    }
     private fun initViews() {
 
     }

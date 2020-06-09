@@ -5,5 +5,6 @@ import java.io.Serializable
 data class DashBoardMainPojo(
     val CurrencyContent: ArrayList<CurrencyContent>,
     val DashboardMainContent: ArrayList<DashboardMainContent>,
-    val SeaPortContent: ArrayList<SeaPortContent>
+    val SeaPortContent: ArrayList<SeaPortContent>,
+    val ClearancePortContent: ArrayList<SeaPortContent>
 ):Serializable
