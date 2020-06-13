@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:textColor="@color/black"
-            android:text="Sea Port"
+            android:text="Select Seaport"
             app:fontFamily="@font/medium_work_sans"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
