@@ -103,6 +103,7 @@
                    android:scrollbars="none"
                    android:visibility="visible"
                    android:orientation="vertical"
+                   tools:listitem="@layout/layout_rice_main_variety"
                    android:layout_marginTop="0dp"
                    android:clipToPadding="false"
                    android:paddingBottom="100dp"
