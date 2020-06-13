@@ -38,7 +38,7 @@ class CurrencyDialogFragment : DialogFragment() {
         super.onStart()
         val metrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
-        val li_height = metrics.heightPixels * 50 / 100
+        val li_height = metrics.heightPixels * 70 / 100
         dialog!!.window!!.setLayout(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             li_height

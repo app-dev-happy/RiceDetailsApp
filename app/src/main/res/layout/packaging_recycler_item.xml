@@ -20,6 +20,7 @@
             android:textColor="@color/black"
             android:background="@drawable/white_rounded_bg"
             android:text="Jute"
+            android:elevation="10dp"
             android:paddingRight="16dp"
             android:paddingLeft="16dp"
             android:paddingBottom="6dp"

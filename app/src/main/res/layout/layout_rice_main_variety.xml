@@ -35,12 +35,13 @@
 
      </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/item_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/screen_bg">
+        android:background="@color/white">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/variety_img_card"
@@ -49,7 +50,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             app:cardCornerRadius="30dp"
-            app:cardElevation="6dp"
+            app:cardElevation="12dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -127,10 +128,24 @@
             android:id="@+id/recycler"
             android:orientation="horizontal"
             android:focusableInTouchMode="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:clipToPadding="false"
+            android:paddingLeft="8dp"
+            android:paddingRight="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sub_header"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.2dp"
+            android:background="@color/screen_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -81,11 +81,13 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/image_card"
-                        android:layout_width="250dp"
-                        android:layout_height="160dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
                         android:layout_marginTop="80dp"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="4dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="6dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -111,7 +113,7 @@
                         android:maxLines="1"
                         android:text="Creamy Sella Basmati"
                         android:textColor="@color/textColor_main"
-                        android:textSize="18sp"
+                        android:textSize="21sp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/image_card" />
@@ -150,7 +152,7 @@
                                 android:id="@+id/metric_tonn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="40dp"
+                                android:layout_marginLeft="60dp"
                                 android:fontFamily="@font/medium_work_sans"
                                 android:shadowColor="@color/white"
                                 android:text="@string/metric_tonn"
@@ -192,8 +194,9 @@
                        app:layout_constraintLeft_toLeftOf="@id/price_card"
                        android:text="@string/seaport_txt"
                        android:layout_marginTop="16dp"
+                       android:textSize="15sp"
                        android:layout_marginLeft="60dp"
-                       android:fontFamily="@font/regular_work_sans"
+                       android:fontFamily="@font/medium_work_sans"
                        />
                  <androidx.constraintlayout.widget.ConstraintLayout
                      android:layout_width="wrap_content"
@@ -262,7 +265,7 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         android:clipToPadding="false"
-                        android:paddingLeft="40dp"
+                        android:paddingLeft="38dp"
                         android:paddingRight="40dp"
                         android:layout_marginTop="12dp"/>
 
@@ -318,7 +321,7 @@
                         app:layout_constraintTop_toBottomOf="@id/weights_txt"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toLeftOf="@id/half"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="38dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="10dp"/>
 
@@ -338,7 +341,7 @@
                         app:layout_constraintTop_toBottomOf="@id/weights_txt"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/half"
-                        android:layout_marginRight="30dp"
+                        android:layout_marginRight="38dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="10dp"/>
 
@@ -376,8 +379,8 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         android:clipToPadding="false"
-                        android:paddingLeft="40dp"
-                        android:paddingRight="40dp"
+                        android:paddingLeft="38dp"
+                        android:paddingRight="38dp"
                         android:layout_marginTop="12dp"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
