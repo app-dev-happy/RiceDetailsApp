@@ -28,7 +28,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:text="@string/app_name"
         android:fontFamily="@font/medium_work_sans"
-        android:textSize="30dp"
+        android:textSize="34dp"
         android:textColor="@color/textColor_main"
         android:layout_marginTop="40dp"
         />

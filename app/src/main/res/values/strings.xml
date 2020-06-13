@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RiceDetailsApp</string>
+    <string name="app_name">Rice Details App</string>
     <string name="text_desc">A Product Catalog \n with all the information \n along with it’s prices.</string>
     <string name="products_text">Products</string>
     <string name="seaport_txt">Seaport :</string>
@@ -10,6 +10,7 @@
     <string name="lbs_txt">LBS</string>
     <string name="rate_txt">Rate</string>
     <string name="clearance_txt">Clearance</string>
+    <string name="details_txt">Details</string>
     <string name="desc_line">* As per resources from Haryana State</string>
     <string name="clearance_line">You get the products available at the following list of Seaports spread across the globe.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
