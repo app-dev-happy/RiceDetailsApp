@@ -4,7 +4,7 @@ class AppConstant {
     companion object {
         val DashboardFileName = "dashboardData"
         var backPressed =false
-        val URL = "https://webhook.site/1bf0b1b8-d26a-4b68-b17f-f44cf1414768"
+        val URL = "https://firebasestorage.googleapis.com/v0/b/ricedetailsapp.appspot.com/o/AndroidDashboardFile.txt?alt=media&token=45a7e0dc-858c-4859-801b-e93769a27123"
         val RATE_API_URL = "https://api.ratesapi.io/api/latest?base=INR"
     }
 }
