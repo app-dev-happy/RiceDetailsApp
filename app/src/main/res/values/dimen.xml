@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_size_10sp">10dp</dimen>
-    <dimen name="text_jioverify_success">16dp</dimen>
-
+    <dimen name="marg_6">6dp</dimen>
+    <dimen name="marg_10">10dp</dimen>
+    <dimen name="marg_16">16dp</dimen>
+    <dimen name="marg_14">14dp</dimen>
 </resources>

@@ -25,18 +25,16 @@ class RiceCatagoryItemAdapter(val mContext: Context?, val riceVarietyList:ArrayL
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = riceVarietyList.get(position)
-        val marg_10 = mContext?.resources!!.getDimensionPixelSize(R.dimen.text_size_10sp)
-        val top=mContext?.resources!!.getDimensionPixelSize(R.dimen.text_size_10sp)
-        val marg_16=mContext?.resources!!.getDimensionPixelSize(R.dimen.text_jioverify_success)
-        val bottom=mContext?.resources!!.getDimensionPixelSize(R.dimen.text_size_10sp)
+        val marg_10=mContext?.resources!!.getDimensionPixelSize(R.dimen.marg_10)
+        val marg_14=mContext?.resources!!.getDimensionPixelSize(R.dimen.marg_14)
         val layoutParams = (holder as RiceCatagoryItemAdapterViewHolder).mBinding.root.layoutParams as ViewGroup.MarginLayoutParams
         if(position == 0){
-            layoutParams.setMargins(marg_16, top, 0, bottom)
+            layoutParams.setMargins(marg_14, 0, 0, 0)
         }else if(position == (riceVarietyList.size-1) ) {
-            layoutParams.setMargins(marg_10, top, marg_16, bottom)
+            layoutParams.setMargins(0, 0, marg_10, 0)
         }
         else{
-            layoutParams.setMargins(marg_10, top, 0, bottom)
+            layoutParams.setMargins(0, 0, 0, 0)
         }
         if (item.iconURL.isNotEmpty()){
             Picasso.get().load(item.iconURL).into( holder.mBinding.ricecategoryimg)
