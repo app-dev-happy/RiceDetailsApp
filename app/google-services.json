@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "550417327904",
+    "firebase_url": "https://ricedetailsapp.firebaseio.com",
+    "project_id": "ricedetailsapp",
+    "storage_bucket": "ricedetailsapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550417327904:android:b79052e6bc726b02809945",
+        "android_client_info": {
+          "package_name": "com.happy.ricedetailsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550417327904-gtc4rigne16r7na51uaqj0nva7lkji7a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happy.ricedetailsapp",
+            "certificate_hash": "197c303c89852049dec456ca9cad75b6a3f1cee8"
+          }
+        },
+        {
+          "client_id": "550417327904-7ep80tg2j69caaik12m3ltjfgkif1o3b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlSVTbmCo4jQYC3eFV4lJjB1YbRL38neI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550417327904-7ep80tg2j69caaik12m3ltjfgkif1o3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
