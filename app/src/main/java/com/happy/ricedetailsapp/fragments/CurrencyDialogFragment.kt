@@ -63,16 +63,18 @@ class CurrencyDialogFragment : DialogFragment() {
 
     private fun initListner() {
         mBinding.currencyCancel.setOnClickListener(View.OnClickListener {
+            currencyItem = null
+            checkPosition = -1
             dialog!!.dismiss()
         })
         mBinding.currencySubmitBtn.setOnClickListener(View.OnClickListener {
-            if(currencyItem?.key!=null&&!mDashboardViewModel.selectedCurrencyKey.value.equals(currencyItem?.key)) {
+            if(currencyItem!=null&&currencyItem?.key!=null&&!mDashboardViewModel.selectedCurrencyKey.value.equals(currencyItem?.key)) {
                 if(mDashboardViewModel.currencyRates.value!!.containsKey(currencyItem?.key)){
                 mDashboardViewModel.selectedCurrencyKey.value = currencyItem?.key
                 mDashboardViewModel.selectedCurrencySymbol.value = currencyItem?.symbol
                 }
             }
-            if(checkPosition!=mDashboardViewModel.checkedPosition.value){
+            if(checkPosition!=mDashboardViewModel.checkedPosition.value&&checkPosition!=-1){
                 mDashboardViewModel.checkedPosition.value = checkPosition
             }
             dialog!!.dismiss()
@@ -94,6 +96,11 @@ class CurrencyDialogFragment : DialogFragment() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         dialog!!.setCanceledOnTouchOutside(true)
+    }
+
+    fun setDummyData(currencyItem: CurrencyContent?, checkPosition: Int?) {
+        this.currencyItem = currencyItem
+        this.checkPosition = checkPosition
     }
 
     fun setData(currencyItem: CurrencyContent, checkPosition: Int?) {

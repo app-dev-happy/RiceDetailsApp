@@ -133,6 +133,7 @@ class CategoryDetaillsFragment : Fragment() {
     private fun initCurrencyDialogFragment() {
         try {
             if (!currencyDialogueFragment.isVisible&&!currencyDialogueFragment.isAdded()) {
+                currencyDialogueFragment.setDummyData(null,-1)
                 currencyDialogueFragment.setDataList(dashBoardMainPojo?.CurrencyContent)
                 currencyDialogueFragment.show(
                     (context as DashboardActivity).supportFragmentManager,
@@ -146,6 +147,7 @@ class CategoryDetaillsFragment : Fragment() {
     private fun initSeaPortDialogFragment() {
         try {
             if (!seaPortDialogFragment.isVisible&&!seaPortDialogFragment.isAdded()) {
+                seaPortDialogFragment.setDummyData(null,-1)
                 seaPortDialogFragment.setDataList(dashBoardMainPojo?.SeaPortContent)
                 seaPortDialogFragment.show(
                     (context as DashboardActivity).supportFragmentManager,

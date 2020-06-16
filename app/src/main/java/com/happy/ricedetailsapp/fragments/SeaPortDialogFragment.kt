@@ -65,13 +65,14 @@ class SeaPortDialogFragment : DialogFragment() {
 
     private fun initListner() {
         mBinding.seaPortCancel.setOnClickListener(View.OnClickListener {
+            seaPortItem = null
+            checkPosition = -1
             dialog!!.dismiss()
         })
         mBinding.seaPortSubmitBtn.setOnClickListener(View.OnClickListener {
-            if(checkPosition!=mDashboardViewModel.seaPortPosition.value){
+            if(checkPosition!=mDashboardViewModel.seaPortPosition.value&&checkPosition!=-1){
                 mDashboardViewModel.seaPortPosition.value = checkPosition
             }
-//            CategoryDetaillsFragment().initViews()
             dialog!!.dismiss()
         })
     }
@@ -94,6 +95,11 @@ class SeaPortDialogFragment : DialogFragment() {
     }
 
     fun setData(seaPortItem: SeaPortContent, checkPosition: Int?) {
+        this.seaPortItem = seaPortItem
+        this.checkPosition = checkPosition
+    }
+
+    fun setDummyData(seaPortItem: SeaPortContent?, checkPosition: Int?) {
         this.seaPortItem = seaPortItem
         this.checkPosition = checkPosition
     }
