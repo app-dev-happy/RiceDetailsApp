@@ -31,7 +31,6 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     internal lateinit var view : View
     lateinit var mDashboardViewModel: DashboardViewModel
     lateinit var adapter:DashboardMainRecyclerAdapter
-    var dashBoardMainPojo:DashBoardMainPojo?=null
     override fun onClick(view: View?) {
 
     }
@@ -46,8 +45,6 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         layoutFragmentDashboardBinding.executePendingBindings()
         view =  layoutFragmentDashboardBinding.root
         mDashboardViewModel = ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
-        layoutFragmentDashboardBinding.progress.visibility = View.VISIBLE
-        mDashboardViewModel.readDashboardFile(context!!,layoutFragmentDashboardBinding)
         getFileData()
         init()
         return view
@@ -80,8 +77,6 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         mDashboardViewModel.getDbDashboardFile(context!!).observe(requireActivity() as LifecycleOwner,
             Observer {
                 if(it!=null){
-                    layoutFragmentDashboardBinding.progress.visibility = View.GONE
-                    dashBoardMainPojo = it
                     val dashboardMainContent = it.DashboardMainContent
                     setAdapter(dashboardMainContent,it)
                     if(it.ClearancePortContent!=null&&it.ClearancePortContent.isNotEmpty()){

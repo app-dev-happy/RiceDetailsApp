@@ -21,8 +21,6 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutActivityDashboardBinding = DataBindingUtil.setContentView(this, R.layout.layout_activity_dashboard)
-        val mDashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-       // mDashboardViewModel.readDashboardFile(this,layoutActivityDashboardBinding)
         initFragment()
     }
 

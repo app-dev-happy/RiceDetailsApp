@@ -29,7 +29,7 @@ class DashboardViewModel: ViewModel() {
         selectedCurrencySymbol.value = "$"
         selectedCurrencyKey.value = "USD"
     }
-    fun readDashboardFile(context: Context, layoutActivityDashboardBinding: LayoutFragmentDashboardBinding
+    fun readDashboardFile(context: Context
     ) {
         /*NetworkClient.getDashboardData().observe(context as LifecycleOwner, Observer {
             var dashBoardMainPojo:DashBoardMainPojo?=null
@@ -51,8 +51,6 @@ class DashboardViewModel: ViewModel() {
             val mCoroutineResponse = job.await()
             withContext(Dispatchers.Main){
                 if(mCoroutineResponse.status == 0){
-                    layoutActivityDashboardBinding.progress.visibility = View.GONE
-                    layoutActivityDashboardBinding.mainRecycler.visibility = View.VISIBLE
                     if(mCoroutineResponse.dataString!=null&&mCoroutineResponse.dataString!!.length>0) {
                         var dashBoardMainPojo:DashBoardMainPojo?=null
                         try {
