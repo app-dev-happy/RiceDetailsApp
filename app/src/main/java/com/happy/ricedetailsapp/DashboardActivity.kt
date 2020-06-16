@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import com.happy.ricedetailsapp.databinding.LayoutActivityDashboardBinding
 import com.happy.ricedetailsapp.fragments.DashboardFragment
+import com.happy.ricedetailsapp.utility.AppConstant
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 
 
@@ -37,6 +38,7 @@ class DashboardActivity : AppCompatActivity() {
     override fun onBackPressed() {
 
         try {
+            AppConstant.backPressed = true
             if (fragmentManager!!.fragments != null && fragmentManager!!.fragments.size > 0 &&
                 !(fragmentManager!!.fragments.get(0) is DashboardFragment ))
             {

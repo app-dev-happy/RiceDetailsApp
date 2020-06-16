@@ -1,7 +1,6 @@
 package com.happy.ricedetailsapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +21,8 @@ import com.happy.ricedetailsapp.pojo.CurrencyRatesMainPojo
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.DashboardMainContent
 import com.happy.ricedetailsapp.pojo.SeaPortContent
+import com.happy.ricedetailsapp.utility.AppConstant
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
-import org.json.JSONException
 import org.json.JSONObject
 
 class DashboardFragment : Fragment(), View.OnClickListener {
@@ -32,8 +31,10 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     internal lateinit var view : View
     lateinit var mDashboardViewModel: DashboardViewModel
     lateinit var adapter:DashboardMainRecyclerAdapter
+    var dashBoardMainPojo:DashBoardMainPojo?=null
+    override fun onClick(view: View?) {
 
-    override fun onClick(view: View?) {   }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +59,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         initViews()
     }
 
-    private fun getCurrencyApiData() {
+     fun getCurrencyApiData() {
             mDashboardViewModel.getCurrencyApiData(context!!).observe(requireActivity() as LifecycleOwner,
                 Observer {
                     if(it!=null&&it.isNotEmpty()){
@@ -80,6 +81,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             Observer {
                 if(it!=null){
                     layoutFragmentDashboardBinding.progress.visibility = View.GONE
+                    dashBoardMainPojo = it
                     val dashboardMainContent = it.DashboardMainContent
                     setAdapter(dashboardMainContent,it)
                     if(it.ClearancePortContent!=null&&it.ClearancePortContent.isNotEmpty()){
@@ -99,8 +101,8 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     private fun openScreen() {
         try {
-            layoutFragmentDashboardBinding.root.animation =
-                AnimationUtils.loadAnimation(context, R.anim.slide_up)
+            if(!AppConstant.backPressed)
+            layoutFragmentDashboardBinding.root.animation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
         } catch (e: Exception) {
             e.printStackTrace()
         }

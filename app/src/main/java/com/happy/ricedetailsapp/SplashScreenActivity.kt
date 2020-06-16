@@ -9,10 +9,11 @@ import android.os.Handler
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
-class SplashScreenActivity : Activity() {
+class SplashScreenActivity : AppCompatActivity(){
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -53,7 +54,7 @@ class SplashScreenActivity : Activity() {
     }
 
     companion object {
-        var SPLASH_TIME_OUT = 3000
+        var SPLASH_TIME_OUT = 1000
     }
 
 }

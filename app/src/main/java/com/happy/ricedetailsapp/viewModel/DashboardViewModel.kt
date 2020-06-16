@@ -7,10 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
-import com.happy.ricedetailsapp.constants.Constants
 import com.happy.ricedetailsapp.databinding.LayoutActivityDashboardBinding
 import com.happy.ricedetailsapp.databinding.LayoutFragmentDashboardBinding
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
+import com.happy.ricedetailsapp.utility.AppConstant
 import com.happy.ricedetailsapp.utility.DashboardRepository
 import kotlinx.coroutines.*
 
@@ -47,7 +47,7 @@ class DashboardViewModel: ViewModel() {
 
         try{
         CoroutineScope(Dispatchers.IO).launch {
-            val job = async { FileDataCoroutines().getDataFromServer(Constants.URL, context) }
+            val job = async { FileDataCoroutines().getDataFromServer(AppConstant.URL, context) }
             val mCoroutineResponse = job.await()
             withContext(Dispatchers.Main){
                 if(mCoroutineResponse.status == 0){
@@ -83,7 +83,7 @@ class DashboardViewModel: ViewModel() {
         var mCurrencyApiLiveData: MutableLiveData<String> = MutableLiveData<String>()
         try{
             GlobalScope.launch(Dispatchers.IO) {
-                val job = async { FileDataCoroutines().getDataFromServer(Constants.RATE_API_URL, context) }
+                val job = async { FileDataCoroutines().getDataFromServer(AppConstant.RATE_API_URL, context) }
                 val mCoroutineResponse = job.await()
                 withContext(Dispatchers.Main){
                     if(mCoroutineResponse.status == 0){

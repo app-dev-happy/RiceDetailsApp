@@ -2,8 +2,6 @@ package com.happy.ricedetailsapp.utility
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.happy.ricedetailsapp.coroutines.CoroutinesResponse
 import com.happy.ricedetailsapp.db.AppDatabase
 import com.happy.ricedetailsapp.db.DashboardEntity
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
@@ -36,14 +34,14 @@ object DashboardRepository {
     fun setFilesInDb(context: Context,dashBoardMainPojo: DashBoardMainPojo){
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                AppDatabase.getInstance(context).dashboardDao().insertDashboardData(DashboardEntity(AppContant.DashboardFileName,dashBoardMainPojo))
+                AppDatabase.getInstance(context).dashboardDao().insertDashboardData(DashboardEntity(AppConstant.DashboardFileName,dashBoardMainPojo))
             } catch (e: Exception) {
                e.printStackTrace()
             }
         }
     }
     fun getDbFile(context: Context): LiveData<DashBoardMainPojo> {
-        return AppDatabase.getInstance(context).dashboardDao().getDashboardData(AppContant.DashboardFileName)
+        return AppDatabase.getInstance(context).dashboardDao().getDashboardData(AppConstant.DashboardFileName)
     }
 
 }

@@ -3,7 +3,7 @@ package com.happy.ricedetailsapp.network
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.happy.ricedetailsapp.constants.Constants
+import com.happy.ricedetailsapp.utility.AppConstant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -19,11 +19,11 @@ object NetworkClient {
         var resp = MutableLiveData<String>()
 
         var request: Request = Request.Builder()
-            .url(Constants.URL)
+            .url(AppConstant.URL)
             .get()
             .build()
 
-        Log.d("Request",Constants.URL)
+        Log.d("Request",AppConstant.URL)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
