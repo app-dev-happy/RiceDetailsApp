@@ -53,14 +53,14 @@ class FileDataCoroutines {
             val responseCode = response.code()
             if (responseCode == 200) {
                 responseString = response.body()!!.string()
-                Log.d("responseString", responseString)
+                //Log.d("responseString", responseString)
                 responseEntity.put("Response", responseString)
                 mCoroutinesResponse.dataString = responseString
                 mCoroutinesResponse.status = 0
 
             } else {
                 responseString = response.body()!!.string()
-                Log.d("responseString", responseString)
+                //Log.d("responseString", responseString)
                 responseEntity.put("Response", responseString)
                 mCoroutinesResponse.responseEntity = responseEntity
                 mCoroutinesResponse.status = 1

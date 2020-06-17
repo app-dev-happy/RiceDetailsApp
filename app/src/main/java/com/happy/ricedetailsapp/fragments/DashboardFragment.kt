@@ -113,7 +113,9 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         val fragmentManager = (context as DashboardActivity).supportFragmentManager
         val clearanceFragment = ClearanceFragment()
         clearanceFragment.setData(clearancePortContent)
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, clearanceFragment).addToBackStack(null).commit()
+        var openFragment = fragmentManager.beginTransaction()
+        openFragment.setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_close_exit)
+        openFragment.replace(R.id.fragmentContainer, clearanceFragment).addToBackStack(null).commit()
     }
     private fun initViews() {
 
