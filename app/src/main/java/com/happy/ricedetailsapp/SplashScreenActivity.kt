@@ -38,9 +38,10 @@ class SplashScreenActivity : AppCompatActivity(){
         Handler().postDelayed({
             val intent = Intent(this@SplashScreenActivity, DashboardActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.fragment_fade_enter,R.anim.fragment_fade_exit)
             finish()
         },SPLASH_TIME_OUT.toLong())
-        }
+    }
 
     //all hideKeyboard methods
     fun Fragment.hideKeyboard() {
