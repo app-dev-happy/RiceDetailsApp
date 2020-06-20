@@ -33,8 +33,7 @@ class DashboardViewModel: ViewModel() {
         selectedCurrencySymbol.value = "$"
         selectedCurrencyKey.value = "USD"
     }
-    fun readDashboardFile(context: Context
-    ) {
+    fun readDashboardFile(context: Context) {
         /*NetworkClient.getDashboardData().observe(context as LifecycleOwner, Observer {
             var dashBoardMainPojo:DashBoardMainPojo?=null
             try {
@@ -48,48 +47,46 @@ class DashboardViewModel: ViewModel() {
             }
 
         })*/
+        try{
+            CoroutineScope(Dispatchers.IO).launch {
+                val job = async { FileDataCoroutines().getDataFromServer(AppConstant.URL, context) }
+                val mCoroutineResponse = job.await()
+                withContext(Dispatchers.Main){
+                    if(mCoroutineResponse.status == 0){
+                        if(mCoroutineResponse.dataString!=null&&mCoroutineResponse.dataString!!.length>0) {
+                            var dashBoardMainPojo:DashBoardMainPojo?=null
+                            try {
+                                dashBoardMainPojo = Gson().fromJson(
+                                    mCoroutineResponse.dataString,
+                                    DashBoardMainPojo::class.java
+                                )
+                                DashboardRepository.setFilesInDb(context, dashBoardMainPojo)
+                            } catch (ex: Exception) {
+                                ex.printStackTrace()
+                            }
 
-        try{
-            val storage = FirebaseStorage.getInstance()
-            val httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/ricedetailsapp.appspot.com/o/AndroidDashboardFile.txt")
-                httpsReference.downloadUrl.addOnSuccessListener(object : OnSuccessListener<Uri>{
-                override fun onSuccess(p0: Uri?) {
-                    AppConstant.URL = p0.toString()
-                    readData(context)
-                }
-            }).addOnFailureListener {
-                    Log.d("error", it.stackTrace.toString())
-                }
-    } catch (ex: Exception) {
-            ex.printStackTrace()
-    }
-    }
-    fun readData(context: Context){
-        try{
-        CoroutineScope(Dispatchers.IO).launch {
-            val job = async { FileDataCoroutines().getDataFromServer(AppConstant.URL, context) }
-            val mCoroutineResponse = job.await()
-            withContext(Dispatchers.Main){
-                if(mCoroutineResponse.status == 0){
-                    if(mCoroutineResponse.dataString!=null&&mCoroutineResponse.dataString!!.length>0) {
-                        var dashBoardMainPojo:DashBoardMainPojo?=null
-                        try {
-                            dashBoardMainPojo = Gson().fromJson(
-                                mCoroutineResponse.dataString,
-                                DashBoardMainPojo::class.java
-                            )
-                            DashboardRepository.setFilesInDb(context, dashBoardMainPojo)
-                        } catch (ex: Exception) {
-                            ex.printStackTrace()
                         }
-
                     }
                 }
             }
-        }
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
+
+//        try{
+//            val storage = FirebaseStorage.getInstance()
+//            val httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/ricedetailsapp.appspot.com/o/AndroidDashboardFile.txt")
+//                httpsReference.downloadUrl.addOnSuccessListener(object : OnSuccessListener<Uri>{
+//                override fun onSuccess(p0: Uri?) {
+////                    AppConstant.URL = p0.toString()
+//                    readData(context)
+//                }
+//            }).addOnFailureListener {
+//                    Log.d("error", it.stackTrace.toString())
+//                }
+//    } catch (ex: Exception) {
+//            ex.printStackTrace()
+//    }
     }
 
     fun getDbDashboardFile(context:Context):LiveData<DashBoardMainPojo>{
