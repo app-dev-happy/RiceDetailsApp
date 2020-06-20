@@ -1,18 +1,22 @@
 package com.happy.ricedetailsapp.viewModel
 
 import android.content.Context
-import android.view.View
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
-import com.happy.ricedetailsapp.databinding.LayoutActivityDashboardBinding
-import com.happy.ricedetailsapp.databinding.LayoutFragmentDashboardBinding
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.utility.AppConstant
 import com.happy.ricedetailsapp.utility.DashboardRepository
 import kotlinx.coroutines.*
+
 
 class DashboardViewModel: ViewModel() {
     var checkedPosition:MutableLiveData<Int> = MutableLiveData<Int>()
@@ -46,6 +50,22 @@ class DashboardViewModel: ViewModel() {
         })*/
 
         try{
+            val storage = FirebaseStorage.getInstance()
+            val httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/ricedetailsapp.appspot.com/o/AndroidDashboardFile.txt")
+                httpsReference.downloadUrl.addOnSuccessListener(object : OnSuccessListener<Uri>{
+                override fun onSuccess(p0: Uri?) {
+                    AppConstant.URL = p0.toString()
+                    readData(context)
+                }
+            }).addOnFailureListener {
+                    Log.d("error", it.stackTrace.toString())
+                }
+    } catch (ex: Exception) {
+            ex.printStackTrace()
+    }
+    }
+    fun readData(context: Context){
+        try{
         CoroutineScope(Dispatchers.IO).launch {
             val job = async { FileDataCoroutines().getDataFromServer(AppConstant.URL, context) }
             val mCoroutineResponse = job.await()
@@ -67,9 +87,9 @@ class DashboardViewModel: ViewModel() {
                 }
             }
         }
-    } catch (ex: Exception) {
+        } catch (ex: Exception) {
             ex.printStackTrace()
-    }
+        }
     }
 
     fun getDbDashboardFile(context:Context):LiveData<DashBoardMainPojo>{
