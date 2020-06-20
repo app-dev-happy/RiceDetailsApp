@@ -16,8 +16,8 @@ import com.happy.ricedetailsapp.pojo.SeaPortContent
 
 class ClearanceFragment : Fragment() {
     lateinit var mBinding: LayoutClearanceBinding
-    var clearancePortList =  ArrayList<SeaPortContent>()
-    lateinit var adapter:ClearanceAdapter
+    var clearancePortList = ArrayList<SeaPortContent>()
+    lateinit var adapter: ClearanceAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,10 +25,10 @@ class ClearanceFragment : Fragment() {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.layout_clearance, container, false)
         mBinding.executePendingBindings()
         init()
-        return  mBinding.root
+        return mBinding.root
     }
 
-    fun init(){
+    fun init() {
         setAdapter()
         initListner()
     }
@@ -40,12 +40,13 @@ class ClearanceFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        adapter = ClearanceAdapter(context!!,clearancePortList)
-        mBinding.clearanceRecycler.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        adapter = ClearanceAdapter(context!!, clearancePortList)
+        mBinding.clearanceRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         mBinding.clearanceRecycler.adapter = adapter
     }
 
     fun setData(clearancePortList: ArrayList<SeaPortContent>) {
-        this.clearancePortList  = clearancePortList
+        this.clearancePortList = clearancePortList
     }
 }

@@ -21,19 +21,26 @@ import com.happy.ricedetailsapp.pojo.CurrencyContent
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 
 class CurrencyDialogFragment : DialogFragment() {
-    lateinit var mBinding:FragmentCurrencyDialogBinding
-    lateinit var adapter:CurrencyDialogAdapter
+    lateinit var mBinding: FragmentCurrencyDialogBinding
+    lateinit var adapter: CurrencyDialogAdapter
     lateinit var mDashboardViewModel: DashboardViewModel
-    var currencyItem: CurrencyContent?=null
-    var checkPosition: Int?=0
+    var currencyItem: CurrencyContent? = null
+    var checkPosition: Int? = 0
     var currencyList = ArrayList<CurrencyContent>()
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_currency_dialog,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_currency_dialog, container, false)
         mBinding.executePendingBindings()
-        mDashboardViewModel = ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
+        mDashboardViewModel =
+            ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
         init()
         return mBinding.root
     }
+
     override fun onStart() {
         super.onStart()
         val metrics = DisplayMetrics()
@@ -45,9 +52,11 @@ class CurrencyDialogFragment : DialogFragment() {
         )
         dialog!!.window!!.setBackgroundDrawableResource(R.drawable.dialog_backgroud_rounded)
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val style = STYLE_NO_TITLE
@@ -55,7 +64,7 @@ class CurrencyDialogFragment : DialogFragment() {
         setStyle(style, theme)
     }
 
-    fun init(){
+    fun init() {
         initDialog()
         setAdapter()
         initListner()
@@ -68,13 +77,16 @@ class CurrencyDialogFragment : DialogFragment() {
             dialog!!.dismiss()
         })
         mBinding.currencySubmitBtn.setOnClickListener(View.OnClickListener {
-            if(currencyItem!=null&&currencyItem?.key!=null&&!mDashboardViewModel.selectedCurrencyKey.value.equals(currencyItem?.key)) {
-                if(mDashboardViewModel.currencyRates.value!!.containsKey(currencyItem?.key)){
-                mDashboardViewModel.selectedCurrencyKey.value = currencyItem?.key
-                mDashboardViewModel.selectedCurrencySymbol.value = currencyItem?.symbol
+            if (currencyItem != null && currencyItem?.key != null && !mDashboardViewModel.selectedCurrencyKey.value.equals(
+                    currencyItem?.key
+                )
+            ) {
+                if (mDashboardViewModel.currencyRates.value!!.containsKey(currencyItem?.key)) {
+                    mDashboardViewModel.selectedCurrencyKey.value = currencyItem?.key
+                    mDashboardViewModel.selectedCurrencySymbol.value = currencyItem?.symbol
                 }
             }
-            if(checkPosition!=mDashboardViewModel.checkedPosition.value&&checkPosition!=-1){
+            if (checkPosition != mDashboardViewModel.checkedPosition.value && checkPosition != -1) {
                 mDashboardViewModel.checkedPosition.value = checkPosition
             }
             dialog!!.dismiss()
@@ -82,8 +94,14 @@ class CurrencyDialogFragment : DialogFragment() {
     }
 
     private fun setAdapter() {
-        adapter = CurrencyDialogAdapter(context!!,this,currencyList,mDashboardViewModel.checkedPosition.value)
-        mBinding.currencyRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        adapter = CurrencyDialogAdapter(
+            context!!,
+            this,
+            currencyList,
+            mDashboardViewModel.checkedPosition.value
+        )
+        mBinding.currencyRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         mBinding.currencyRecycler.adapter = adapter
     }
 
@@ -109,6 +127,6 @@ class CurrencyDialogFragment : DialogFragment() {
     }
 
     fun setDataList(currencyList: ArrayList<CurrencyContent>?) {
-            this.currencyList = currencyList!!
+        this.currencyList = currencyList!!
     }
 }

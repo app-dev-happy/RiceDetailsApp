@@ -13,6 +13,7 @@ import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
+import com.happy.ricedetailsapp.pojo.KgsWeightItem
 import com.happy.ricedetailsapp.utility.AppConstant
 import com.happy.ricedetailsapp.utility.DashboardRepository
 import kotlinx.coroutines.*
@@ -26,10 +27,13 @@ class DashboardViewModel: ViewModel() {
     var selectedCurrencySymbol:MutableLiveData<String> = MutableLiveData<String>()
     var currencyRates:MutableLiveData<Map<String?, Double>> = MutableLiveData<Map<String?, Double>>()
     var dollarRupeeFactor:MutableLiveData<Double> = MutableLiveData<Double>()
+    var rateCardPosition:MutableLiveData<Int> = MutableLiveData<Int>()
+    var rateCardValue:MutableLiveData<KgsWeightItem> = MutableLiveData<KgsWeightItem>()
     init {
         packagingPosition.value = 0
         checkedPosition.value = 0
         seaPortPosition.value = 0
+        rateCardPosition.value = 0
         selectedCurrencySymbol.value = "$"
         selectedCurrencyKey.value = "USD"
     }

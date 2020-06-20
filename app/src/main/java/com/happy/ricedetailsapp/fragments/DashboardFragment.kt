@@ -28,9 +28,9 @@ import org.json.JSONObject
 class DashboardFragment : Fragment(), View.OnClickListener {
 
     lateinit var layoutFragmentDashboardBinding: LayoutFragmentDashboardBinding
-    internal lateinit var view : View
+    internal lateinit var view: View
     lateinit var mDashboardViewModel: DashboardViewModel
-    lateinit var adapter:DashboardMainRecyclerAdapter
+    lateinit var adapter: DashboardMainRecyclerAdapter
     override fun onClick(view: View?) {
 
     }
@@ -41,10 +41,12 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        layoutFragmentDashboardBinding = DataBindingUtil.inflate(inflater, R.layout.layout_fragment_dashboard, container, false)
+        layoutFragmentDashboardBinding =
+            DataBindingUtil.inflate(inflater, R.layout.layout_fragment_dashboard, container, false)
         layoutFragmentDashboardBinding.executePendingBindings()
-        view =  layoutFragmentDashboardBinding.root
-        mDashboardViewModel = ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
+        view = layoutFragmentDashboardBinding.root
+        mDashboardViewModel =
+            ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
         getFileData()
         init()
         return view
@@ -56,48 +58,57 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         initViews()
     }
 
-     fun getCurrencyApiData() {
-            mDashboardViewModel.getCurrencyApiData(context!!).observe(requireActivity() as LifecycleOwner,
+    fun getCurrencyApiData() {
+        mDashboardViewModel.getCurrencyApiData(context!!)
+            .observe(requireActivity() as LifecycleOwner,
                 Observer {
-                    if(it!=null&&it.isNotEmpty()){
+                    if (it != null && it.isNotEmpty()) {
                         val response = JSONObject(it)
                         val ratesArray = response.getJSONObject("rates")
-                        val currencyRatesMainPojo = Gson().fromJson(it, CurrencyRatesMainPojo::class.java)
+                        val currencyRatesMainPojo =
+                            Gson().fromJson(it, CurrencyRatesMainPojo::class.java)
                         val rates = currencyRatesMainPojo.rates
                         val typeOfHashMap = object : TypeToken<Map<String?, Double>?>() {}.type
-                        val map : Map<String?, Double> =  Gson().fromJson(ratesArray.toString(), typeOfHashMap)
+                        val map: Map<String?, Double> =
+                            Gson().fromJson(ratesArray.toString(), typeOfHashMap)
                         mDashboardViewModel.currencyRates.value = map
                         val rupeeFactor = rates.INR
-                        mDashboardViewModel.dollarRupeeFactor.value = 1/rupeeFactor
+                        mDashboardViewModel.dollarRupeeFactor.value = 1 / rupeeFactor
                     }
                 })
     }
 
-    fun getFileData(){
-        mDashboardViewModel.getDbDashboardFile(context!!).observe(requireActivity() as LifecycleOwner,
-            Observer {
-                if(it!=null){
-                    val dashboardMainContent = it.DashboardMainContent
-                    setAdapter(dashboardMainContent,it)
-                    if(it.ClearancePortContent!=null&&it.ClearancePortContent.isNotEmpty()){
-                        val clearancePortContent = it.ClearancePortContent
-                        if(clearancePortContent.size>0)
-                            initClearance(clearancePortContent)
+    fun getFileData() {
+        mDashboardViewModel.getDbDashboardFile(context!!)
+            .observe(requireActivity() as LifecycleOwner,
+                Observer {
+                    if (it != null) {
+                        val dashboardMainContent = it.DashboardMainContent
+                        setAdapter(dashboardMainContent, it)
+                        if (it.ClearancePortContent != null && it.ClearancePortContent.isNotEmpty()) {
+                            val clearancePortContent = it.ClearancePortContent
+                            if (clearancePortContent.size > 0)
+                                initClearance(clearancePortContent)
+                        }
                     }
-                }
-            })
+                })
     }
 
-    private fun setAdapter(dashboardMainContent:ArrayList<DashboardMainContent>,dashBoardMainPojo: DashBoardMainPojo) {
-        adapter = DashboardMainRecyclerAdapter(context,dashboardMainContent,dashBoardMainPojo)
-        layoutFragmentDashboardBinding.mainRecycler.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    private fun setAdapter(
+        dashboardMainContent: ArrayList<DashboardMainContent>,
+        dashBoardMainPojo: DashBoardMainPojo
+    ) {
+        adapter = DashboardMainRecyclerAdapter(context, dashboardMainContent, dashBoardMainPojo)
+        layoutFragmentDashboardBinding.mainRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         layoutFragmentDashboardBinding.mainRecycler.adapter = adapter
     }
 
     private fun openScreen() {
         try {
-            if(!AppConstant.backPressed)
-            layoutFragmentDashboardBinding.root.animation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
+            if (!AppConstant.backPressed)
+                layoutFragmentDashboardBinding.root.animation =
+                    AnimationUtils.loadAnimation(context, R.anim.slide_up)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -106,17 +117,20 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     private fun initClearance(clearancePortContent: ArrayList<SeaPortContent>) {
         layoutFragmentDashboardBinding.clearanceFab.visibility = View.VISIBLE
         layoutFragmentDashboardBinding.clearanceFab.setOnClickListener {
-          initClearanceFragment(clearancePortContent)
-      }
+            initClearanceFragment(clearancePortContent)
+        }
     }
-    fun initClearanceFragment(clearancePortContent: ArrayList<SeaPortContent>){
+
+    fun initClearanceFragment(clearancePortContent: ArrayList<SeaPortContent>) {
         val fragmentManager = (context as DashboardActivity).supportFragmentManager
         val clearanceFragment = ClearanceFragment()
         clearanceFragment.setData(clearancePortContent)
         var openFragment = fragmentManager.beginTransaction()
-        openFragment.setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_close_exit)
-        openFragment.replace(R.id.fragmentContainer, clearanceFragment).addToBackStack(null).commit()
+        openFragment.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_close_exit)
+        openFragment.replace(R.id.fragmentContainer, clearanceFragment).addToBackStack(null)
+            .commit()
     }
+
     private fun initViews() {
 
     }

@@ -12,33 +12,46 @@ import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.DashboardMainContent
 import com.squareup.picasso.Picasso
 
-class DashboardMainRecyclerAdapter(val mContext: Context?,val dashboardMainContent:ArrayList<DashboardMainContent>,val dashBoardMainPojo: DashBoardMainPojo) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
-    lateinit var mAdapter:RiceCatagoryItemAdapter
+class DashboardMainRecyclerAdapter(
+    val mContext: Context?,
+    val dashboardMainContent: ArrayList<DashboardMainContent>,
+    val dashBoardMainPojo: DashBoardMainPojo
+) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+    lateinit var mAdapter: RiceCatagoryItemAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var binding:LayoutRiceMainVarietyBinding=  DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.layout_rice_main_variety,parent,false)
-        return DashboardMainRecyclerAdapterViewHolder(mContext,binding)
+        var binding: LayoutRiceMainVarietyBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.layout_rice_main_variety,
+            parent,
+            false
+        )
+        return DashboardMainRecyclerAdapterViewHolder(mContext, binding)
     }
 
     override fun getItemCount(): Int {
-      return dashboardMainContent.size
+        return dashboardMainContent.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-       val item = dashboardMainContent.get(position)
+        val item = dashboardMainContent.get(position)
         (holder as DashboardMainRecyclerAdapterViewHolder).mBinding.riceItemText.text = item.title
-        if (item.iconURL.isNotEmpty()){
-            Picasso.get().load(item.iconURL).into((holder as DashboardMainRecyclerAdapterViewHolder).mBinding.varietyImg)
-        }
-        else {
+        if (item.iconURL.isNotEmpty()) {
+            Picasso.get().load(item.iconURL)
+                .into((holder as DashboardMainRecyclerAdapterViewHolder).mBinding.varietyImg)
+        } else {
             Picasso.get()
                 .load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg")
                 .into((holder as DashboardMainRecyclerAdapterViewHolder).mBinding.varietyImg);
         }
-        mAdapter = RiceCatagoryItemAdapter(mContext,item.varietyItems,dashBoardMainPojo)
-        holder.mBinding.recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL,false)
+        mAdapter = RiceCatagoryItemAdapter(mContext, item.varietyItems, dashBoardMainPojo)
+        holder.mBinding.recycler.layoutManager =
+            LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
         holder.mBinding.recycler.adapter = mAdapter
     }
 
-    inner class DashboardMainRecyclerAdapterViewHolder(private val mContext: Context?,  val mBinding: LayoutRiceMainVarietyBinding):androidx.recyclerview.widget.RecyclerView.ViewHolder(mBinding!!.root)
+    inner class DashboardMainRecyclerAdapterViewHolder(
+        private val mContext: Context?,
+        val mBinding: LayoutRiceMainVarietyBinding
+    ) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mBinding!!.root)
 
 }

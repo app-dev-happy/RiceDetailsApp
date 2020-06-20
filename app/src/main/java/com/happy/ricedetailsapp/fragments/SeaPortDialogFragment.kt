@@ -23,19 +23,26 @@ import com.happy.ricedetailsapp.pojo.SeaPortContent
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 
 class SeaPortDialogFragment : DialogFragment() {
-    lateinit var mBinding:SeaPortDialogLayoutBinding
-    lateinit var adapter:SeaPortDialogAdapter
+    lateinit var mBinding: SeaPortDialogLayoutBinding
+    lateinit var adapter: SeaPortDialogAdapter
     lateinit var mDashboardViewModel: DashboardViewModel
-    var seaPortItem: SeaPortContent?=null
-    var checkPosition: Int?=0
+    var seaPortItem: SeaPortContent? = null
+    var checkPosition: Int? = 0
     var seaPortList = ArrayList<SeaPortContent>()
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = DataBindingUtil.inflate(inflater,R.layout.sea_port_dialog_layout,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mBinding =
+            DataBindingUtil.inflate(inflater, R.layout.sea_port_dialog_layout, container, false)
         mBinding.executePendingBindings()
-        mDashboardViewModel = ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
+        mDashboardViewModel =
+            ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
         init()
         return mBinding.root
     }
+
     override fun onStart() {
         super.onStart()
         val metrics = DisplayMetrics()
@@ -47,9 +54,11 @@ class SeaPortDialogFragment : DialogFragment() {
         )
         dialog!!.window!!.setBackgroundDrawableResource(R.drawable.dialog_backgroud_rounded)
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val style = STYLE_NO_TITLE
@@ -57,7 +66,7 @@ class SeaPortDialogFragment : DialogFragment() {
         setStyle(style, theme)
     }
 
-    fun init(){
+    fun init() {
         initDialog()
         setAdapter()
         initListner()
@@ -70,7 +79,7 @@ class SeaPortDialogFragment : DialogFragment() {
             dialog!!.dismiss()
         })
         mBinding.seaPortSubmitBtn.setOnClickListener(View.OnClickListener {
-            if(checkPosition!=mDashboardViewModel.seaPortPosition.value&&checkPosition!=-1){
+            if (checkPosition != mDashboardViewModel.seaPortPosition.value && checkPosition != -1) {
                 mDashboardViewModel.seaPortPosition.value = checkPosition
             }
             dialog!!.dismiss()
@@ -78,8 +87,14 @@ class SeaPortDialogFragment : DialogFragment() {
     }
 
     private fun setAdapter() {
-        adapter = SeaPortDialogAdapter(context!!,this,seaPortList,mDashboardViewModel.seaPortPosition.value)
-        mBinding.seaPortRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        adapter = SeaPortDialogAdapter(
+            context!!,
+            this,
+            seaPortList,
+            mDashboardViewModel.seaPortPosition.value
+        )
+        mBinding.seaPortRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         mBinding.seaPortRecycler.adapter = adapter
     }
 

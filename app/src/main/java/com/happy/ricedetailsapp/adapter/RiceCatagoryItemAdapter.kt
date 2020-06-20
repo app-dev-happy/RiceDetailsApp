@@ -13,10 +13,19 @@ import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.VarietyItem
 import com.squareup.picasso.Picasso
 
-class RiceCatagoryItemAdapter(val mContext: Context?, val riceVarietyList:ArrayList<VarietyItem>,val dashBoardMainPojo: DashBoardMainPojo) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>()  {
+class RiceCatagoryItemAdapter(
+    val mContext: Context?,
+    val riceVarietyList: ArrayList<VarietyItem>,
+    val dashBoardMainPojo: DashBoardMainPojo
+) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var binding:RiceCategoryItemLayoutBinding=  DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.rice_category_item_layout,parent,false)
-        return RiceCatagoryItemAdapterViewHolder(mContext,binding)
+        var binding: RiceCategoryItemLayoutBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.rice_category_item_layout,
+            parent,
+            false
+        )
+        return RiceCatagoryItemAdapterViewHolder(mContext, binding)
     }
 
     override fun getItemCount(): Int {
@@ -25,43 +34,47 @@ class RiceCatagoryItemAdapter(val mContext: Context?, val riceVarietyList:ArrayL
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = riceVarietyList.get(position)
-        val marg_10=mContext?.resources!!.getDimensionPixelSize(R.dimen.marg_10)
-        val marg_14=mContext?.resources!!.getDimensionPixelSize(R.dimen.marg_14)
-        val layoutParams = (holder as RiceCatagoryItemAdapterViewHolder).mBinding.root.layoutParams as ViewGroup.MarginLayoutParams
-        if(position == 0){
+        val marg_10 = mContext?.resources!!.getDimensionPixelSize(R.dimen.marg_10)
+        val marg_14 = mContext?.resources!!.getDimensionPixelSize(R.dimen.marg_14)
+        val layoutParams =
+            (holder as RiceCatagoryItemAdapterViewHolder).mBinding.root.layoutParams as ViewGroup.MarginLayoutParams
+        if (position == 0) {
             layoutParams.setMargins(marg_14, 0, 0, 0)
-        }else if(position == (riceVarietyList.size-1) ) {
+        } else if (position == (riceVarietyList.size - 1)) {
             layoutParams.setMargins(0, 0, marg_10, 0)
-        }
-        else{
+        } else {
             layoutParams.setMargins(0, 0, 0, 0)
         }
-        if (item.iconURL.isNotEmpty()){
-            Picasso.get().load(item.iconURL).into( holder.mBinding.ricecategoryimg)
-        }
-        else {
+        if (item.iconURL.isNotEmpty()) {
+            Picasso.get().load(item.iconURL).into(holder.mBinding.ricecategoryimg)
+        } else {
             Picasso.get()
                 .load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg")
-                .into( holder.mBinding.ricecategoryimg);
+                .into(holder.mBinding.ricecategoryimg);
         }
         (holder as RiceCatagoryItemAdapterViewHolder).mBinding.riceItemSubtext.text = item.title
         holder.mBinding.root.setOnClickListener {
             initFragment(item)
         }
     }
-    private fun initFragment(item:VarietyItem) {
+
+    private fun initFragment(item: VarietyItem) {
         try {
             val fragmentManager = (mContext as DashboardActivity).supportFragmentManager
             val varietyPriceItemFragment = CategoryDetaillsFragment()
-            varietyPriceItemFragment.setData(item,dashBoardMainPojo)
+            varietyPriceItemFragment.setData(item, dashBoardMainPojo)
             var openFragment = fragmentManager.beginTransaction()
-            openFragment.setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_close_exit)
-            openFragment.replace(R.id.fragmentContainer, varietyPriceItemFragment).addToBackStack(null).commit()
+            openFragment.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_close_exit)
+            openFragment.replace(R.id.fragmentContainer, varietyPriceItemFragment)
+                .addToBackStack(null).commit()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    inner class RiceCatagoryItemAdapterViewHolder(private val mContext: Context?,  val mBinding: RiceCategoryItemLayoutBinding):androidx.recyclerview.widget.RecyclerView.ViewHolder(mBinding!!.root)
+    inner class RiceCatagoryItemAdapterViewHolder(
+        private val mContext: Context?,
+        val mBinding: RiceCategoryItemLayoutBinding
+    ) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mBinding!!.root)
 
 }
