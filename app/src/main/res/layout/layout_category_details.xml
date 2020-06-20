@@ -399,7 +399,7 @@
                         android:maxLines="1"
                         android:text="@string/desc_line"
                         android:textColor="@color/textColor_main"
-                        android:textSize="18sp"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"

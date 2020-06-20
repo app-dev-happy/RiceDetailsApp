@@ -27,7 +27,7 @@ class DashboardActivity : AppCompatActivity() {
     private fun initFragment() {
         try {
             fragmentManager = supportFragmentManager
-            fragmentManager?.beginTransaction()?.replace(R.id.fragmentContainer, DashboardFragment())?.commit()
+            fragmentManager?.beginTransaction()?.setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_close_exit)?.replace(R.id.fragmentContainer, DashboardFragment())?.commit()
         } catch (e: Exception) {
             e.printStackTrace()
         }
