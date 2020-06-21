@@ -42,6 +42,7 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val content: 
             )
             viewModel.rateCardPosition.value  = position
             holder.mBinding.rate.setTextColor(mContext!!.resources.getColor(R.color.white))
+            holder.mBinding.weight.setTextColor(mContext!!.resources.getColor(R.color.white))
             holder.mBinding.divider.visibility = View.VISIBLE
             viewModel.rateCardValue.value = rateItem
         } else {
@@ -49,6 +50,7 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val content: 
                 mContext!!.resources.getColor(R.color.white)
             )
             holder.mBinding.rate.setTextColor(mContext!!.resources.getColor(R.color.red))
+            holder.mBinding.weight.setTextColor(mContext!!.resources.getColor(R.color.red))
             holder.mBinding.divider.visibility = View.VISIBLE
         }
         if (kgsBtnSelected)
@@ -96,6 +98,7 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val content: 
 
                 mBinding.rateCard.setCardBackgroundColor(context!!.resources.getColor(R.color.red))
                 mBinding.rate.setTextColor(context!!.resources.getColor(R.color.white))
+                mBinding.weight.setTextColor(context!!.resources.getColor(R.color.white))
                 mBinding.divider.visibility = View.VISIBLE
             }
             checkPosition = getAdapterPosition()
