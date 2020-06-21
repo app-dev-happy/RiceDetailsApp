@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 
 @Database(
-    entities = [DashboardEntity::class],
+    entities = [DashboardEntity::class, CurrencyEntity::class],
     version = 35,
     exportSchema = false
 )
@@ -18,6 +18,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun dashboardDao(): DashboardDao
+    abstract fun currencyDao(): CurrencyDao
 
     companion object {
 

@@ -30,7 +30,7 @@ class DashboardActivity : AppCompatActivity() {
         layoutActivityDashboardBinding = DataBindingUtil.setContentView(this, R.layout.layout_activity_dashboard)
         mDashboardViewModel =
             ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-        getCurrencyApiData()
+        mDashboardViewModel.readCurrencyApiData(this)
         initFragment()
     }
 
@@ -42,27 +42,6 @@ class DashboardActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
-
-    fun getCurrencyApiData() {
-        mDashboardViewModel.getCurrencyApiData(this)
-            .observe(this as LifecycleOwner,
-                Observer {
-                    if (it != null && it.isNotEmpty()) {
-                        val response = JSONObject(it)
-                        val ratesArray = response.getJSONObject("rates")
-                        val currencyRatesMainPojo =
-                            Gson().fromJson(it, CurrencyRatesMainPojo::class.java)
-                        val rates = currencyRatesMainPojo.rates
-                        val typeOfHashMap = object : TypeToken<Map<String?, Double>?>() {}.type
-                        val map: Map<String?, Double> =
-                            Gson().fromJson(ratesArray.toString(), typeOfHashMap)
-                        mDashboardViewModel.currencyRates.value = map
-                        val rupeeFactor = rates.INR
-                        mDashboardViewModel.dollarRupeeFactor.value = 1 / rupeeFactor
-                    }
-                })
-    }
-
     override fun onBackPressed() {
 
         try {

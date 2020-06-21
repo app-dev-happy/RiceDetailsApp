@@ -3,6 +3,7 @@ package com.happy.ricedetailsapp.utility
 import android.content.Context
 import androidx.lifecycle.LiveData
 import com.happy.ricedetailsapp.db.AppDatabase
+import com.happy.ricedetailsapp.db.CurrencyEntity
 import com.happy.ricedetailsapp.db.DashboardEntity
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import kotlinx.coroutines.*
@@ -40,6 +41,19 @@ object DashboardRepository {
             }
         }
     }
+    fun setCurrencyDataInDb(context: Context,currencyMap: String){
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                AppDatabase.getInstance(context).currencyDao().insertCurrencyData(CurrencyEntity(AppConstant.CurrencyAPIname,currencyMap))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    fun getCurrencyDbData(context: Context): LiveData<String> {
+        return AppDatabase.getInstance(context).currencyDao().getCurrencyData(AppConstant.CurrencyAPIname)
+    }
+
     fun getDbFile(context: Context): LiveData<DashBoardMainPojo> {
         return AppDatabase.getInstance(context).dashboardDao().getDashboardData(AppConstant.DashboardFileName)
     }

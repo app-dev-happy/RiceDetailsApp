@@ -11,24 +11,28 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
+import com.happy.ricedetailsapp.pojo.CurrencyRatesMainPojo
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.KgsWeightItem
 import com.happy.ricedetailsapp.utility.AppConstant
 import com.happy.ricedetailsapp.utility.DashboardRepository
 import kotlinx.coroutines.*
+import org.json.JSONObject
 
 
-class DashboardViewModel: ViewModel() {
-    var checkedPosition:MutableLiveData<Int> = MutableLiveData<Int>()
-    var seaPortPosition:MutableLiveData<Int> = MutableLiveData<Int>()
-    var packagingPosition:MutableLiveData<Int> = MutableLiveData<Int>()
-    var selectedCurrencyKey:MutableLiveData<String> = MutableLiveData<String>()
-    var selectedCurrencySymbol:MutableLiveData<String> = MutableLiveData<String>()
-    var currencyRates:MutableLiveData<Map<String?, Double>> = MutableLiveData<Map<String?, Double>>()
-    var dollarRupeeFactor:MutableLiveData<Double> = MutableLiveData<Double>()
-    var rateCardPosition:MutableLiveData<Int> = MutableLiveData<Int>()
-    var rateCardValue:MutableLiveData<KgsWeightItem> = MutableLiveData<KgsWeightItem>()
+class DashboardViewModel : ViewModel() {
+    var checkedPosition: MutableLiveData<Int> = MutableLiveData<Int>()
+    var seaPortPosition: MutableLiveData<Int> = MutableLiveData<Int>()
+    var packagingPosition: MutableLiveData<Int> = MutableLiveData<Int>()
+    var selectedCurrencyKey: MutableLiveData<String> = MutableLiveData<String>()
+    var selectedCurrencySymbol: MutableLiveData<String> = MutableLiveData<String>()
+    var currencyRates: MutableLiveData<Map<String?, Double>> =
+        MutableLiveData<Map<String?, Double>>()
+    var rateCardPosition: MutableLiveData<Int> = MutableLiveData<Int>()
+    var rateCardValue: MutableLiveData<KgsWeightItem> = MutableLiveData<KgsWeightItem>()
+
     init {
         packagingPosition.value = 0
         checkedPosition.value = 0
@@ -37,6 +41,7 @@ class DashboardViewModel: ViewModel() {
         selectedCurrencySymbol.value = "$"
         selectedCurrencyKey.value = "USD"
     }
+
     fun readDashboardFile(context: Context) {
         /*NetworkClient.getDashboardData().observe(context as LifecycleOwner, Observer {
             var dashBoardMainPojo:DashBoardMainPojo?=null
@@ -51,14 +56,14 @@ class DashboardViewModel: ViewModel() {
             }
 
         })*/
-        try{
+        try {
             CoroutineScope(Dispatchers.IO).launch {
                 val job = async { FileDataCoroutines().getDataFromServer(AppConstant.URL, context) }
                 val mCoroutineResponse = job.await()
-                withContext(Dispatchers.Main){
-                    if(mCoroutineResponse.status == 0){
-                        if(mCoroutineResponse.dataString!=null&&mCoroutineResponse.dataString!!.length>0) {
-                            var dashBoardMainPojo:DashBoardMainPojo?=null
+                withContext(Dispatchers.Main) {
+                    if (mCoroutineResponse.status == 0) {
+                        if (mCoroutineResponse.dataString != null && mCoroutineResponse.dataString!!.length > 0) {
+                            var dashBoardMainPojo: DashBoardMainPojo? = null
                             try {
                                 dashBoardMainPojo = Gson().fromJson(
                                     mCoroutineResponse.dataString,
@@ -93,27 +98,45 @@ class DashboardViewModel: ViewModel() {
 //    }
     }
 
-    fun getDbDashboardFile(context:Context):LiveData<DashBoardMainPojo>{
+    fun getDbDashboardFile(context: Context): LiveData<DashBoardMainPojo> {
         return DashboardRepository.getDbFile(context)
     }
 
+    fun getDbCurrencyFile(context: Context): LiveData<String> {
+        return DashboardRepository.getCurrencyDbData(context)
+    }
 
-    fun getCurrencyApiData(context:Context): LiveData<String> {
+
+    fun readCurrencyApiData(context: Context) {
         var mCurrencyApiLiveData: MutableLiveData<String> = MutableLiveData<String>()
-        try{
+        try {
             GlobalScope.launch(Dispatchers.IO) {
-                val job = async { FileDataCoroutines().getDataFromServer(AppConstant.RATE_API_URL, context) }
+                val job = async {
+                    FileDataCoroutines().getDataFromServer(
+                        AppConstant.RATE_API_URL,
+                        context
+                    )
+                }
                 val mCoroutineResponse = job.await()
-                withContext(Dispatchers.Main){
-                    if(mCoroutineResponse.status == 0){
-                        if(mCoroutineResponse.dataString!=null&&mCoroutineResponse.dataString!!.length>0)
+                withContext(Dispatchers.Main) {
+                    if (mCoroutineResponse.status == 0) {
+                        if (mCoroutineResponse.dataString != null && mCoroutineResponse.dataString!!.length > 0)
                             mCurrencyApiLiveData.value = mCoroutineResponse.dataString
+                        if (mCoroutineResponse.dataString != null && mCoroutineResponse.dataString!!.isNotEmpty()) {
+                            try {
+                                DashboardRepository.setCurrencyDataInDb(
+                                    context,
+                                    mCoroutineResponse.dataString!!
+                                )
+                            } catch (ex: Exception) {
+                                ex.printStackTrace()
+                            }
+                        }
                     }
                 }
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
-        return mCurrencyApiLiveData
     }
 }

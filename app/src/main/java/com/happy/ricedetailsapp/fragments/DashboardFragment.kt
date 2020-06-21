@@ -48,8 +48,25 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         mDashboardViewModel =
             ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
         getFileData()
+        getCurrencyData()
         init()
         return view
+    }
+
+    fun getCurrencyData() {
+        mDashboardViewModel.getDbCurrencyFile(context!!)
+            .observe(requireActivity() as LifecycleOwner,
+                Observer {
+                    if (it != null) {
+                        val response = JSONObject(it)
+                        val ratesArray = response.getJSONObject("rates")
+                        val typeOfHashMap =
+                            object : TypeToken<Map<String?, Double>?>() {}.type
+                        val map: Map<String?, Double> =
+                            Gson().fromJson(ratesArray.toString(), typeOfHashMap)
+                        mDashboardViewModel.currencyRates.value = map
+                    }
+                })
     }
 
     private fun init() {
