@@ -225,7 +225,7 @@ class CategoryDetaillsFragment : Fragment() {
             }
         )
         ratesAdapter!!.setData(
-            varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem,
+            varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value?:0).kgsWeightItem,
             kgsBtnSelected,
             mDashboardViewModel.rateCardPosition.value!!
         )

@@ -40,6 +40,7 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val content: 
             (holder as RateCardsItemAdapterViewHolder).mBinding.rateCard.setCardBackgroundColor(
                 mContext!!.resources.getColor(R.color.red)
             )
+            viewModel.rateCardPosition.value  = position
             holder.mBinding.rate.setTextColor(mContext!!.resources.getColor(R.color.white))
             holder.mBinding.divider.visibility = View.VISIBLE
             viewModel.rateCardValue.value = rateItem

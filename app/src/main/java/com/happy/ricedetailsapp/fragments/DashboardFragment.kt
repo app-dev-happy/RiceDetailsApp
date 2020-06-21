@@ -53,29 +53,10 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     private fun init() {
-        getCurrencyApiData()
+        mDashboardViewModel.rateCardPosition.value = 0
+        mDashboardViewModel.rateCardValue.value = null
         openScreen()
         initViews()
-    }
-
-    fun getCurrencyApiData() {
-        mDashboardViewModel.getCurrencyApiData(context!!)
-            .observe(requireActivity() as LifecycleOwner,
-                Observer {
-                    if (it != null && it.isNotEmpty()) {
-                        val response = JSONObject(it)
-                        val ratesArray = response.getJSONObject("rates")
-                        val currencyRatesMainPojo =
-                            Gson().fromJson(it, CurrencyRatesMainPojo::class.java)
-                        val rates = currencyRatesMainPojo.rates
-                        val typeOfHashMap = object : TypeToken<Map<String?, Double>?>() {}.type
-                        val map: Map<String?, Double> =
-                            Gson().fromJson(ratesArray.toString(), typeOfHashMap)
-                        mDashboardViewModel.currencyRates.value = map
-                        val rupeeFactor = rates.INR
-                        mDashboardViewModel.dollarRupeeFactor.value = 1 / rupeeFactor
-                    }
-                })
     }
 
     fun getFileData() {
