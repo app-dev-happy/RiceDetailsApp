@@ -360,6 +360,7 @@
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
                         android:text="@string/lbs_txt"
+                        android:visibility="gone"
                         android:textColor="@color/textColor_main"
                         android:textSize="18sp"
                         app:layout_constraintLeft_toRightOf="@id/half"

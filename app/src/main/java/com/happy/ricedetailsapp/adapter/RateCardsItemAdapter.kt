@@ -91,11 +91,11 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val content: 
                 sSelectedItems.delete(getAdapterPosition());
                 mBinding.rateCard.setCardBackgroundColor(context!!.resources.getColor(R.color.white))
                 mBinding.rate.setTextColor(context!!.resources.getColor(R.color.red))
+                mBinding.weight.setTextColor(context!!.resources.getColor(R.color.red))
                 mBinding.divider.visibility = View.VISIBLE
             } else {
                 sSelectedItems.put(checkPosition, false);
                 sSelectedItems.put(getAdapterPosition(), true);
-
                 mBinding.rateCard.setCardBackgroundColor(context!!.resources.getColor(R.color.red))
                 mBinding.rate.setTextColor(context!!.resources.getColor(R.color.white))
                 mBinding.weight.setTextColor(context!!.resources.getColor(R.color.white))

@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [DashboardEntity::class, CurrencyEntity::class],
-    version = 35,
+    version = 36,
     exportSchema = false
 )
 @TypeConverters(CustomTypeConverter::class)
