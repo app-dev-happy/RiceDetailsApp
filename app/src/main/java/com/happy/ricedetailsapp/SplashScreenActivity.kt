@@ -34,7 +34,7 @@ class SplashScreenActivity : AppCompatActivity(){
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.white))
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.screen_bg))
         Handler().postDelayed({
             val intent = Intent(this@SplashScreenActivity, DashboardActivity::class.java)
             startActivity(intent)
