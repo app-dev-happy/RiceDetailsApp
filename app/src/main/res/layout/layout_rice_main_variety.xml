@@ -41,7 +41,7 @@
         android:id="@+id/item_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/screen_bg">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/variety_img_card"
