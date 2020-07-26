@@ -72,7 +72,6 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     private fun init() {
         mDashboardViewModel.rateCardPosition.value = 0
         mDashboardViewModel.rateCardValue.value = null
-        openScreen()
         initViews()
     }
 
@@ -100,16 +99,6 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         layoutFragmentDashboardBinding.mainRecycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         layoutFragmentDashboardBinding.mainRecycler.adapter = adapter
-    }
-
-    private fun openScreen() {
-        try {
-            if (!AppConstant.backPressed)
-                layoutFragmentDashboardBinding.root.animation =
-                    AnimationUtils.loadAnimation(context, R.anim.slide_up)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 
     private fun initClearance(clearancePortContent: ArrayList<SeaPortContent>) {

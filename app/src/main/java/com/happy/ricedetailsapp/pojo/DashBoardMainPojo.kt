@@ -6,5 +6,6 @@ data class DashBoardMainPojo(
     val CurrencyContent: ArrayList<CurrencyContent>,
     val DashboardMainContent: ArrayList<DashboardMainContent>,
     val SeaPortContent: ArrayList<SeaPortContent>,
-    val ClearancePortContent: ArrayList<SeaPortContent>
+    val ClearancePortContent: ArrayList<SeaPortContent>,
+    val DetailsContent: ArrayList<DetailsContent>
 ):Serializable

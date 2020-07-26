@@ -1,12 +1,10 @@
 package com.happy.ricedetailsapp.fragments
 
 import android.os.Bundle
-import android.provider.Telephony
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -33,6 +31,7 @@ class CategoryDetaillsFragment : Fragment() {
     var ratesAdapter: RateCardsItemAdapter? = null
     var dollorToRsFactor:Double = 0.0
     var kgsBtnSelected: Boolean = true
+    var lbsItemList =ArrayList<KgsWeightItem>()
     var lbsBtnSelected: Boolean = false
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +48,10 @@ class CategoryDetaillsFragment : Fragment() {
     }
 
     fun init() {
-        dollorToRsFactor = mDashboardViewModel.currencyRates.value!!.get("USD")!!
+        dollorToRsFactor = 24*(mDashboardViewModel.currencyRates.value!!.get("USD")!!)
+        if(dashBoardMainPojo!=null&&dashBoardMainPojo?.DetailsContent!=null&&dashBoardMainPojo?.DetailsContent!!.size>0){
+            mBinding.infoIcon.visibility = View.VISIBLE
+        }
         initListner()
         initViews()
         setPackagingAdapter()
@@ -171,6 +173,9 @@ class CategoryDetaillsFragment : Fragment() {
     fun initInformationFragment(){
             val fragmentManager = (context as DashboardActivity).supportFragmentManager
             val informationFragment = InformationFragment()
+        if(dashBoardMainPojo!=null&&dashBoardMainPojo?.DetailsContent!=null&&dashBoardMainPojo?.DetailsContent!!.size>0){
+                informationFragment.setData(dashBoardMainPojo?.DetailsContent!!)
+        }
             var openFragment = fragmentManager.beginTransaction()
             openFragment.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_close_exit)
             openFragment.replace(R.id.fragmentContainer, informationFragment).addToBackStack(null)

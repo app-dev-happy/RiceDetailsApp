@@ -37,7 +37,7 @@ class DashboardActivity : AppCompatActivity() {
     private fun initFragment() {
         try {
             fragmentManager = supportFragmentManager
-            fragmentManager?.beginTransaction()?.setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_close_exit)?.replace(R.id.fragmentContainer, DashboardFragment())?.commit()
+            fragmentManager?.beginTransaction()?.setCustomAnimations(R.anim.slide_up,R.anim.fragment_close_exit)?.replace(R.id.fragmentContainer, DashboardFragment())?.commit()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -45,7 +45,6 @@ class DashboardActivity : AppCompatActivity() {
     override fun onBackPressed() {
 
         try {
-            AppConstant.backPressed = true
             if (fragmentManager!!.fragments != null && fragmentManager!!.fragments.size > 0 &&
                 !(fragmentManager!!.fragments.get(0) is DashboardFragment ))
             {

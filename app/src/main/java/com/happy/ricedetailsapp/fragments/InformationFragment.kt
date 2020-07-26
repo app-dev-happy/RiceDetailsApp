@@ -13,11 +13,12 @@ import com.happy.ricedetailsapp.adapter.ClearanceAdapter
 import com.happy.ricedetailsapp.adapter.DashboardMainRecyclerAdapter
 import com.happy.ricedetailsapp.databinding.LayoutClearanceBinding
 import com.happy.ricedetailsapp.databinding.LayoutInformationBinding
+import com.happy.ricedetailsapp.pojo.DetailsContent
 import com.happy.ricedetailsapp.pojo.SeaPortContent
 
 class InformationFragment : Fragment() {
     lateinit var mBinding: LayoutInformationBinding
-
+    var detailsContent = ArrayList<DetailsContent>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +30,8 @@ class InformationFragment : Fragment() {
     }
 
     fun init() {
+        if(detailsContent[0].subTitle.isNotEmpty()&&detailsContent.get(0)!=null&&detailsContent.get(0).subTitle!=null)
+        mBinding.descLine.text = detailsContent[0].subTitle
         initListner()
     }
 
@@ -36,5 +39,9 @@ class InformationFragment : Fragment() {
         mBinding.backIcon.setOnClickListener {
             (context as DashboardActivity).onBackPressed()
         }
+    }
+
+    fun setData(detailsContent: ArrayList<DetailsContent>) {
+        this.detailsContent = detailsContent
     }
 }
