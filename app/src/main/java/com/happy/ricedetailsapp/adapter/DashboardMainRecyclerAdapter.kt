@@ -43,6 +43,9 @@ class DashboardMainRecyclerAdapter(
                 .load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg")
                 .into((holder as DashboardMainRecyclerAdapterViewHolder).mBinding.varietyImg);
         }
+        if(item.subTitle.isNotEmpty()){
+            (holder as DashboardMainRecyclerAdapterViewHolder).mBinding.subtitle.text = item.subTitle
+        }
         mAdapter = RiceCatagoryItemAdapter(mContext, item.varietyItems, dashBoardMainPojo)
         holder.mBinding.recycler.layoutManager =
             LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
