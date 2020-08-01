@@ -10,7 +10,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import com.happy.ricedetailsapp.DashboardActivity
 import com.happy.ricedetailsapp.R
 import com.happy.ricedetailsapp.adapter.PackagingItemAdapter
@@ -28,6 +27,7 @@ class CategoryDetaillsFragment : Fragment() {
     private var currencyDialogueFragment = CurrencyDialogFragment()
     private var seaPortDialogFragment = SeaPortDialogFragment()
     lateinit var packagingAdapter: PackagingItemAdapter
+    var packagingPosition = 0
     var ratesAdapter: RateCardsItemAdapter? = null
     var dollorToRsFactor:Double = 0.0
     var kgsBtnSelected: Boolean = true
@@ -95,12 +95,15 @@ class CategoryDetaillsFragment : Fragment() {
                 if (kgsBtnSelected) {
                     ratesAdapter!!.setData(
                         varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem,
-                        kgsBtnSelected, mDashboardViewModel.rateCardPosition.value!!
+                        kgsBtnSelected, mDashboardViewModel.rateCardPosition.value!!,mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value), mDashboardViewModel.selectedCurrencySymbol.value
                     )
                 } else {
                     ratesAdapter!!.setData(
                         varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).lbsWeightItem,
-                        kgsBtnSelected, mDashboardViewModel.rateCardPosition.value!!
+                        kgsBtnSelected,
+                        mDashboardViewModel.rateCardPosition.value!!,
+                        mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value),
+                        mDashboardViewModel.selectedCurrencySymbol.value
                     )
                 }
             }
@@ -151,7 +154,9 @@ class CategoryDetaillsFragment : Fragment() {
             ratesAdapter!!.setData(
                 varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem,
                 kgsBtnSelected,
-                0
+                0,
+                mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value),
+                mDashboardViewModel.selectedCurrencySymbol.value
             )
         }
         mBinding.lbsBtn.setOnClickListener {
@@ -165,7 +170,9 @@ class CategoryDetaillsFragment : Fragment() {
             ratesAdapter!!.setData(
                 varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).lbsWeightItem,
                 kgsBtnSelected,
-                0
+                0,
+                mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value),
+                mDashboardViewModel.selectedCurrencySymbol.value
             )
         }
     }
@@ -233,17 +240,34 @@ class CategoryDetaillsFragment : Fragment() {
         mDashboardViewModel.packagingPosition.observe(
             requireActivity() as LifecycleOwner,
             Observer {
-                if (kgsBtnSelected) {
-                    ratesAdapter = RateCardsItemAdapter(this, context!!)
-                } else {
-                    ratesAdapter = RateCardsItemAdapter(this, context!!)
+                if(ratesAdapter!=null) {
+                    if (kgsBtnSelected) {
+                        ratesAdapter!!.setData(
+                            varietyItem!!.packing.get(it).kgsWeightItem,
+                            kgsBtnSelected,
+                            0,
+                            mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value),
+                            mDashboardViewModel.selectedCurrencySymbol.value
+                        )
+                    } else {
+                        ratesAdapter!!.setData(
+                            varietyItem!!.packing.get(it).lbsWeightItem,
+                            kgsBtnSelected,
+                            0,
+                            mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value),
+                            mDashboardViewModel.selectedCurrencySymbol.value
+                        )
+                    }
                 }
             }
         )
+        ratesAdapter = RateCardsItemAdapter(this, context!!)
         ratesAdapter!!.setData(
-            varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value?:0).kgsWeightItem,
+            varietyItem!!.packing.get(mDashboardViewModel.packagingPosition.value!!).kgsWeightItem,
             kgsBtnSelected,
-            mDashboardViewModel.rateCardPosition.value!!
+            mDashboardViewModel.rateCardPosition.value!!,
+            mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value),
+            mDashboardViewModel.selectedCurrencySymbol.value
         )
         mBinding.rateRecycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -251,18 +275,11 @@ class CategoryDetaillsFragment : Fragment() {
     }
 
     fun setPackingPosition(checkPosition: Int) {
-        if (kgsBtnSelected) {
-            ratesAdapter!!.setData(
-                varietyItem!!.packing.get(checkPosition).kgsWeightItem,
-                kgsBtnSelected,
-                0
-            )
-        } else {
-            ratesAdapter!!.setData(
-                varietyItem!!.packing.get(checkPosition).lbsWeightItem,
-                kgsBtnSelected,
-                0
-            )
-        }
+        mDashboardViewModel.packagingPosition.value = checkPosition
+    }
+
+    fun setRateCardData(checkPosition: Int, item: KgsWeightItem) {
+        mDashboardViewModel.rateCardPosition.value = checkPosition
+        mDashboardViewModel.rateCardValue.value = item
     }
 }

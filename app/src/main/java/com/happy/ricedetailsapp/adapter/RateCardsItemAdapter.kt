@@ -19,10 +19,12 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val content: 
     lateinit var binding: RateRecyclerItemBinding
     var kgsBtnSelected: Boolean = true
     var checkPosition: Int = 0
+    var currencyFactor: Double? = 1.0
+    var symbolValue: String = "$"
     var sSelectedItems = SparseBooleanArray()
     var ratesList: ArrayList<KgsWeightItem> = ArrayList<KgsWeightItem>()
-    val viewModel =
-        ViewModelProviders.of(mContext.requireActivity()).get(DashboardViewModel::class.java)
+//    val viewModel =
+//        ViewModelProviders.of(mContext.requireActivity()).get(DashboardViewModel::class.java)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflter = LayoutInflater.from(parent.context)
@@ -37,14 +39,15 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val content: 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val rateItem = ratesList.get(position)
         if (sSelectedItems.get(position) || checkPosition == position) {
+            mContext.setRateCardData(checkPosition,ratesList.get(checkPosition))
             (holder as RateCardsItemAdapterViewHolder).mBinding.rateCard.setCardBackgroundColor(
                 mContext!!.resources.getColor(R.color.red)
             )
-            viewModel.rateCardPosition.value  = position
+//            viewModel.rateCardPosition.value  = position
             holder.mBinding.rate.setTextColor(mContext!!.resources.getColor(R.color.white))
             holder.mBinding.weight.setTextColor(mContext!!.resources.getColor(R.color.white))
             holder.mBinding.divider.visibility = View.VISIBLE
-            viewModel.rateCardValue.value = rateItem
+//            viewModel.rateCardValue.value = rateItem
         } else {
             (holder as RateCardsItemAdapterViewHolder).mBinding.rateCard.setCardBackgroundColor(
                 mContext!!.resources.getColor(R.color.white)
@@ -60,19 +63,26 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val content: 
             (holder as RateCardsItemAdapterViewHolder).mBinding.weight.text =
                 rateItem.weight + content!!.resources.getString(R.string.lbs_txt)
 
-        val currencyFactor =
-            viewModel.currencyRates.value!!.get(viewModel.selectedCurrencyKey.value)
+
         val number = (rateItem.price.toDouble()) * currencyFactor!!
         val number3digits: Double = Math.round(number * 1000.0) / 1000.0
         val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
         (holder as RateCardsItemAdapterViewHolder).mBinding.rate.text =
-            viewModel.selectedCurrencySymbol.value + number2digits.toString()
+            symbolValue + number2digits.toString()
     }
 
-    fun setData(ratesList: ArrayList<KgsWeightItem>, kgsBtnSelected: Boolean, checkPosition: Int) {
+    fun setData(
+        ratesList: ArrayList<KgsWeightItem>,
+        kgsBtnSelected: Boolean,
+        checkPosition: Int,
+        currencyFactor: Double?,
+        symbolValue: String?
+    ) {
         this.ratesList = ratesList
         this.kgsBtnSelected = kgsBtnSelected
         this.checkPosition = checkPosition
+        this.symbolValue = symbolValue!!
+        this.currencyFactor = currencyFactor
         this.sSelectedItems.clear()
         notifyDataSetChanged()
     }
@@ -102,8 +112,6 @@ class RateCardsItemAdapter(val mContext: CategoryDetaillsFragment, val content: 
                 mBinding.divider.visibility = View.VISIBLE
             }
             checkPosition = getAdapterPosition()
-            viewModel.rateCardPosition.value = checkPosition
-            viewModel.rateCardValue.value = ratesList.get(checkPosition)
             notifyDataSetChanged()
         }
     }

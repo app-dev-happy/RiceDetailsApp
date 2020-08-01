@@ -22,7 +22,6 @@ class PackagingItemAdapter(
 ) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
     lateinit var binding: PackagingRecyclerItemBinding
     var sSelectedItems = SparseBooleanArray()
-    val viewModel = ViewModelProviders.of(mContext).get(DashboardViewModel::class.java)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflter = LayoutInflater.from(parent.context)
         binding = PackagingRecyclerItemBinding.inflate(inflter, parent, false)
@@ -70,7 +69,7 @@ class PackagingItemAdapter(
                 mBinding.typeName.setTextColor(context!!.resources.getColor(R.color.white))
             }
             checkPosition = getAdapterPosition()
-            viewModel.packagingPosition.value = checkPosition
+//            viewModel.packagingPosition.value = checkPosition
             mContext.setPackingPosition(checkPosition)
             notifyDataSetChanged()
         }

@@ -47,6 +47,8 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         view = layoutFragmentDashboardBinding.root
         mDashboardViewModel =
             ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
+        mDashboardViewModel.packagingPosition.value = 0
+        mDashboardViewModel.rateCardPosition.value=0
         getFileData()
         getCurrencyData()
         init()
@@ -121,6 +123,4 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     private fun initViews() {
 
     }
-
-
 }
