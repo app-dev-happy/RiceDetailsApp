@@ -49,7 +49,7 @@ class RiceCatagoryItemAdapter(
             Picasso.get().load(item.iconURL).into(holder.mBinding.ricecategoryimg)
         } else {
             Picasso.get()
-                .load("https://images.ctfassets.net/3s5io6mnxfqz/6R1SuUg4ng0zFEAcUjaoO1/e5b55d7b48b4c4e3227ac1532e62b9eb/AdobeStock_112422230.jpeg")
+                .load(R.drawable.rice_grain_fade_logo)
                 .into(holder.mBinding.ricecategoryimg);
         }
         (holder as RiceCatagoryItemAdapterViewHolder).mBinding.riceItemSubtext.text = item.title
