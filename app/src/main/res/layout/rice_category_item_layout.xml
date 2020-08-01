@@ -31,6 +31,7 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginLeft="0dp"
                 android:scaleType="centerCrop"
+                android:background="@drawable/rice_grain_fade_logo"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 />

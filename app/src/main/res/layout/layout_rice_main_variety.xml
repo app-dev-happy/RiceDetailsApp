@@ -58,6 +58,7 @@
                 android:id="@+id/variety_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/rice_grain_fade_logo"
                 android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
 
