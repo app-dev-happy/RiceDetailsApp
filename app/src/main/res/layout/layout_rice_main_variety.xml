@@ -101,7 +101,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="16dp"
             android:maxLines="2"
-            android:text="used for export/impoort"
+            android:text="Export Quality"
             android:textColor="@color/grey_dark"
             android:textSize="14sp"
             android:fontFamily="@font/regular_work_sans"
