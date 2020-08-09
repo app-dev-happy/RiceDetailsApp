@@ -29,7 +29,7 @@ class SplashScreenActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_splash_screen)
         mDashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-        mDashboardViewModel.readDashboardFile(this)
+        mDashboardViewModel.readDashboardFile(this.applicationContext)
         val window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)

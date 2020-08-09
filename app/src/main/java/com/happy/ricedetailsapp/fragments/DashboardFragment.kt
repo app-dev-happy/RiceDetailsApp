@@ -56,7 +56,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     fun getCurrencyData() {
-        mDashboardViewModel.getDbCurrencyFile(context!!)
+        mDashboardViewModel.getDbCurrencyFile(activity!!.applicationContext)
             .observe(requireActivity() as LifecycleOwner,
                 Observer {
                     if (it != null) {
@@ -78,7 +78,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     fun getFileData() {
-        mDashboardViewModel.getDbDashboardFile(context!!)
+        mDashboardViewModel.getDbDashboardFile(activity!!.applicationContext)
             .observe(requireActivity() as LifecycleOwner,
                 Observer {
                     if (it != null) {

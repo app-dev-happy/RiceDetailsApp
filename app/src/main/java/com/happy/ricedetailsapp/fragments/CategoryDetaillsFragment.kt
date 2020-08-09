@@ -65,14 +65,13 @@ class CategoryDetaillsFragment : Fragment() {
                     0
                 )
         }
-        mBinding.categoryName.text = varietyItem!!.title
         mDashboardViewModel.seaPortPosition.observe(requireActivity() as LifecycleOwner, Observer {
             if (it != null) {
                 val currencyFactor =
                     mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
                 mBinding.seaportOption.text = dashBoardMainPojo?.SeaPortContent!!.get(it).title
                 val rateCardValue =
-                    mDashboardViewModel.rateCardValue.value!!.price.toInt()
+                    (100 / (mDashboardViewModel.rateCardValue.value!!.weight.toInt())) * (mDashboardViewModel.rateCardValue.value!!.price.toInt())
                 val number =
                     (((dashBoardMainPojo?.SeaPortContent!!.get(it).stdPrice.toInt()/10*dollorToRsFactor).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue) * 10) * currencyFactor!!
                 val number3digits: Double = Math.round(number * 1000.0) / 1000.0
@@ -85,7 +84,7 @@ class CategoryDetaillsFragment : Fragment() {
             val currencyFactor =
                 mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
             val rateCardValue =
-               mDashboardViewModel.rateCardValue.value!!.price.toInt()
+                (100 / (mDashboardViewModel.rateCardValue.value!!.weight.toInt())) * (mDashboardViewModel.rateCardValue.value!!.price.toInt())
             val number =
                 (((((dashBoardMainPojo?.SeaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()/10*dollorToRsFactor).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue) * 10) * currencyFactor!!))
             val number3digits: Double = Math.round(number * 1000.0) / 1000.0
@@ -113,7 +112,7 @@ class CategoryDetaillsFragment : Fragment() {
             if (it != null) {
                 val currencyFactor =
                     mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
-                val rateCardValue = it.price.toInt()
+                val rateCardValue = (100/ (it.weight.toInt()))* (it.price.toInt())
                 val number =
                     (((dashBoardMainPojo?.SeaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()/10*dollorToRsFactor).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue.toInt()) * 10) * currencyFactor!!
                 val number3digits: Double = Math.round(number * 1000.0) / 1000.0
@@ -179,15 +178,15 @@ class CategoryDetaillsFragment : Fragment() {
     }
 
     fun initInformationFragment(){
-            val fragmentManager = (context as DashboardActivity).supportFragmentManager
-            val informationFragment = InformationFragment()
+        val fragmentManager = (context as DashboardActivity).supportFragmentManager
+        val informationFragment = InformationFragment()
         if(dashBoardMainPojo!=null&&dashBoardMainPojo?.DetailsContent!=null&&dashBoardMainPojo?.DetailsContent!!.size>0){
-                informationFragment.setData(dashBoardMainPojo?.DetailsContent!!)
+            informationFragment.setData(dashBoardMainPojo?.DetailsContent!!)
         }
-            var openFragment = fragmentManager.beginTransaction()
-            openFragment.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_close_exit)
-            openFragment.replace(R.id.fragmentContainer, informationFragment).addToBackStack(null)
-                .commit()
+        var openFragment = fragmentManager.beginTransaction()
+        openFragment.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_close_exit)
+        openFragment.replace(R.id.fragmentContainer, informationFragment).addToBackStack(null)
+            .commit()
     }
 
     private fun initCurrencyDialogFragment() {
