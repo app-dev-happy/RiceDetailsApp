@@ -65,6 +65,7 @@ class CategoryDetaillsFragment : Fragment() {
                     0
                 )
         }
+        mBinding.categoryName.text = varietyItem!!.title
         mDashboardViewModel.seaPortPosition.observe(requireActivity() as LifecycleOwner, Observer {
             if (it != null) {
                 val currencyFactor =
