@@ -43,6 +43,7 @@
               app:layout_constraintRight_toRightOf="parent"
               android:layout_marginTop="16dp"
               android:text="100$"
+              android:visibility="gone"
               android:textSize="20sp"
               android:fontFamily="@font/work_sans_bold"
               android:textColor="@color/red" />
@@ -52,6 +53,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="0.6dp"
                   android:layout_marginTop="16dp"
+                  android:visibility="gone"
                   android:background="@color/grey"
                   app:layout_constraintTop_toBottomOf="@id/rate"
                   app:layout_constraintLeft_toLeftOf="parent"

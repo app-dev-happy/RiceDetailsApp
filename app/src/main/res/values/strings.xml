@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Rice Details App</string>
     <string name="app_name_new">Rice Trading</string>
-    <string name="text_desc">A Product Catalog \n with all the information \n along with it’s prices.</string>
+    <string name="text_desc">A product catalog of Rice varieties available for trading across the Globe. </string>
     <string name="products_text">Products</string>
     <string name="seaport_txt">Seaport :</string>
     <string name="metric_tonn">Metric Tonn.</string>
