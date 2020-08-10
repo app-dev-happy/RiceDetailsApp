@@ -1,6 +1,7 @@
 package com.happy.ricedetailsapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ import com.happy.ricedetailsapp.pojo.SeaPortContent
 import com.happy.ricedetailsapp.utility.AppConstant
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 import org.json.JSONObject
+import java.lang.Exception
 
 class DashboardFragment : Fragment(), View.OnClickListener {
 
@@ -56,19 +58,23 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     fun getCurrencyData() {
-        mDashboardViewModel.getDbCurrencyFile(activity!!.applicationContext)
-            .observe(requireActivity() as LifecycleOwner,
-                Observer {
-                    if (it != null) {
-                        val response = JSONObject(it)
-                        val ratesArray = response.getJSONObject("rates")
-                        val typeOfHashMap =
-                            object : TypeToken<Map<String?, Double>?>() {}.type
-                        val map: Map<String?, Double> =
-                            Gson().fromJson(ratesArray.toString(), typeOfHashMap)
-                        mDashboardViewModel.currencyRates.value = map
-                    }
-                })
+        try {
+            mDashboardViewModel.getDbCurrencyFile(requireContext())
+                .observe(requireActivity() as LifecycleOwner,
+                    Observer {
+                        if (it != null) {
+                            val response = JSONObject(it)
+                            val ratesArray = response.getJSONObject("rates")
+                            val typeOfHashMap =
+                                object : TypeToken<Map<String?, Double>?>() {}.type
+                            val map: Map<String?, Double> =
+                                Gson().fromJson(ratesArray.toString(), typeOfHashMap)
+                            mDashboardViewModel.currencyRates.value = map
+                        }
+                    })
+        }catch (e:Exception){
+                e.printStackTrace()
+            }
     }
 
     private fun init() {
@@ -78,19 +84,26 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     fun getFileData() {
-        mDashboardViewModel.getDbDashboardFile(activity!!.applicationContext)
-            .observe(requireActivity() as LifecycleOwner,
-                Observer {
-                    if (it != null) {
-                        val dashboardMainContent = it.DashboardMainContent
-                        setAdapter(dashboardMainContent, it)
-                        if (it.ClearancePortContent != null && it.ClearancePortContent.isNotEmpty()) {
-                            val clearancePortContent = it.ClearancePortContent
-                            if (clearancePortContent.size > 0)
-                                initClearance(clearancePortContent)
+        try {
+            mDashboardViewModel.getDbDashboardFile(requireContext())
+                .observe(requireActivity() as LifecycleOwner,
+                    Observer {
+                        if (it != null) {
+                            val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
+                            val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
+                            if(dashboardMainContent!=null&&dashboardMainContent.size>0) {
+                                setAdapter(dashboardMainContent, dashBoardMainPojo)
+                                if (dashBoardMainPojo.clearancePortContent != null && dashBoardMainPojo.clearancePortContent.isNotEmpty()) {
+                                    val clearancePortContent = dashBoardMainPojo.clearancePortContent
+                                    if (clearancePortContent.size > 0)
+                                        initClearance(clearancePortContent)
+                                }
+                            }
                         }
-                    }
-                })
+                    })
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     private fun setAdapter(

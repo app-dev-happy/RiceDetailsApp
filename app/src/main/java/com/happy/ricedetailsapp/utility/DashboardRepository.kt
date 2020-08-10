@@ -1,7 +1,9 @@
 package com.happy.ricedetailsapp.utility
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.happy.ricedetailsapp.db.AppDatabase
 import com.happy.ricedetailsapp.db.CurrencyEntity
 import com.happy.ricedetailsapp.db.DashboardEntity
@@ -32,11 +34,12 @@ object DashboardRepository {
         return result!!
     }
 
-    fun setFilesInDb(context: Context,dashBoardMainPojo: DashBoardMainPojo){
+    fun setFilesInDb(context: Context,dashBoardMainPojo: String?){
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                AppDatabase.getInstance(context).dashboardDao().insertDashboardData(DashboardEntity(AppConstant.DashboardFileName,dashBoardMainPojo))
+                AppDatabase.getInstance(context).dashboardDao().insertDashboardData(DashboardEntity(AppConstant.DashboardFileName,dashBoardMainPojo!!))
             } catch (e: Exception) {
+                Log.d("setdbData", e.toString())
                e.printStackTrace()
             }
         }
@@ -51,11 +54,31 @@ object DashboardRepository {
         }
     }
     fun getCurrencyDbData(context: Context): LiveData<String> {
-        return AppDatabase.getInstance(context).currencyDao().getCurrencyData(AppConstant.CurrencyAPIname)
+        val mDb = AppDatabase.getInstance(context)
+        val list = MutableLiveData<String>()
+        try {
+
+            if (mDb.isOpen) {
+                return mDb.currencyDao().getCurrencyData(AppConstant.CurrencyAPIname)
+            }
+        } catch (e: Exception) {
+           e.printStackTrace()
+        }
+        return list
     }
 
-    fun getDbFile(context: Context): LiveData<DashBoardMainPojo> {
-        return AppDatabase.getInstance(context).dashboardDao().getDashboardData(AppConstant.DashboardFileName)
+    fun getDbFile(context: Context): LiveData<String> {
+        val mDb = AppDatabase.getInstance(context)
+        val list = MutableLiveData<String>()
+        try {
+
+            if (mDb.isOpen) {
+                return mDb.dashboardDao().getDashboardData(AppConstant.DashboardFileName)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return list
     }
 
 }

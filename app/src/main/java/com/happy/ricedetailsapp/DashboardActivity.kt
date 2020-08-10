@@ -24,13 +24,9 @@ class DashboardActivity : AppCompatActivity() {
     lateinit var layoutActivityDashboardBinding: LayoutActivityDashboardBinding
     var fragmentManager: FragmentManager? = null
     var doubleBackToExitOnce:Boolean = false
-    lateinit var mDashboardViewModel: DashboardViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutActivityDashboardBinding = DataBindingUtil.setContentView(this, R.layout.layout_activity_dashboard)
-        mDashboardViewModel =
-            ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-        mDashboardViewModel.readCurrencyApiData(this)
         initFragment()
     }
 

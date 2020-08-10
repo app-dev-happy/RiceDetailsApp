@@ -3,16 +3,16 @@ package com.happy.ricedetailsapp.viewModel
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.happy.ricedetailsapp.FileDataCoroutines.FileDataCoroutines
+import com.happy.ricedetailsapp.network.NetworkClient
 import com.happy.ricedetailsapp.pojo.CurrencyRatesMainPojo
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.KgsWeightItem
@@ -43,19 +43,19 @@ class DashboardViewModel : ViewModel() {
     }
 
     fun readDashboardFile(context: Context) {
-        /*NetworkClient.getDashboardData().observe(context as LifecycleOwner, Observer {
-            var dashBoardMainPojo:DashBoardMainPojo?=null
-            try {
-                dashBoardMainPojo = Gson().fromJson(
-                    it,
-                    DashBoardMainPojo::class.java
-                )
-                DashboardRepository.setFilesInDb(context, dashBoardMainPojo)
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            }
-
-        })*/
+//        NetworkClient.getDashboardData().observe(context as LifecycleOwner, Observer {
+//            try {
+//                val dashBoardMainPojo = Gson().fromJson(
+//                    it,
+//                    DashBoardMainPojo::class.java
+//                )
+//
+//                DashboardRepository.setFilesInDb(context, dashBoardMainPojo)
+//            } catch (ex: Exception) {
+//                ex.printStackTrace()
+//            }
+//
+//        })
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 val job = async { FileDataCoroutines().getDataFromServer(AppConstant.URL, context) }
@@ -63,13 +63,8 @@ class DashboardViewModel : ViewModel() {
                 withContext(Dispatchers.Main) {
                     if (mCoroutineResponse.status == 0) {
                         if (mCoroutineResponse.dataString != null && mCoroutineResponse.dataString!!.length > 0) {
-                            var dashBoardMainPojo: DashBoardMainPojo? = null
                             try {
-                                dashBoardMainPojo = Gson().fromJson(
-                                    mCoroutineResponse.dataString,
-                                    DashBoardMainPojo::class.java
-                                )
-                                DashboardRepository.setFilesInDb(context, dashBoardMainPojo)
+                                DashboardRepository.setFilesInDb(context, mCoroutineResponse.dataString)
                             } catch (ex: Exception) {
                                 ex.printStackTrace()
                             }
@@ -81,24 +76,9 @@ class DashboardViewModel : ViewModel() {
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
-
-//        try{
-//            val storage = FirebaseStorage.getInstance()
-//            val httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/ricedetailsapp.appspot.com/o/AndroidDashboardFile.txt")
-//                httpsReference.downloadUrl.addOnSuccessListener(object : OnSuccessListener<Uri>{
-//                override fun onSuccess(p0: Uri?) {
-////                    AppConstant.URL = p0.toString()
-//                    readData(context)
-//                }
-//            }).addOnFailureListener {
-//                    Log.d("error", it.stackTrace.toString())
-//                }
-//    } catch (ex: Exception) {
-//            ex.printStackTrace()
-//    }
     }
 
-    fun getDbDashboardFile(context: Context): LiveData<DashBoardMainPojo> {
+    fun getDbDashboardFile(context: Context): LiveData<String> {
         return DashboardRepository.getDbFile(context)
     }
 

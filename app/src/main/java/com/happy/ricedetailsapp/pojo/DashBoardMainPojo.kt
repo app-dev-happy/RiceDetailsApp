@@ -3,9 +3,9 @@ package com.happy.ricedetailsapp.pojo
 import java.io.Serializable
 
 data class DashBoardMainPojo(
-    val CurrencyContent: ArrayList<CurrencyContent>,
-    val DashboardMainContent: ArrayList<DashboardMainContent>,
-    val SeaPortContent: ArrayList<SeaPortContent>,
-    val ClearancePortContent: ArrayList<SeaPortContent>,
-    val DetailsContent: ArrayList<DetailsContent>
+    val currencyContent: ArrayList<CurrencyContent>,
+    val dashboardMainContent: ArrayList<DashboardMainContent>,
+    val seaPortContent: ArrayList<SeaPortContent>,
+    val clearancePortContent: ArrayList<SeaPortContent>,
+    val detailsContent: ArrayList<DetailsContent>
 ):Serializable

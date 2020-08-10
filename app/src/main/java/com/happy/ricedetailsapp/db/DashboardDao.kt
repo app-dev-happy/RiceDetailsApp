@@ -7,8 +7,10 @@ import com.happy.ricedetailsapp.utility.AppConstant
 
 @Dao
 interface DashboardDao {
+
+
     @Query("select dashboardData from DashboardEntity where id = :id")
-    fun getDashboardData(id: String = AppConstant.DashboardFileName): LiveData<DashBoardMainPojo>
+    fun getDashboardData(id: String): LiveData<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDashboardData(dashBoardMainPojo:DashboardEntity)

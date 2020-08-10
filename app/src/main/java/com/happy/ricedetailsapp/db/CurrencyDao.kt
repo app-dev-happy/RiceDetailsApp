@@ -7,7 +7,7 @@ import com.happy.ricedetailsapp.utility.AppConstant
 @Dao
 interface CurrencyDao {
     @Query("select currencyData from CurrencyEntity where id = :id")
-    fun getCurrencyData(id: String = AppConstant.CurrencyAPIname): LiveData<String>
+    fun getCurrencyData(id:String): LiveData<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCurrencyData(currencyMap:CurrencyEntity)
