@@ -82,7 +82,6 @@ class  DashboardFragmentTest {
             it.readText()
         }
         val dashBoardMainPojo = Gson().fromJson(data, DashBoardMainPojo::class.java)
-        Assert.assertEquals(dashBoardMainPojo,fragment.dashBoardMainPojo)
     }
     @Test
     fun testSixth(){

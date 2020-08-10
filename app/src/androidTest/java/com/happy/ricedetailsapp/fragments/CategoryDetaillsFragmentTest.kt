@@ -51,7 +51,6 @@ class CategoryDetaillsFragmentTest {
             rule.activity.getSupportFragmentManager().executePendingTransactions()
         })
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-        dashBoardMainPojo = fragment.dashBoardMainPojo
         secondFragment()
     }
 
@@ -61,8 +60,9 @@ class CategoryDetaillsFragmentTest {
     }
 
     private fun secondFragment() {
+
         categoryDetaillsFragment = CategoryDetaillsFragment()
-        categoryDetaillsFragment.setData(dashBoardMainPojo!!.DashboardMainContent.get(0).varietyItems.get(0),dashBoardMainPojo!!)
+        categoryDetaillsFragment.setData(dashBoardMainPojo!!.dashboardMainContent.get(0).varietyItems.get(0),dashBoardMainPojo!!)
         rule.activity.fragmentManager?.beginTransaction()?.replace(R.id.fragmentContainer,categoryDetaillsFragment )?.addToBackStack(null)?.commit()
         rule.activity.runOnUiThread(Runnable {
             rule.activity.getSupportFragmentManager().executePendingTransactions()
