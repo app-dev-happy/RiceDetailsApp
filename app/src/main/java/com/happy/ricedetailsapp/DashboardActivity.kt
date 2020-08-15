@@ -15,6 +15,7 @@ import com.happy.ricedetailsapp.databinding.LayoutActivityDashboardBinding
 import com.happy.ricedetailsapp.fragments.DashboardFragment
 import com.happy.ricedetailsapp.pojo.CurrencyRatesMainPojo
 import com.happy.ricedetailsapp.utility.AppConstant
+import com.happy.ricedetailsapp.utility.DashboardRepository
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 import org.json.JSONObject
 
@@ -27,6 +28,10 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutActivityDashboardBinding = DataBindingUtil.setContentView(this, R.layout.layout_activity_dashboard)
+        val mDashboardViewModel =
+            ViewModelProviders.of(this).get(DashboardViewModel::class.java)
+        if(DashboardRepository.isNetworkAvailable(this!!.applicationContext))
+            mDashboardViewModel.readCurrencyApiData(this)
         initFragment()
     }
 

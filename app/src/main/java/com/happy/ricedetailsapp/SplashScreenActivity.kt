@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.happy.ricedetailsapp.utility.DashboardRepository
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 
 class SplashScreenActivity : AppCompatActivity(){
@@ -29,8 +30,8 @@ class SplashScreenActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_splash_screen)
         mDashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
+        if(DashboardRepository.isNetworkAvailable(this.applicationContext))
         mDashboardViewModel.readDashboardFile(this)
-        mDashboardViewModel.readCurrencyApiData(this)
         val window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)

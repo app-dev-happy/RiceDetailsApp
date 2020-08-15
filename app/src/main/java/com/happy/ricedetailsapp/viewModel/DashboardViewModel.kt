@@ -62,7 +62,7 @@ class DashboardViewModel : ViewModel() {
                 val mCoroutineResponse = job.await()
                 withContext(Dispatchers.Main) {
                     if (mCoroutineResponse.status == 0) {
-                        if (mCoroutineResponse.dataString != null && mCoroutineResponse.dataString!!.length > 0) {
+                        if (mCoroutineResponse.dataString != null && !mCoroutineResponse.dataString.isNullOrEmpty()&&mCoroutineResponse.dataString!!.length > 0) {
                             try {
                                 DashboardRepository.setFilesInDb(context, mCoroutineResponse.dataString)
                             } catch (ex: Exception) {
@@ -102,7 +102,7 @@ class DashboardViewModel : ViewModel() {
                     if (mCoroutineResponse.status == 0) {
                         if (mCoroutineResponse.dataString != null && mCoroutineResponse.dataString!!.length > 0)
                             mCurrencyApiLiveData.value = mCoroutineResponse.dataString
-                        if (mCoroutineResponse.dataString != null && mCoroutineResponse.dataString!!.isNotEmpty()) {
+                        if (mCoroutineResponse.dataString != null && mCoroutineResponse.dataString!!.length>0) {
                             try {
                                 DashboardRepository.setCurrencyDataInDb(
                                     context,

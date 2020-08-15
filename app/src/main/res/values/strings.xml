@@ -6,6 +6,7 @@
     <string name="seaport_txt">Seaport :</string>
     <string name="metric_tonn">Metric Tonn.</string>
     <string name="packaging_txt">Packaging</string>
+    <string name="weights_unit">Weight Units</string>
     <string name="weights_txt">Weights</string>
     <string name="kgs_txt">KGS</string>
     <string name="lbs_txt">LBS</string>

@@ -48,6 +48,7 @@ class CategoryDetaillsFragment : Fragment() {
     }
 
     fun init() {
+        if( mDashboardViewModel.currencyRates.value!=null)
         dollorToRsFactor = 24*(mDashboardViewModel.currencyRates.value!!.get("USD")!!)
         if(dashBoardMainPojo!=null&&dashBoardMainPojo?.detailsContent!=null&&dashBoardMainPojo?.detailsContent!!.size>0){
             mBinding.infoIcon.visibility = View.VISIBLE
