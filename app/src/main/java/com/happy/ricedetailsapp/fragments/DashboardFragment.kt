@@ -12,6 +12,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.happy.ricedetailsapp.DashboardActivity
@@ -34,6 +38,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     internal lateinit var view: View
     lateinit var mDashboardViewModel: DashboardViewModel
     lateinit var adapter: DashboardMainRecyclerAdapter
+    val mRef = FirebaseDatabase.getInstance().reference
     override fun onClick(view: View?) {
 
     }
@@ -52,7 +57,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
         mDashboardViewModel.packagingPosition.value = 0
         mDashboardViewModel.rateCardPosition.value=0
-        getFileData()
+//        getFileData()
         getCurrencyData()
         init()
         return view
@@ -136,5 +141,30 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     private fun initViews() {
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mRef.addValueEventListener(object :ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val jsonString: String = Gson().toJson(snapshot.getValue())
+                if (jsonString.length>0) {
+                    val dashBoardMainPojo = Gson().fromJson(jsonString,DashBoardMainPojo::class.java)
+                    val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
+                    if(dashboardMainContent!=null&&dashboardMainContent.size>0) {
+                        setAdapter(dashboardMainContent, dashBoardMainPojo)
+                        if (dashBoardMainPojo.clearancePortContent != null && dashBoardMainPojo.clearancePortContent.isNotEmpty()) {
+                            val clearancePortContent = dashBoardMainPojo.clearancePortContent
+                            if (clearancePortContent.size > 0)
+                                initClearance(clearancePortContent)
+                        }
+                    }
+                }
+            }
+        })
     }
 }
