@@ -12,6 +12,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.happy.ricedetailsapp.DashboardActivity
@@ -86,22 +90,36 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     fun getFileData() {
         try {
-            mDashboardViewModel.getDbDashboardFile(requireContext())
-                .observe(requireActivity() as LifecycleOwner,
-                    Observer {
-                        if (it != null) {
-                            val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
-                            val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
-                            if(dashboardMainContent!=null&&dashboardMainContent.size>0) {
-                                setAdapter(dashboardMainContent, dashBoardMainPojo)
-                                if (dashBoardMainPojo.clearancePortContent != null && dashBoardMainPojo.clearancePortContent.isNotEmpty()) {
-                                    val clearancePortContent = dashBoardMainPojo.clearancePortContent
-                                    if (clearancePortContent.size > 0)
-                                        initClearance(clearancePortContent)
-                                }
-                            }
+//            mDashboardViewModel.getDbDashboardFile(requireContext())
+//                .observe(requireActivity() as LifecycleOwner,
+//                    Observer {
+//                        if (it != null) {
+//                            val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
+//                            val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
+//                            if(dashboardMainContent!=null&&dashboardMainContent.size>0) {
+//                                setAdapter(dashboardMainContent, dashBoardMainPojo)
+//                                if (dashBoardMainPojo.clearancePortContent != null && dashBoardMainPojo.clearancePortContent.isNotEmpty()) {
+//                                    val clearancePortContent = dashBoardMainPojo.clearancePortContent
+//                                    if (clearancePortContent.size > 0)
+//                                        initClearance(clearancePortContent)
+//                                }
+//                            }
+//                        }
+//                    })
+            mDashboardViewModel.dataString.observe(requireActivity() as LifecycleOwner, Observer {
+                if (it != null) {
+                    val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
+                    val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
+                    if(dashboardMainContent!=null&&dashboardMainContent.size>0) {
+                        setAdapter(dashboardMainContent, dashBoardMainPojo)
+                        if (dashBoardMainPojo.clearancePortContent != null && dashBoardMainPojo.clearancePortContent.isNotEmpty()) {
+                            val clearancePortContent = dashBoardMainPojo.clearancePortContent
+                            if (clearancePortContent.size > 0)
+                                initClearance(clearancePortContent)
                         }
-                    })
+                    }
+                }
+            })
         }catch (e:Exception){
             e.printStackTrace()
         }
@@ -136,5 +154,22 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     private fun initViews() {
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val mRef = FirebaseDatabase.getInstance().reference
+        mRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val jsonString: String = Gson().toJson(snapshot.getValue())
+                if (jsonString.length>0) {
+                    mDashboardViewModel.dataString.value = jsonString
+                }
+            }
+        })
     }
 }

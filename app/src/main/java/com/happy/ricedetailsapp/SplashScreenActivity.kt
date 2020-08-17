@@ -15,6 +15,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
+import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.utility.DashboardRepository
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 
@@ -32,6 +38,29 @@ class SplashScreenActivity : AppCompatActivity(){
         mDashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
         if(DashboardRepository.isNetworkAvailable(this.applicationContext))
         mDashboardViewModel.readDashboardFile(this)
+        val mRef = FirebaseDatabase.getInstance().reference
+        mRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val jsonString: String = Gson().toJson(snapshot.getValue())
+                if (jsonString.length>0) {
+                    mDashboardViewModel.dataString.value = jsonString
+//                    val dashBoardMainPojo = Gson().fromJson(jsonString, DashBoardMainPojo::class.java)
+//                    val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
+//                    if(dashboardMainContent!=null&&dashboardMainContent.size>0) {
+//                        setAdapter(dashboardMainContent, dashBoardMainPojo)
+//                        if (dashBoardMainPojo.clearancePortContent != null && dashBoardMainPojo.clearancePortContent.isNotEmpty()) {
+//                            val clearancePortContent = dashBoardMainPojo.clearancePortContent
+//                            if (clearancePortContent.size > 0)
+//                                initClearance(clearancePortContent)
+//                        }
+//                    }
+                }
+            }
+        })
         val window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)

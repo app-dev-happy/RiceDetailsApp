@@ -27,6 +27,7 @@ class DashboardViewModel : ViewModel() {
     var seaPortPosition: MutableLiveData<Int> = MutableLiveData<Int>()
     var packagingPosition: MutableLiveData<Int> = MutableLiveData<Int>()
     var selectedCurrencyKey: MutableLiveData<String> = MutableLiveData<String>()
+    var dataString: MutableLiveData<String> = MutableLiveData<String>()
     var selectedCurrencySymbol: MutableLiveData<String> = MutableLiveData<String>()
     var currencyRates: MutableLiveData<Map<String?, Double>> =
         MutableLiveData<Map<String?, Double>>()
