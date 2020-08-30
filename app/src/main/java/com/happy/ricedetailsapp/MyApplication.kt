@@ -11,8 +11,14 @@ class MyApplication : Application() {
         instance = this
     }
 
+    @Synchronized
+    fun getInstance(): MyApplication? {
+        if (instance == null) {
+            instance = MyApplication()
+        }
+        return instance!!
+    }
     companion object {
         var instance: MyApplication? = null
-            private set
     }
 }
