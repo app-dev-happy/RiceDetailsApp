@@ -26,4 +26,6 @@
     <string name="pdf_show_local_progress_title">Please wait</string>
     <string name="pdf_show_local_progress_content">Downloading PDF&#8230;</string>
     <string name="error_could_not_download_pdf">Could not download</string>
+    <string name="txt_no_pdf_available">No PDF Available</string>
+
 </resources>

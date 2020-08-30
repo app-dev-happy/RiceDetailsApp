@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.core.content.FileProvider;
 
 import com.happy.ricedetailsapp.BuildConfig;
+import com.happy.ricedetailsapp.R;
 
 import java.net.URL;
 import java.io.File;
@@ -42,10 +43,9 @@ public class PdfDownloader {
                     &&!DashboardRepository.getString(context,"pdf_key","").equals(fileName))
             )
             {
-                    dest.delete();
+                dest.delete();
                   DashboardRepository.addString(context,"pdf_key",fileName);
             }
-
             try {
                 dest.createNewFile();
             } catch (IOException e) {
@@ -104,7 +104,7 @@ public class PdfDownloader {
         }
         catch (ActivityNotFoundException e) {
             e.printStackTrace();
-//            Toast.makeText (context, context.getString (R.string.txt_no_pdf_available), Toast.LENGTH_SHORT).show ();
+            Toast.makeText (context, context.getString (R.string.txt_no_pdf_available), Toast.LENGTH_SHORT).show ();
         }
     }
 
