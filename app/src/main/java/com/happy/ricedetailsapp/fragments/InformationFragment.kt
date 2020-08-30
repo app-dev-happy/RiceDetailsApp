@@ -11,14 +11,17 @@ import com.happy.ricedetailsapp.DashboardActivity
 import com.happy.ricedetailsapp.R
 import com.happy.ricedetailsapp.adapter.ClearanceAdapter
 import com.happy.ricedetailsapp.adapter.DashboardMainRecyclerAdapter
+import com.happy.ricedetailsapp.adapter.SpecificationAdapter
 import com.happy.ricedetailsapp.databinding.LayoutClearanceBinding
 import com.happy.ricedetailsapp.databinding.LayoutInformationBinding
 import com.happy.ricedetailsapp.pojo.DetailsContent
 import com.happy.ricedetailsapp.pojo.SeaPortContent
+import com.happy.ricedetailsapp.pojo.Specification
 
 class InformationFragment : Fragment() {
     lateinit var mBinding: LayoutInformationBinding
-    var detailsContent = ArrayList<DetailsContent>()
+    var detailsContent = ArrayList<Specification>()
+    lateinit var adapter: SpecificationAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,9 +33,8 @@ class InformationFragment : Fragment() {
     }
 
     fun init() {
-        if(detailsContent[0].subTitle.isNotEmpty()&&detailsContent.get(0)!=null&&detailsContent.get(0).subTitle!=null)
-        mBinding.descLine.text = detailsContent[0].subTitle
         initListner()
+        setAdapter()
     }
 
     private fun initListner() {
@@ -40,8 +42,14 @@ class InformationFragment : Fragment() {
             (context as DashboardActivity).onBackPressed()
         }
     }
+    private fun setAdapter() {
+        adapter = SpecificationAdapter(context!!, detailsContent)
+        mBinding.clearanceRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        mBinding.clearanceRecycler.adapter = adapter
+    }
 
-    fun setData(detailsContent: ArrayList<DetailsContent>) {
+    fun setData(detailsContent: ArrayList<Specification>) {
         this.detailsContent = detailsContent
     }
 }

@@ -6,6 +6,7 @@ data class VarietyItem(
     val appVersion: String,
     val iconURL: String,
     val packing: ArrayList<Packing>,
+    val specifications: ArrayList<Specification>,
     val stdPrice: Int,
     val subTitle: String,
     val title: String,

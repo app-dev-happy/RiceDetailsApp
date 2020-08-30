@@ -70,9 +70,19 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:text="@string/information_line"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:layout_margin="32dp"
                     android:textColor="@color/grey_dark"
                     android:fontFamily="@font/regular_work_sans" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/clearance_recycler"
+                        tools:listitem="@layout/clearance_item_layout"
+                        app:layout_constraintTop_toBottomOf="@id/desc_line"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

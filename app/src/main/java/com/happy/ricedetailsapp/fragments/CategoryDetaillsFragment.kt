@@ -61,12 +61,7 @@ class CategoryDetaillsFragment : Fragment() {
     fun init() {
         if( mDashboardViewModel.currencyRates.value!=null)
         dollorToRsFactor = 24*(mDashboardViewModel.currencyRates.value!!.get("USD")!!)
-        if(dashBoardMainPojo!=null&&dashBoardMainPojo?.detailsContent!=null&&dashBoardMainPojo?.detailsContent!!.size>0){
-            if(dashBoardMainPojo!!.detailsContent[0].title.isNotEmpty()&&dashBoardMainPojo!!.detailsContent[0]!=null&&dashBoardMainPojo!!.detailsContent[0].title!=null){
-                AppConstant.pdfFile = dashBoardMainPojo!!.detailsContent[0].title
-            }
             mBinding.infoIcon.visibility = View.VISIBLE
-        }
         initListner()
         initViews()
         setPackagingAdapter()
@@ -169,17 +164,7 @@ class CategoryDetaillsFragment : Fragment() {
             initCurrencyDialogFragment()
         }
         mBinding.infoIcon.setOnClickListener {
-         if(isStoragePermissionGranted()){
-             PDFTools.showPDFUrl(requireActivity(),AppConstant.pdfFile)
-         }
-            mDashboardViewModel.isPermissionGranted.observe(requireContext() as LifecycleOwner,
-                Observer {
-                    if(it){
-                        PDFTools.showPDFUrl(requireActivity(),AppConstant.pdfFile)
-                        mDashboardViewModel.isPermissionGranted.removeObservers(requireContext() as LifecycleOwner)
-                    }
-                })
-//            initInformationFragment()
+            initInformationFragment()
         }
         mBinding.seaPortContainer.setOnClickListener {
             initSeaPortDialogFragment()
@@ -245,7 +230,7 @@ class CategoryDetaillsFragment : Fragment() {
         val fragmentManager = (context as DashboardActivity).supportFragmentManager
         val informationFragment = InformationFragment()
         if(dashBoardMainPojo!=null&&dashBoardMainPojo?.detailsContent!=null&&dashBoardMainPojo?.detailsContent!!.size>0){
-            informationFragment.setData(dashBoardMainPojo?.detailsContent!!)
+            informationFragment.setData( varietyItem!!.specifications)
         }
         var openFragment = fragmentManager.beginTransaction()
         openFragment.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_close_exit)
