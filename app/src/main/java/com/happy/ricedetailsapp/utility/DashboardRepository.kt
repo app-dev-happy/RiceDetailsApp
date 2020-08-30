@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 object DashboardRepository {
     private val PREFS_NAME = "auth_info"
-
+   @JvmStatic
     fun addString(con: Context?, key: String, value: String?) {
         try {
             if (con != null) {
@@ -27,6 +27,7 @@ object DashboardRepository {
         }
 
     }
+    @JvmStatic
     fun getString(con: Context?, key: String, defaultValue: String): String {
         var result: String? = defaultValue
         if (con != null) {

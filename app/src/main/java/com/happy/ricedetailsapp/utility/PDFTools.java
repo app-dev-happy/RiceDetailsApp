@@ -31,10 +31,12 @@ public class PDFTools {
     }
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     public static void downloadAndOpenPDF(final Context context, final String pdfUrl) {
+        String fileName = pdfUrl.substring(pdfUrl.lastIndexOf("/")+1,pdfUrl.indexOf("?"));
         File tempFile =new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOCUMENTS
         ), "specs.pdf");
-        if (tempFile.exists () && tempFile.length () > 0) {
+        if (tempFile.exists () && tempFile.length () > 0&&(!DashboardRepository.getString(context,"pdf_key","").isEmpty()
+                &&DashboardRepository.getString(context,"pdf_key","").equals(fileName))) {
             PdfDownloader.openPDFFile (context, tempFile);
         }
         else {

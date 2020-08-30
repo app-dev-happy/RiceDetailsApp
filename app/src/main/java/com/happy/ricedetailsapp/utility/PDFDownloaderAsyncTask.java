@@ -48,7 +48,7 @@ public class PDFDownloaderAsyncTask extends AsyncTask<ArrayList<String>, Void, S
 
         isDownloadingPdf = true;
         File file = new File (params[0].get (0));
-        String fileStatus = PdfDownloader.downloadFile (params[0].get (1));
+        String fileStatus = PdfDownloader.downloadFile (params[0].get (1),context);
         return fileStatus;
     }
 

@@ -25,19 +25,27 @@ import java.net.MalformedURLException;
 public class PdfDownloader {
     private static final int MEGABYTE = 1024 * 1024;
     private static File dest;
-    public static String downloadFile (String fileUrl) {
+    public static String downloadFile (String fileUrl,Context context) {
 
         String downloadStatus;
         try {
-
             URL url = new URL (fileUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection ();
             urlConnection.connect ();
 
             InputStream inputStream = urlConnection.getInputStream ();
             dest =new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS
-            ), "specs.pdf");
+                    Environment.DIRECTORY_DOWNLOADS
+            ), "RiceSpecifications.pdf");
+            String fileName = fileUrl.substring(fileUrl.lastIndexOf("/")+1,fileUrl.indexOf("?"));
+            if(DashboardRepository.getString(context,"pdf_key","").isEmpty()||(!DashboardRepository.getString(context,"pdf_key","").isEmpty()
+                    &&!DashboardRepository.getString(context,"pdf_key","").equals(fileName))
+            )
+            {
+                    dest.delete();
+                  DashboardRepository.addString(context,"pdf_key",fileName);
+            }
+
             try {
                 dest.createNewFile();
             } catch (IOException e) {
@@ -52,6 +60,7 @@ public class PdfDownloader {
             while ((bufferLength = inputStream.read (buffer)) > 0) {
                 fileOutputStream.write (buffer, 0, bufferLength);
             }
+
             downloadStatus = "success";
             fileOutputStream.close ();
         }
