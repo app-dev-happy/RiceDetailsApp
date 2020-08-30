@@ -62,6 +62,9 @@ class CategoryDetaillsFragment : Fragment() {
         if( mDashboardViewModel.currencyRates.value!=null)
         dollorToRsFactor = 24*(mDashboardViewModel.currencyRates.value!!.get("USD")!!)
         if(dashBoardMainPojo!=null&&dashBoardMainPojo?.detailsContent!=null&&dashBoardMainPojo?.detailsContent!!.size>0){
+            if(dashBoardMainPojo!!.detailsContent[0].title.isNotEmpty()&&dashBoardMainPojo!!.detailsContent[0]!=null&&dashBoardMainPojo!!.detailsContent[0].title!=null){
+//                AppConstant.pdfFile = dashBoardMainPojo!!.detailsContent[0].title
+            }
             mBinding.infoIcon.visibility = View.VISIBLE
         }
         initListner()
