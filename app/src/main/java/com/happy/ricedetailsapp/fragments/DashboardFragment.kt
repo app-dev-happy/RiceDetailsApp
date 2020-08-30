@@ -90,23 +90,23 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     fun getFileData() {
         try {
-//            mDashboardViewModel.getDbDashboardFile(requireContext())
-//                .observe(requireActivity() as LifecycleOwner,
-//                    Observer {
-//                        if (it != null) {
-//                            val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
-//                            val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
-//                            if(dashboardMainContent!=null&&dashboardMainContent.size>0) {
-//                                setAdapter(dashboardMainContent, dashBoardMainPojo)
-//                                if (dashBoardMainPojo.clearancePortContent != null && dashBoardMainPojo.clearancePortContent.isNotEmpty()) {
-//                                    val clearancePortContent = dashBoardMainPojo.clearancePortContent
-//                                    if (clearancePortContent.size > 0)
-//                                        initClearance(clearancePortContent)
-//                                }
-//                            }
-//                        }
-//                    })
-            mDashboardViewModel.dataString.observe(requireActivity() as LifecycleOwner, Observer {
+            mDashboardViewModel.getDbDashboardFile(requireContext())
+                .observe(requireActivity() as LifecycleOwner,
+                    Observer {
+                        if (it != null) {
+                            val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
+                            val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
+                            if(dashboardMainContent!=null&&dashboardMainContent.size>0) {
+                                setAdapter(dashboardMainContent, dashBoardMainPojo)
+                                if (dashBoardMainPojo.clearancePortContent != null && dashBoardMainPojo.clearancePortContent.isNotEmpty()) {
+                                    val clearancePortContent = dashBoardMainPojo.clearancePortContent
+                                    if (clearancePortContent.size > 0)
+                                        initClearance(clearancePortContent)
+                                }
+                            }
+                        }
+                    })
+    /*        mDashboardViewModel.dataString.observe(requireActivity() as LifecycleOwner, Observer {
                 if (it != null) {
                     val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
                     val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
@@ -119,7 +119,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                         }
                     }
                 }
-            })
+            })*/
         }catch (e:Exception){
             e.printStackTrace()
         }
@@ -156,7 +156,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     }
 
-    override fun onStart() {
+/*    override fun onStart() {
         super.onStart()
         val mRef = FirebaseDatabase.getInstance().reference
         mRef.addValueEventListener(object : ValueEventListener {
@@ -171,5 +171,5 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                 }
             }
         })
-    }
+    }*/
 }

@@ -19,4 +19,11 @@
     <string name="information_line">You get the products available at the following list of Seaports spread across the globe.You get the products available at the following list of Seaports spread across the globe.You get the products available at the following list of Seaports spread across the globe.You get the products available at the following list of Seaports spread across the globe.You get the products available at the following list of Seaports spread across the globe</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="pdf_show_online_dialog_title">Show PDF</string>
+    <string name="pdf_show_online_dialog_question">You are trying to open a PDF file, but you don\'t have a PDF reader installed. Do you want to read the PDF file online with Google Drive (Requires Google account)?</string>
+    <string name="pdf_show_online_dialog_button_yes">Yes, read online</string>
+    <string name="pdf_show_online_dialog_button_no">No</string>
+    <string name="pdf_show_local_progress_title">Please wait</string>
+    <string name="pdf_show_local_progress_content">Downloading PDF&#8230;</string>
+    <string name="error_could_not_download_pdf">Could not download</string>
 </resources>

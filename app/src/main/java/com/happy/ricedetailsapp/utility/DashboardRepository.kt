@@ -59,6 +59,7 @@ object DashboardRepository {
             }
         }
     }
+    @JvmStatic
     fun isNetworkAvailable(ctx: Context?): Boolean {
         var ctx = ctx
         var connected = false
@@ -98,5 +99,7 @@ object DashboardRepository {
         }
         return list
     }
+
+
 
 }

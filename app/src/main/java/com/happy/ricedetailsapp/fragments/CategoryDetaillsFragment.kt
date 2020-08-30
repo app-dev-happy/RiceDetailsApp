@@ -1,11 +1,17 @@
 package com.happy.ricedetailsapp.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,9 +21,14 @@ import com.happy.ricedetailsapp.R
 import com.happy.ricedetailsapp.adapter.PackagingItemAdapter
 import com.happy.ricedetailsapp.adapter.RateCardsItemAdapter
 import com.happy.ricedetailsapp.databinding.LayoutCategoryDetailsBinding
-import com.happy.ricedetailsapp.pojo.*
+import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
+import com.happy.ricedetailsapp.pojo.KgsWeightItem
+import com.happy.ricedetailsapp.pojo.VarietyItem
+import com.happy.ricedetailsapp.utility.AppConstant
+import com.happy.ricedetailsapp.utility.PDFTools
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 import com.squareup.picasso.Picasso
+
 
 class CategoryDetaillsFragment : Fragment() {
     var varietyItem: VarietyItem? = null
@@ -155,7 +166,17 @@ class CategoryDetaillsFragment : Fragment() {
             initCurrencyDialogFragment()
         }
         mBinding.infoIcon.setOnClickListener {
-            initInformationFragment()
+         if(isStoragePermissionGranted()){
+             PDFTools.showPDFUrl(requireActivity(),AppConstant.pdfFile)
+         }
+            mDashboardViewModel.isPermissionGranted.observe(requireContext() as LifecycleOwner,
+                Observer {
+                    if(it){
+                        PDFTools.showPDFUrl(requireActivity(),AppConstant.pdfFile)
+                        mDashboardViewModel.isPermissionGranted.removeObservers(requireContext() as LifecycleOwner)
+                    }
+                })
+//            initInformationFragment()
         }
         mBinding.seaPortContainer.setOnClickListener {
             initSeaPortDialogFragment()
@@ -196,7 +217,27 @@ class CategoryDetaillsFragment : Fragment() {
             )
         }
     }
-
+    fun isStoragePermissionGranted(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(requireContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                === PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.v("per", "Permission is granted")
+                true
+            } else {
+                Log.v("per", "Permission is revoked")
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    1
+                )
+                false
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("per", "Permission is granted")
+            true
+        }
+    }
     fun initInformationFragment(){
         val fragmentManager = (context as DashboardActivity).supportFragmentManager
         val informationFragment = InformationFragment()

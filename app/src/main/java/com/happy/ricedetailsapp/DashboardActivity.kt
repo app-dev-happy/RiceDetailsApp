@@ -1,27 +1,17 @@
 package com.happy.ricedetailsapp
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.happy.ricedetailsapp.databinding.LayoutActivityDashboardBinding
 import com.happy.ricedetailsapp.fragments.DashboardFragment
-import com.happy.ricedetailsapp.pojo.CurrencyRatesMainPojo
-import com.happy.ricedetailsapp.utility.AppConstant
 import com.happy.ricedetailsapp.utility.DashboardRepository
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
-import org.json.JSONObject
 
 
 class DashboardActivity : AppCompatActivity() {
@@ -29,10 +19,11 @@ class DashboardActivity : AppCompatActivity() {
     lateinit var layoutActivityDashboardBinding: LayoutActivityDashboardBinding
     var fragmentManager: FragmentManager? = null
     var doubleBackToExitOnce:Boolean = false
+    lateinit var mDashboardViewModel:DashboardViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutActivityDashboardBinding = DataBindingUtil.setContentView(this, R.layout.layout_activity_dashboard)
-        val mDashboardViewModel =
+        mDashboardViewModel =
             ViewModelProviders.of(this).get(DashboardViewModel::class.java)
         if(DashboardRepository.isNetworkAvailable(this!!.applicationContext))
             mDashboardViewModel.readCurrencyApiData(this)
@@ -75,5 +66,15 @@ class DashboardActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            mDashboardViewModel.isPermissionGranted.value =true
+        }
     }
 }

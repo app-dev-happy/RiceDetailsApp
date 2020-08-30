@@ -36,7 +36,9 @@ class SplashScreenActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_splash_screen)
         mDashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-        val mRef = FirebaseDatabase.getInstance().reference
+        if(DashboardRepository.isNetworkAvailable(this.applicationContext))
+            mDashboardViewModel.readDashboardFile(this)
+      /*  val mRef = FirebaseDatabase.getInstance().reference
         mRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
@@ -47,7 +49,7 @@ class SplashScreenActivity : AppCompatActivity(){
                 if (jsonString.length>0) {
                     mDashboardViewModel.dataString.value = jsonString
                 }
-            }})
+            }})*/
         val window = this.getWindow()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)

@@ -32,6 +32,7 @@ class DashboardViewModel : ViewModel() {
     var currencyRates: MutableLiveData<Map<String?, Double>> =
         MutableLiveData<Map<String?, Double>>()
     var rateCardPosition: MutableLiveData<Int> = MutableLiveData<Int>()
+    var isPermissionGranted:MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     var rateCardValue: MutableLiveData<KgsWeightItem> = MutableLiveData<KgsWeightItem>()
 
     init {
@@ -39,24 +40,25 @@ class DashboardViewModel : ViewModel() {
         checkedPosition.value = 0
         seaPortPosition.value = 0
         rateCardPosition.value = 0
+        isPermissionGranted.value = false
         selectedCurrencySymbol.value = "$"
         selectedCurrencyKey.value = "USD"
     }
 
     fun readDashboardFile(context: Context) {
-//        NetworkClient.getDashboardData().observe(context as LifecycleOwner, Observer {
-//            try {
-//                val dashBoardMainPojo = Gson().fromJson(
-//                    it,
-//                    DashBoardMainPojo::class.java
-//                )
-//
-//                DashboardRepository.setFilesInDb(context, dashBoardMainPojo)
-//            } catch (ex: Exception) {
-//                ex.printStackTrace()
-//            }
-//
-//        })
+/*        NetworkClient.getDashboardData().observe(context as LifecycleOwner, Observer {
+            try {
+                val dashBoardMainPojo = Gson().fromJson(
+                    it,
+                    DashBoardMainPojo::class.java
+                )
+
+                DashboardRepository.setFilesInDb(context, dashBoardMainPojo)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
+
+        })*/
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 val job = async { FileDataCoroutines().getDataFromServer(AppConstant.URL, context) }
