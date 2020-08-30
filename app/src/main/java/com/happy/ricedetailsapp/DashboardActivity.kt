@@ -11,7 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.happy.ricedetailsapp.databinding.LayoutActivityDashboardBinding
 import com.happy.ricedetailsapp.fragments.DashboardFragment
 import com.happy.ricedetailsapp.utility.DashboardRepository
+import com.happy.ricedetailsapp.utility.DashboardRepository.addString
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class DashboardActivity : AppCompatActivity() {
@@ -25,9 +28,28 @@ class DashboardActivity : AppCompatActivity() {
         layoutActivityDashboardBinding = DataBindingUtil.setContentView(this, R.layout.layout_activity_dashboard)
         mDashboardViewModel =
             ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-        if(DashboardRepository.isNetworkAvailable(this!!.applicationContext))
-            mDashboardViewModel.readCurrencyApiData(this)
+        if (DashboardRepository.getString(this, "curreny_date", "")
+                .isEmpty() || (!DashboardRepository.getString(
+                this,
+                "curreny_date",
+                ""
+            ).isEmpty()
+                    && !DashboardRepository.getString(
+                this,
+                "curreny_date",
+                ""
+            ).equals(getCurrentDate()))
+        ) {
+            DashboardRepository.addString(this, "curreny_date", getCurrentDate())
+            if(DashboardRepository.isNetworkAvailable(this!!.applicationContext))
+                mDashboardViewModel.readCurrencyApiData(this)
+        }
         initFragment()
+    }
+    fun getCurrentDate():String{
+        val c = Calendar.getInstance().time
+        val df = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        return df.format(c)
     }
 
     private fun initFragment() {
