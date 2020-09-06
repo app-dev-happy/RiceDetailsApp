@@ -55,12 +55,22 @@ class SplashScreenActivity : AppCompatActivity(){
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.screen_bg))
-        Handler().postDelayed({
-            val intent = Intent(this@SplashScreenActivity, DashboardActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.fragment_fade_enter,R.anim.fragment_fade_exit)
-            finish()
-        },SPLASH_TIME_OUT.toLong())
+        if(DashboardRepository.getString(this.applicationContext,"first_launch","").isEmpty()){
+            Handler().postDelayed({
+                val intent = Intent(this@SplashScreenActivity, DashboardActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.fragment_fade_enter,R.anim.fragment_fade_exit)
+                finish()
+            },4000)
+        }
+        else {
+            Handler().postDelayed({
+                val intent = Intent(this@SplashScreenActivity, DashboardActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+                finish()
+            }, SPLASH_TIME_OUT.toLong())
+        }
     }
 
     //all hideKeyboard methods

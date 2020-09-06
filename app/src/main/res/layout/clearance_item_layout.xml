@@ -38,7 +38,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/clearance_port"
                 android:textSize="18sp"
                 android:layout_marginRight="@dimen/marg_16"
-                android:textColor="@color/black"
+                android:textColor="@color/green"
                 android:fontFamily="@font/regular_work_sans"
                 android:text=""/>
 
