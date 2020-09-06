@@ -24,6 +24,7 @@ class ClearanceAdapter(val mContext: Context, val clearancePortList: ArrayList<S
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = clearancePortList.get(position)
         (holder as ClearanceAdapterViewHolder).mBinding.clearancePort.text = item.title
+        (holder as ClearanceAdapterViewHolder).mBinding.clearancePortValue.text = item.stdPrice
     }
 
     inner class ClearanceAdapterViewHolder(

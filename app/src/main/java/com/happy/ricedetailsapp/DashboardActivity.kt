@@ -44,6 +44,7 @@ class DashboardActivity : AppCompatActivity() {
             if(DashboardRepository.isNetworkAvailable(this!!.applicationContext))
                 mDashboardViewModel.readCurrencyApiData(this)
         }
+        DashboardRepository.addString(this.applicationContext,"first_launch","true")
         initFragment()
     }
     fun getCurrentDate():String{
