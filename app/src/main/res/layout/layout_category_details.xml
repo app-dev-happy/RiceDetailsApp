@@ -417,7 +417,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/regular_work_sans"
                         android:gravity="center"
-                        android:maxLines="1"
+                        android:maxLines="3"
                         android:text="@string/desc_line"
                         android:textColor="@color/grey_dark"
                         android:textSize="12sp"

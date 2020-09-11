@@ -75,6 +75,10 @@ class CategoryDetaillsFragment : Fragment() {
                     0
                 )
         }
+        if(dashBoardMainPojo!=null&&dashBoardMainPojo?.detailsContent!=null&&dashBoardMainPojo?.detailsContent!!.size>0){
+            if(!dashBoardMainPojo?.detailsContent!!.get(0).subTitle.isEmpty())
+            mBinding.descLine.text = dashBoardMainPojo?.detailsContent!!.get(0).subTitle
+        }
         mDashboardViewModel.seaPortPosition.observe(requireActivity() as LifecycleOwner, Observer {
             if (it != null) {
                 val currencyFactor =
@@ -229,9 +233,7 @@ class CategoryDetaillsFragment : Fragment() {
     fun initInformationFragment(){
         val fragmentManager = (context as DashboardActivity).supportFragmentManager
         val informationFragment = InformationFragment()
-        if(dashBoardMainPojo!=null&&dashBoardMainPojo?.detailsContent!=null&&dashBoardMainPojo?.detailsContent!!.size>0){
-            informationFragment.setData( varietyItem!!.specifications)
-        }
+        informationFragment.setData( varietyItem!!.specifications)
         var openFragment = fragmentManager.beginTransaction()
         openFragment.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_close_exit)
         openFragment.replace(R.id.fragmentContainer, informationFragment).addToBackStack(null)
