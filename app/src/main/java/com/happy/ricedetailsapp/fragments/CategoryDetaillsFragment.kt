@@ -79,6 +79,9 @@ class CategoryDetaillsFragment : Fragment() {
             if(!dashBoardMainPojo?.detailsContent!!.get(0).subTitle.isEmpty())
             mBinding.descLine.text = dashBoardMainPojo?.detailsContent!!.get(0).subTitle
         }
+        if(varietyItem!=null&&varietyItem?.title!=null&&!varietyItem?.title!!.isEmpty()){
+                mBinding.categoryName.text = varietyItem?.title
+        }
         mDashboardViewModel.seaPortPosition.observe(requireActivity() as LifecycleOwner, Observer {
             if (it != null) {
                 val currencyFactor =
@@ -93,7 +96,7 @@ class CategoryDetaillsFragment : Fragment() {
                         (220.5 / (mDashboardViewModel.rateCardValue.value!!.weight.toInt())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
                 }
                 val number =
-                    (((dashBoardMainPojo?.seaPortContent!!.get(it).stdPrice.toInt()/10*dollorToRsFactor).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue) * 10) * currencyFactor!!
+                    (((dashBoardMainPojo?.seaPortContent!!.get(it).stdPrice.toInt()/(10*dollorToRsFactor)).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue) * 10) * currencyFactor!!
                 val number3digits: Double = Math.round(number * 1000.0) / 1000.0
                 val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
                 mBinding.price.text =
@@ -112,7 +115,7 @@ class CategoryDetaillsFragment : Fragment() {
                     (220.5 / (mDashboardViewModel.rateCardValue.value!!.weight.toInt())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
             }
             val number =
-                (((((dashBoardMainPojo?.seaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()/10*dollorToRsFactor).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue) * 10) * currencyFactor!!))
+                (((((dashBoardMainPojo?.seaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()/(10*dollorToRsFactor)).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue) * 10) * currencyFactor!!))
             val number3digits: Double = Math.round(number * 1000.0) / 1000.0
             val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
             mBinding.price.text =
@@ -147,7 +150,7 @@ class CategoryDetaillsFragment : Fragment() {
                         (220.5/ (it.weight.toInt()))* (it.price.toDouble())
                 }
                 val number =
-                    (((dashBoardMainPojo?.seaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()/10*dollorToRsFactor).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue.toInt()) * 10) * currencyFactor!!
+                    (((dashBoardMainPojo?.seaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()/(10*dollorToRsFactor)).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue.toInt()) * 10) * currencyFactor!!
                 val number3digits: Double = Math.round(number * 1000.0) / 1000.0
                 val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
                 mBinding.price.text =
