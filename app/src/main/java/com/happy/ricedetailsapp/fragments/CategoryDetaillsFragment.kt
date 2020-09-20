@@ -100,7 +100,7 @@ class CategoryDetaillsFragment : Fragment() {
                 val number3digits: Double = Math.round(number * 1000.0) / 1000.0
                 val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
                 mBinding.price.text =
-                    mDashboardViewModel.selectedCurrencySymbol.value.toString() + number2digits.toString()
+                    mDashboardViewModel.selectedCurrencySymbol.value.toString() + (number2digits.toInt()).toString()
             }
         })
         mDashboardViewModel.checkedPosition.observe(requireActivity() as LifecycleOwner, Observer {
@@ -119,7 +119,7 @@ class CategoryDetaillsFragment : Fragment() {
             val number3digits: Double = Math.round(number * 1000.0) / 1000.0
             val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
             mBinding.price.text =
-                mDashboardViewModel.selectedCurrencySymbol.value.toString() + number2digits.toString()
+                mDashboardViewModel.selectedCurrencySymbol.value.toString() + (number2digits.toInt()).toString()
             if (ratesAdapter != null) {
                 if (kgsBtnSelected) {
                     ratesAdapter!!.setData(
@@ -154,7 +154,7 @@ class CategoryDetaillsFragment : Fragment() {
                 val number3digits: Double = Math.round(number * 1000.0) / 1000.0
                 val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
                 mBinding.price.text =
-                    mDashboardViewModel.selectedCurrencySymbol.value.toString() + number2digits.toString()
+                    mDashboardViewModel.selectedCurrencySymbol.value.toString() + (number2digits.toInt()).toString()
             }
         })
         if (varietyItem!!.iconURL.isNotEmpty()) {
