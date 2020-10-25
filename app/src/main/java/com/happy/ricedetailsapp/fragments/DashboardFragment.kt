@@ -1,36 +1,28 @@
 package com.happy.ricedetailsapp.fragments
 
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.happy.ricedetailsapp.DashboardActivity
 import com.happy.ricedetailsapp.R
 import com.happy.ricedetailsapp.adapter.DashboardMainRecyclerAdapter
 import com.happy.ricedetailsapp.databinding.LayoutFragmentDashboardBinding
-import com.happy.ricedetailsapp.pojo.CurrencyRatesMainPojo
 import com.happy.ricedetailsapp.pojo.DashBoardMainPojo
 import com.happy.ricedetailsapp.pojo.DashboardMainContent
 import com.happy.ricedetailsapp.pojo.SeaPortContent
-import com.happy.ricedetailsapp.utility.AppConstant
-import com.happy.ricedetailsapp.utility.DashboardRepository
 import com.happy.ricedetailsapp.viewModel.DashboardViewModel
 import org.json.JSONObject
-import java.lang.Exception
 
 class DashboardFragment : Fragment(), View.OnClickListener {
 
@@ -54,12 +46,30 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         view = layoutFragmentDashboardBinding.root
         mDashboardViewModel =
             ViewModelProviders.of(this.requireActivity()).get(DashboardViewModel::class.java)
+        initializeRefreshListener()
         mDashboardViewModel.packagingPosition.value = 0
         mDashboardViewModel.rateCardPosition.value=0
         getFileData()
         getCurrencyData()
         init()
         return view
+    }
+
+    fun initializeRefreshListener() {
+        layoutFragmentDashboardBinding.swiperefresh.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
+            override fun onRefresh() {
+                mDashboardViewModel.readDashboardFile(requireContext())
+                // This method gets called when user pull for refresh,
+                // You can make your API call here,
+                // We are using adding a delay for the moment
+                val handler = Handler()
+                handler.postDelayed(Runnable {
+                    if (layoutFragmentDashboardBinding.swiperefresh.isRefreshing()) {
+                        layoutFragmentDashboardBinding.swiperefresh.setRefreshing(false)
+                    }
+                }, 2000)
+            }
+        })
     }
 
     fun getCurrencyData() {
@@ -77,7 +87,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                             mDashboardViewModel.currencyRates.value = map
                         }
                     })
-        }catch (e:Exception){
+        }catch (e: Exception){
                 e.printStackTrace()
             }
     }
@@ -94,12 +104,16 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                 .observe(requireActivity() as LifecycleOwner,
                     Observer {
                         if (it != null) {
-                            val dashBoardMainPojo = Gson().fromJson(it,DashBoardMainPojo::class.java)
-                            val dashboardMainContent =   dashBoardMainPojo.dashboardMainContent
-                            if(dashboardMainContent!=null&&dashboardMainContent.size>0) {
+                            val dashBoardMainPojo = Gson().fromJson(
+                                it,
+                                DashBoardMainPojo::class.java
+                            )
+                            val dashboardMainContent = dashBoardMainPojo.dashboardMainContent
+                            if (dashboardMainContent != null && dashboardMainContent.size > 0) {
                                 setAdapter(dashboardMainContent, dashBoardMainPojo)
                                 if (dashBoardMainPojo.clearancePortContent != null && dashBoardMainPojo.clearancePortContent.isNotEmpty()) {
-                                    val clearancePortContent = dashBoardMainPojo.clearancePortContent
+                                    val clearancePortContent =
+                                        dashBoardMainPojo.clearancePortContent
                                     if (clearancePortContent.size > 0)
                                         initClearance(clearancePortContent)
                                 }
@@ -120,7 +134,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                     }
                 }
             })*/
-        }catch (e:Exception){
+        }catch (e: Exception){
             e.printStackTrace()
         }
     }
