@@ -41,6 +41,7 @@ class CategoryDetaillsFragment : Fragment() {
     var packagingPosition = 0
     var ratesAdapter: RateCardsItemAdapter? = null
     var dollorToRsFactor:Double = 0.0
+    var dollorToRsRate:Double = 0.0
     var kgsBtnSelected: Boolean = true
     var lbsItemList =ArrayList<KgsWeightItem>()
     var lbsBtnSelected: Boolean = false
@@ -60,7 +61,8 @@ class CategoryDetaillsFragment : Fragment() {
 
     fun init() {
         if( mDashboardViewModel.currencyRates.value!=null)
-        dollorToRsFactor = 24*(mDashboardViewModel.currencyRates.value!!.get("USD")!!)
+//        dollorToRsFactor = 24*(mDashboardViewModel.currencyRates.value!!.get("USD")!!)
+        dollorToRsRate = (mDashboardViewModel.currencyRates.value!!.get("INR")!!)
             mBinding.infoIcon.visibility = View.VISIBLE
         initListner()
         initViews()
@@ -87,39 +89,47 @@ class CategoryDetaillsFragment : Fragment() {
                 val currencyFactor =
                     mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
                 mBinding.seaportOption.text = dashBoardMainPojo?.seaPortContent!!.get(it).title
+                val seaPortValue = ((dashBoardMainPojo?.seaPortContent!!.get(it).stdPrice.toDouble())/240).toDouble()
+                val rowValue = varietyItem!!.stdPrice.toDouble()/dollorToRsRate
                 var rateCardValue = 0.0
                 if(kgsBtnSelected){
                     rateCardValue =
-                        (100 / (mDashboardViewModel.rateCardValue.value!!.weight.toInt())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
+                        (100 / (mDashboardViewModel.rateCardValue.value!!.weight.toDouble())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
                 }else{
                     rateCardValue =
-                        (220.5 / (mDashboardViewModel.rateCardValue.value!!.weight.toInt())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
+                        (220.5 / (mDashboardViewModel.rateCardValue.value!!.weight.toDouble())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
                 }
-                val number =
-                    (((dashBoardMainPojo?.seaPortContent!!.get(it).stdPrice.toInt()/(10*dollorToRsFactor)).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue) * 10) * currencyFactor!!
-                val number3digits: Double = Math.round(number * 1000.0) / 1000.0
-                val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
+                rateCardValue  = rateCardValue/dollorToRsRate
+                val number = (seaPortValue + rateCardValue + rowValue) * 10.0 * currencyFactor!!;
+//                val number =
+//                    (((dashBoardMainPojo?.seaPortContent!!.get(it).stdPrice.toInt()/(10*dollorToRsFactor)).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue) * 10) * currencyFactor!!
+//                val number3digits: Double = Math.round(number * 1000.0) / 1000.0
+//                val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
                 mBinding.price.text =
-                    mDashboardViewModel.selectedCurrencySymbol.value.toString() + (number2digits.toInt()).toString()
+                    mDashboardViewModel.selectedCurrencySymbol.value.toString() + (number.toInt()).toString()
             }
         })
         mDashboardViewModel.checkedPosition.observe(requireActivity() as LifecycleOwner, Observer {
             val currencyFactor =
                 mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
             var rateCardValue = 0.0
+            val seaPortValue = ((dashBoardMainPojo?.seaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toDouble())/240).toDouble()
+            val rowValue = varietyItem!!.stdPrice.toDouble()/dollorToRsRate
             if(kgsBtnSelected){
                  rateCardValue =
-                    (100 / (mDashboardViewModel.rateCardValue.value!!.weight.toInt())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
+                    (100 / (mDashboardViewModel.rateCardValue.value!!.weight.toDouble())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
             }else{
                  rateCardValue =
-                    (220.5 / (mDashboardViewModel.rateCardValue.value!!.weight.toInt())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
+                    (220.5 / (mDashboardViewModel.rateCardValue.value!!.weight.toDouble())) * (mDashboardViewModel.rateCardValue.value!!.price.toDouble())
             }
-            val number =
+            rateCardValue  =rateCardValue/dollorToRsRate
+            val number = (seaPortValue + rateCardValue + rowValue) * 10.0 * currencyFactor!!;
+       /*     val number =
                 (((((dashBoardMainPojo?.seaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()/(10*dollorToRsFactor)).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue) * 10) * currencyFactor!!))
             val number3digits: Double = Math.round(number * 1000.0) / 1000.0
-            val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
+            val number2digits: Double = Math.round(number3digits * 100.0) / 100.0*/
             mBinding.price.text =
-                mDashboardViewModel.selectedCurrencySymbol.value.toString() + (number2digits.toInt()).toString()
+                mDashboardViewModel.selectedCurrencySymbol.value.toString() + (number.toInt()).toString()
             if (ratesAdapter != null) {
                 if (kgsBtnSelected) {
                     ratesAdapter!!.setData(
@@ -142,19 +152,23 @@ class CategoryDetaillsFragment : Fragment() {
                 val currencyFactor =
                     mDashboardViewModel.currencyRates.value!!.get(mDashboardViewModel.selectedCurrencyKey.value)
                 var rateCardValue = 0.0
+                val seaPortValue = ((dashBoardMainPojo?.seaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toDouble())/240).toDouble()
+                val rowValue = varietyItem!!.stdPrice.toDouble()/dollorToRsRate
                 if(kgsBtnSelected){
                     rateCardValue =
-                        (100/ (it.weight.toInt()))* (it.price.toDouble())
+                        (100/ (it.weight.toDouble()))* (it.price.toDouble())
                 }else{
                     rateCardValue =
-                        (220.5/ (it.weight.toInt()))* (it.price.toDouble())
+                        (220.5/ (it.weight.toDouble()))* (it.price.toDouble())
                 }
-                val number =
+                rateCardValue  =rateCardValue/dollorToRsRate
+                val number = (seaPortValue + rateCardValue + rowValue) * 10.0 * currencyFactor!!;
+            /*    val number =
                     (((dashBoardMainPojo?.seaPortContent!!.get(mDashboardViewModel.seaPortPosition.value!!).stdPrice.toInt()/(10*dollorToRsFactor)).toInt() + varietyItem!!.stdPrice.toInt() + rateCardValue.toInt()) * 10) * currencyFactor!!
                 val number3digits: Double = Math.round(number * 1000.0) / 1000.0
-                val number2digits: Double = Math.round(number3digits * 100.0) / 100.0
+                val number2digits: Double = Math.round(number3digits * 100.0) / 100.0*/
                 mBinding.price.text =
-                    mDashboardViewModel.selectedCurrencySymbol.value.toString() + (number2digits.toInt()).toString()
+                    mDashboardViewModel.selectedCurrencySymbol.value.toString() + (number.toInt()).toString()
             }
         })
         if (varietyItem!!.iconURL.isNotEmpty()) {
